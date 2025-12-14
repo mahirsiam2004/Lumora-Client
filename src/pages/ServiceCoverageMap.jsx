@@ -27,7 +27,7 @@ const ServiceCoverageMap = () => {
             </span>
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            We proudly serve these areas across Dhaka. If you're outside our
+            We proudly serve these areas across Dhaka. If you&apos;re outside our
             current coverage, contact us for special arrangements!
           </p>
         </motion.div>

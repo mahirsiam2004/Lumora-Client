@@ -2,7 +2,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../utilits/axiosInstance";
 import { FiStar, FiMapPin, FiArrowRight, FiCheck } from "react-icons/fi";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Skeleton from "react-loading-skeleton";

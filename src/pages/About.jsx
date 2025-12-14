@@ -23,7 +23,7 @@ const About = () => {
               About Lumora
             </h1>
             <p className="text-xl max-w-3xl mx-auto opacity-90">
-              We're passionate about transforming ordinary spaces into
+              We&apos;re passionate about transforming ordinary spaces into
               extraordinary experiences through creative decoration.
             </p>
           </motion.div>
@@ -85,17 +85,17 @@ const About = () => {
                 Founded in 2020, Lumora began with a simple mission: to make
                 professional decoration services accessible to everyone. What
                 started as a small team of passionate decorators has grown into
-                Bangladesh's leading decoration booking platform.
+                Bangladesh&apos;s leading decoration booking platform.
               </p>
               <p className="text-gray-600 mb-4 leading-relaxed">
-                We believe that every space tells a story, and we're here to
-                help you tell yours. Whether it's a wedding, home renovation, or
+                We believe that every space tells a story, and we&apos;re here to
+                help you tell yours. Whether it&apos;s a wedding, home renovation, or
                 corporate event, our team of expert decorators brings
                 creativity, professionalism, and attention to detail to every
                 project.
               </p>
               <p className="text-gray-600 leading-relaxed">
-                Today, we're proud to serve hundreds of clients across Dhaka and
+                Today, we&apos;re proud to serve hundreds of clients across Dhaka and
                 beyond, creating memorable experiences one decoration at a time.
               </p>
             </motion.div>

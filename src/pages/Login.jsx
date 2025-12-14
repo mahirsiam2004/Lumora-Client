@@ -23,8 +23,8 @@ const Login = () => {
       await loginUser(email, password);
       toast.success("Login successful!");
       navigate(from, { replace: true });
-    } catch (error) {
-      toast.error(error.message || "Login failed");
+    } catch {
+      toast.error("Login failed");
     } finally {
       setLoading(false);
     }
@@ -35,7 +35,7 @@ const Login = () => {
       await googleLogin();
       toast.success("Login successful!");
       navigate(from, { replace: true });
-    } catch (error) {
+    } catch {
       toast.error("Google login failed");
     }
   };
@@ -113,7 +113,7 @@ const Login = () => {
           </button>
 
           <p className="text-center mt-6 text-gray-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               to="/register"
               className="text-purple-600 font-medium hover:underline"

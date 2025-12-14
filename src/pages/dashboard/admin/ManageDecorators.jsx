@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../../utilits/axiosInstance";
 import toast from "react-hot-toast";
 
 const ManageDecorators = () => {
@@ -18,8 +18,8 @@ const ManageDecorators = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setUsers(data);
-    } catch (error) {
-      console.error("Error:", error);
+    } catch {
+      console.error("Error fetching users");
     } finally {
       setLoading(false);
     }
@@ -36,7 +36,7 @@ const ManageDecorators = () => {
 
       toast.success("User role updated");
       fetchUsers();
-    } catch (error) {
+    } catch {
       toast.error("Update failed");
     }
   };
@@ -74,13 +74,12 @@ const ManageDecorators = () => {
                     <td>{user.email}</td>
                     <td>
                       <span
-                        className={`badge ${
-                          user.role === "admin"
-                            ? "badge-error"
-                            : user.role === "decorator"
+                        className={`badge ${user.role === "admin"
+                          ? "badge-error"
+                          : user.role === "decorator"
                             ? "badge-primary"
                             : "badge-ghost"
-                        }`}
+                          }`}
                       >
                         {user.role}
                       </span>
@@ -88,9 +87,8 @@ const ManageDecorators = () => {
                     <td>
                       {user.role === "decorator" && (
                         <span
-                          className={`badge ${
-                            user.isApproved ? "badge-success" : "badge-warning"
-                          }`}
+                          className={`badge ${user.isApproved ? "badge-success" : "badge-warning"
+                            }`}
                         >
                           {user.isApproved ? "Approved" : "Pending"}
                         </span>

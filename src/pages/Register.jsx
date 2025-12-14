@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { FiMail, FiLock, FiUser, FiImage } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
-import axios from "axios";
+import axios from "../utilits/axiosInstance";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -24,13 +24,12 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_IMAGEBB_API_KEY
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGEBB_API_KEY
         }`,
         formData
       );
       return response.data.data.url;
-    } catch (error) {
+    } catch {
       throw new Error("Image upload failed");
     }
   };
@@ -55,8 +54,8 @@ const Register = () => {
 
       toast.success("Registration successful!");
       navigate("/");
-    } catch (error) {
-      toast.error(error.message || "Registration failed");
+    } catch {
+      toast.error("Registration failed");
     } finally {
       setLoading(false);
     }
@@ -67,7 +66,7 @@ const Register = () => {
       await googleLogin();
       toast.success("Registration successful!");
       navigate("/");
-    } catch (error) {
+    } catch {
       toast.error("Google registration failed");
     }
   };

@@ -1,13 +1,13 @@
 
 import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
+
 import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home";
 import Services from "../pages/Services";
 import ServiceDetails from "../pages/ServiceDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import About from "../pages/About";
+
 import Contact from "../pages/Contact";
 import ServiceCoverageMap from "../pages/ServiceCoverageMap";
 import ErrorPage from "../pages/ErrorPage";
@@ -18,8 +18,8 @@ import DecoratorRoute from "./DecoratorRoute";
 // Dashboard Pages
 import UserDashboard from "../pages/dashboard/user/UserDashboard";
 import MyBookings from "../pages/dashboard/user/MyBookings";
-import PaymentHistory from "../pages/dashboard/user/PaymentHistory";
-import MyProfile from "../pages/dashboard/user/MyProfile";
+// import PaymentHistory from "../pages/dashboard/user/PaymentHistory";
+// import MyProfile from "../pages/dashboard/user/MyProfile";
 
 import AdminDashboard from "../pages/dashboard/admin/AdminDashboard";
 import ManageServices from "../pages/dashboard/admin/ManageServices";
@@ -31,6 +31,8 @@ import DecoratorDashboard from "../pages/dashboard/decorator/DecoratorDashboard"
 import MyProjects from "../pages/dashboard/decorator/MyProjects";
 import TodaySchedule from "../pages/dashboard/decorator/TodaySchedule";
 import Earnings from "../pages/dashboard/decorator/Earnings";
+import About from "../pages/About";
+import MainLayout from "../layouts/MainLayout";
 
 export const router = createBrowserRouter([
   {
@@ -58,9 +60,9 @@ export const router = createBrowserRouter([
     children: [
       // User Routes
       { path: "/dashboard", element: <UserDashboard /> },
-      { path: "/dashboard/my-profile", element: <MyProfile /> },
+      // { path: "/dashboard/my-profile", element: <MyProfile /> },
       { path: "/dashboard/my-bookings", element: <MyBookings /> },
-      { path: "/dashboard/payment-history", element: <PaymentHistory /> },
+      // { path: "/dashboard/payment-history", element: <PaymentHistory /> },
 
       // Admin Routes
       {

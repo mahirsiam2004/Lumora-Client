@@ -1,5 +1,5 @@
 // src/contexts/AuthContext.jsx
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,8 +9,8 @@ import {
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../utils/firebase.config";
-import axios from "axios";
+import { auth } from "../utilits/firebase.config";
+import axios from "../utilits/axiosInstance";
 
 const AuthContext = createContext();
 
@@ -80,17 +80,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Get JWT token
-  const getToken = async (email) => {
+  const getToken = useCallback(async (email) => {
     const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/jwt`,
       { email }
     );
     localStorage.setItem("lumora-token", data.token);
     return data.token;
-  };
+  }, []);
 
   // Fetch user role
-  const fetchUserRole = async (email) => {
+  const fetchUserRole = useCallback(async (email) => {
     try {
       const token = localStorage.getItem("lumora-token");
       const { data } = await axios.get(
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Error fetching user role:", error);
       setUserRole("user");
     }
-  };
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [getToken, fetchUserRole]);
 
   const authInfo = {
     user,

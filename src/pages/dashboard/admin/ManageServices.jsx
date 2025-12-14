@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import axios from "axios";
+import axios from "../../../utilits/axiosInstance";
 import { FiEdit2, FiTrash2, FiPlus } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -30,24 +29,14 @@ const ManageServices = () => {
         `${import.meta.env.VITE_API_URL}/api/services?limit=100`
       );
       setServices(data.services);
-    } catch (error) {
-      console.error("Error:", error);
+    } catch {
+      console.error("Error fetching services");
     } finally {
       setLoading(false);
     }
   };
 
-  const uploadImage = async (file) => {
-    const formData = new FormData();
-    formData.append("image", file);
-    const { data } = await axios.post(
-      `https://api.imgbb.com/1/upload?key=${
-        import.meta.env.VITE_IMAGEBB_API_KEY
-      }`,
-      formData
-    );
-    return data.data.url;
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,7 +76,7 @@ const ManageServices = () => {
         image: "",
       });
       fetchServices();
-    } catch (error) {
+    } catch {
       toast.error("Operation failed");
     }
   };
@@ -115,7 +104,7 @@ const ManageServices = () => {
       });
       toast.success("Service deleted");
       fetchServices();
-    } catch (error) {
+    } catch {
       toast.error("Delete failed");
     }
   };

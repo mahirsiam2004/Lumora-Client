@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axios from "../utilits/axiosInstance";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import Skeleton from "react-loading-skeleton";
 
@@ -19,48 +19,48 @@ const Services = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/service-categories`
+        );
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
     fetchCategories();
   }, []);
 
   useEffect(() => {
+    const fetchServices = async () => {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams();
+        if (search) params.append("search", search);
+        if (category !== "all") params.append("category", category);
+        if (minPrice) params.append("minPrice", minPrice);
+        if (maxPrice) params.append("maxPrice", maxPrice);
+        if (sort) params.append("sort", sort);
+        params.append("page", currentPage);
+        params.append("limit", 12);
+
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/services?${params.toString()}`
+        );
+
+        setServices(data.services);
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchServices();
   }, [search, category, minPrice, maxPrice, sort, currentPage]);
-
-  const fetchCategories = async () => {
-    try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/service-categories`
-      );
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
-  const fetchServices = async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (search) params.append("search", search);
-      if (category !== "all") params.append("category", category);
-      if (minPrice) params.append("minPrice", minPrice);
-      if (maxPrice) params.append("maxPrice", maxPrice);
-      if (sort) params.append("sort", sort);
-      params.append("page", currentPage);
-      params.append("limit", 12);
-
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/services?${params.toString()}`
-      );
-
-      setServices(data.services);
-      setTotalPages(data.totalPages);
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleReset = () => {
     setSearch("");

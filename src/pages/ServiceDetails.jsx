@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axios from "../utilits/axiosInstance";
 import { useAuth } from "../contexts/AuthContext";
 import { FiCalendar, FiMapPin, FiDollarSign, FiTag } from "react-icons/fi";
 import toast from "react-hot-toast";
@@ -22,22 +22,22 @@ const ServiceDetails = () => {
   });
 
   useEffect(() => {
+    const fetchServiceDetails = async () => {
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/services/${id}`
+        );
+        setService(data);
+      } catch (error) {
+        console.error("Error fetching service:", error);
+        toast.error("Failed to load service details");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchServiceDetails();
   }, [id]);
-
-  const fetchServiceDetails = async () => {
-    try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/services/${id}`
-      );
-      setService(data);
-    } catch (error) {
-      console.error("Error fetching service:", error);
-      toast.error("Failed to load service details");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleBookingSubmit = async (e) => {
     e.preventDefault();

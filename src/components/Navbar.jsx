@@ -16,7 +16,7 @@ const Navbar = () => {
       await logoutUser();
       toast.success("Logged out successfully!");
       navigate("/");
-    } catch (error) {
+    } catch {
       toast.error("Failed to logout");
     }
   };
@@ -58,10 +58,9 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `font-medium transition-colors ${
-                    isActive
-                      ? "text-purple-600"
-                      : "text-gray-700 hover:text-purple-600"
+                  `font-medium transition-colors ${isActive
+                    ? "text-purple-600"
+                    : "text-gray-700 hover:text-purple-600"
                   }`
                 }
               >
@@ -165,10 +164,9 @@ const Navbar = () => {
                   to={link.to}
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
-                    `px-4 py-2 rounded-lg font-medium ${
-                      isActive
-                        ? "bg-purple-100 text-purple-600"
-                        : "text-gray-700"
+                    `px-4 py-2 rounded-lg font-medium ${isActive
+                      ? "bg-purple-100 text-purple-600"
+                      : "text-gray-700"
                     }`
                   }
                 >

@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiCalendar, FiCreditCard, FiPackage } from 'react-icons/fi';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../../contexts/AuthContext';
 
@@ -14,11 +14,7 @@ const UserDashboard = () => {
     completedBookings: 0
   });
 
-  useEffect(() => {
-    fetchUserStats();
-  }, []);
-
-  const fetchUserStats = async () => {
+  const fetchUserStats = useCallback(async () => {
     try {
       const token = localStorage.getItem('lumora-token');
       const { data } = await axios.get(
@@ -34,7 +30,11 @@ const UserDashboard = () => {
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
-  };
+  }, [user.email]);
+
+  useEffect(() => {
+    fetchUserStats();
+  }, [fetchUserStats]);
 
   const statCards = [
     { title: 'Total Bookings', value: stats.totalBookings, icon: FiCalendar, color: 'from-blue-500 to-cyan-500' },
@@ -52,7 +52,7 @@ const UserDashboard = () => {
         <h1 className="text-4xl font-bold mb-2">
           Welcome back, <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">{user?.displayName?.split(' ')[0]}</span>
         </h1>
-        <p className="text-gray-600">Here's an overview of your bookings and activities</p>
+        <p className="text-gray-600">Here&apos;s an overview of your bookings and activities</p>
       </motion.div>
 
       {/* Stats Grid */}

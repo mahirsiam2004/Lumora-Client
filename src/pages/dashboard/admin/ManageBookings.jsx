@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import axios from "axios";
+import axios from "../../../utilits/axiosInstance";
 import toast from "react-hot-toast";
 
 const ManageBookings = () => {
@@ -26,8 +25,8 @@ const ManageBookings = () => {
 
       setBookings(bookingsRes.data);
       setDecorators(decoratorsRes.data);
-    } catch (error) {
-      console.error("Error:", error);
+    } catch {
+      console.error("Error fetching data");
     } finally {
       setLoading(false);
     }
@@ -44,8 +43,7 @@ const ManageBookings = () => {
       const decorator = decorators.find((d) => d.email === selectedDecorator);
 
       await axios.patch(
-        `${import.meta.env.VITE_API_URL}/api/bookings/${
-          selectedBooking._id
+        `${import.meta.env.VITE_API_URL}/api/bookings/${selectedBooking._id
         }/assign`,
         {
           decoratorEmail: decorator.email,
@@ -58,7 +56,7 @@ const ManageBookings = () => {
       setSelectedBooking(null);
       setSelectedDecorator("");
       fetchData();
-    } catch (error) {
+    } catch {
       toast.error("Failed to assign decorator");
     }
   };
@@ -101,9 +99,8 @@ const ManageBookings = () => {
                     </td>
                     <td>
                       <span
-                        className={`badge ${
-                          booking.isPaid ? "badge-success" : "badge-warning"
-                        }`}
+                        className={`badge ${booking.isPaid ? "badge-success" : "badge-warning"
+                          }`}
                       >
                         {booking.isPaid ? "Paid" : "Pending"}
                       </span>
