@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import axios from "../../../utilits/axiosInstance";
+import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import { FiCalendar, FiMapPin, FiUser } from "react-icons/fi";
 
@@ -10,29 +10,29 @@ const TodaySchedule = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTodaySchedule = async () => {
-      try {
-        const token = localStorage.getItem("lumora-token");
-        const { data } = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/bookings/decorator/${user.email}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        const today = new Date().toDateString();
-        const todayBookings = data.filter(
-          (booking) => new Date(booking.bookingDate).toDateString() === today
-        );
-
-        setTodayProjects(todayBookings);
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTodaySchedule();
-  }, [user.email]);
+  }, []);
+
+  const fetchTodaySchedule = async () => {
+    try {
+      const token = localStorage.getItem("lumora-token");
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/bookings/decorator/${user.email}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const today = new Date().toDateString();
+      const todayBookings = data.filter(
+        (booking) => new Date(booking.bookingDate).toDateString() === today
+      );
+
+      setTodayProjects(todayBookings);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -42,7 +42,7 @@ const TodaySchedule = () => {
         className="mb-8"
       >
         <h1 className="text-4xl font-bold mb-2">
-          Today&apos;s{" "}
+          Today's{" "}
           <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
             Schedule
           </span>
@@ -134,12 +134,13 @@ const TodaySchedule = () => {
                     ৳{project.serviceCost}
                   </div>
                   <span
-                    className={`badge badge-lg ${project.status === "completed"
-                      ? "badge-success"
-                      : project.status === "setup-in-progress"
+                    className={`badge badge-lg ${
+                      project.status === "completed"
+                        ? "badge-success"
+                        : project.status === "setup-in-progress"
                         ? "badge-warning"
                         : "badge-info"
-                      }`}
+                    }`}
                   >
                     {project.status.replace("-", " ").toUpperCase()}
                   </span>

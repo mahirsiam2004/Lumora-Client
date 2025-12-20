@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import axios from "../../../utilits/axiosInstance";
+import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import {
   FiBriefcase,
@@ -19,17 +19,23 @@ const DecoratorDashboard = () => {
     totalEarnings: 0,
   });
 
-  const fetchStats = useCallback(async () => {
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
     try {
       const token = localStorage.getItem("lumora-token");
       const [projectsRes, earningsRes] = await Promise.all([
         axios.get(
-          `${import.meta.env.VITE_API_URL}/api/bookings/decorator/${user.email
+          `${import.meta.env.VITE_API_URL}/api/bookings/decorator/${
+            user.email
           }`,
           { headers: { Authorization: `Bearer ${token}` } }
         ),
         axios.get(
-          `${import.meta.env.VITE_API_URL}/api/payments/decorator/${user.email
+          `${import.meta.env.VITE_API_URL}/api/payments/decorator/${
+            user.email
           }`,
           { headers: { Authorization: `Bearer ${token}` } }
         ),
@@ -50,11 +56,7 @@ const DecoratorDashboard = () => {
     } catch (error) {
       console.error("Error fetching stats:", error);
     }
-  }, [user.email]);
-
-  useEffect(() => {
-    fetchStats();
-  }, [fetchStats]);
+  };
 
   const statCards = [
     {
@@ -101,7 +103,7 @@ const DecoratorDashboard = () => {
           </span>
         </h1>
         <p className="text-gray-600">
-          Here&apos;s an overview of your projects and activities
+          Here's an overview of your projects and activities
         </p>
       </motion.div>
 
@@ -147,7 +149,7 @@ const DecoratorDashboard = () => {
             to="/dashboard/decorator/schedule"
             className="btn btn-lg bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
           >
-            Today&apos;s Schedule
+            Today's Schedule
           </Link>
           <Link
             to="/dashboard/decorator/earnings"

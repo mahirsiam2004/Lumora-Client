@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import axios from "../../../utilits/axiosInstance";
+import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import { FiCalendar, FiMapPin } from "react-icons/fi";
 import toast from "react-hot-toast";
@@ -20,7 +20,11 @@ const MyProjects = () => {
     "completed",
   ];
 
-  const fetchProjects = useCallback(async () => {
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
     try {
       const token = localStorage.getItem("lumora-token");
       const { data } = await axios.get(
@@ -29,16 +33,12 @@ const MyProjects = () => {
       );
 
       setProjects(data);
-    } catch {
-      console.error("Error fetching projects");
+    } catch (error) {
+      console.error("Error:", error);
     } finally {
       setLoading(false);
     }
-  }, [user.email]);
-
-  useEffect(() => {
-    fetchProjects();
-  }, [fetchProjects]);
+  };
 
   const handleStatusUpdate = async (bookingId, newStatus) => {
     try {
@@ -51,7 +51,7 @@ const MyProjects = () => {
 
       toast.success("Project status updated");
       fetchProjects();
-    } catch {
+    } catch (error) {
       toast.error("Failed to update status");
     }
   };
