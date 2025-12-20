@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import axios from "../../../utilits/axiosInstance";
+import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import { FiTrash2, FiCreditCard, FiCalendar, FiMapPin } from "react-icons/fi";
 import toast from "react-hot-toast";
@@ -136,9 +136,9 @@ const MyBookings = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, [fetchBookings]);
+  }, []);
 
-  const fetchBookings = useCallback(async () => {
+  const fetchBookings = async () => {
     try {
       const token = localStorage.getItem("lumora-token");
       const { data } = await axios.get(
@@ -153,7 +153,7 @@ const MyBookings = () => {
     } finally {
       setLoading(false);
     }
-  }, [user.email]);
+  };
 
   const handleCancelBooking = async (bookingId) => {
     if (!confirm("Are you sure you want to cancel this booking?")) return;

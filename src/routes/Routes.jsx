@@ -33,6 +33,7 @@ import TodaySchedule from "../pages/dashboard/decorator/TodaySchedule";
 import Earnings from "../pages/dashboard/decorator/Earnings";
 import About from "../pages/About";
 import MainLayout from "../layouts/MainLayout";
+import MyProfile from "../pages/dashboard/user/MyProfile";
 
 export const router = createBrowserRouter([
   {
@@ -63,7 +64,10 @@ export const router = createBrowserRouter([
       // { path: "/dashboard/my-profile", element: <MyProfile /> },
       { path: "/dashboard/my-bookings", element: <MyBookings /> },
       // { path: "/dashboard/payment-history", element: <PaymentHistory /> },
-
+{
+  path:'my-profile',
+  Component:MyProfile
+},
       // Admin Routes
       {
         path: "/dashboard/admin",
