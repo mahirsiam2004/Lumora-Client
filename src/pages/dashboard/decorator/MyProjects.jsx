@@ -20,10 +20,6 @@ const MyProjects = () => {
     "completed",
   ];
 
-  useEffect(() => {
-    fetchProjects();
-  }, [fetchProjects]);
-
   const fetchProjects = useCallback(async () => {
     try {
       const token = localStorage.getItem("lumora-token");
@@ -39,6 +35,10 @@ const MyProjects = () => {
       setLoading(false);
     }
   }, [user.email]);
+
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
 
   const handleStatusUpdate = async (bookingId, newStatus) => {
     try {

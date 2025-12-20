@@ -14,6 +14,7 @@ import ErrorPage from "../pages/ErrorPage";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import DecoratorRoute from "./DecoratorRoute";
+import DashboardRedirect from "./DashboardRedirect";
 
 // Dashboard Pages
 import UserDashboard from "../pages/dashboard/user/UserDashboard";
@@ -85,9 +86,14 @@ export const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
     children: [
-      // User Routes (Default - shows UserDashboard at /dashboard)
+      // Dashboard index - redirects based on role
       {
         index: true,
+        element: <DashboardRedirect />,
+      },
+      // User Routes
+      {
+        path: "user",
         element: <UserDashboard />,
       },
       {

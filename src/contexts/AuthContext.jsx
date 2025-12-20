@@ -92,6 +92,7 @@ export const AuthProvider = ({ children }) => {
   // Fetch user role
   const fetchUserRole = useCallback(async (email) => {
     try {
+      console.log("fetchUserRole - Fetching role for:", email);
       const token = localStorage.getItem("lumora-token");
       const { data } = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/users/${email}`,
@@ -99,9 +100,12 @@ export const AuthProvider = ({ children }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log("fetchUserRole - User data:", data);
+      console.log("fetchUserRole - Setting role to:", data?.role || "user");
       setUserRole(data?.role || "user");
     } catch (error) {
       console.error("Error fetching user role:", error);
+      console.log("fetchUserRole - Setting default role: user");
       setUserRole("user");
     }
   }, []);
