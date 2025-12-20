@@ -168,10 +168,11 @@ const MyProjects = () => {
                       ৳{project.serviceCost}
                     </p>
                     <span
-                      className={`badge ${project.status === "completed"
-                        ? "badge-success"
-                        : "badge-primary"
-                        }`}
+                      className={`badge ${
+                        project.status === "completed"
+                          ? "badge-success"
+                          : "badge-primary"
+                      }`}
                     >
                       {project.status.replace("-", " ").toUpperCase()}
                     </span>

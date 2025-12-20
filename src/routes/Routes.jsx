@@ -1,12 +1,13 @@
+// src/routes/Routes.jsx
 import { createBrowserRouter } from "react-router-dom";
-
+import MainLayout from "../layouts/MainLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home";
 import Services from "../pages/Services";
 import ServiceDetails from "../pages/ServiceDetails";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-
+import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ServiceCoverageMap from "../pages/ServiceCoverageMap";
 import ErrorPage from "../pages/ErrorPage";
@@ -17,8 +18,8 @@ import DecoratorRoute from "./DecoratorRoute";
 // Dashboard Pages
 import UserDashboard from "../pages/dashboard/user/UserDashboard";
 import MyBookings from "../pages/dashboard/user/MyBookings";
-// import PaymentHistory from "../pages/dashboard/user/PaymentHistory";
-// import MyProfile from "../pages/dashboard/user/MyProfile";
+import PaymentHistory from "../pages/dashboard/user/PaymentHistory";
+import MyProfile from "../pages/dashboard/user/MyProfile";
 
 import AdminDashboard from "../pages/dashboard/admin/AdminDashboard";
 import ManageServices from "../pages/dashboard/admin/ManageServices";
@@ -27,30 +28,54 @@ import ManageDecorators from "../pages/dashboard/admin/ManageDecorators";
 import Analytics from "../pages/dashboard/admin/Analytics";
 
 import DecoratorDashboard from "../pages/dashboard/decorator/DecoratorDashboard";
-import MyProjects from "../pages/dashboard/decorator/MyProjects";
+
 import TodaySchedule from "../pages/dashboard/decorator/TodaySchedule";
-import Earnings from "../pages/dashboard/decorator/Earnings";
-import About from "../pages/About";
-import MainLayout from "../layouts/MainLayout";
-import MyProfile from "../pages/dashboard/user/MyProfile";
-import PaymentHistory from "../pages/dashboard/user/PaymentHistory";
+import Earnings from "../pages/dashboard/decorator/Earnings"; 
+import MyProjects from "../pages/dashboard/decorator/MyProjects";
 
 export const router = createBrowserRouter([
+  // Main Website Routes
   {
     path: "/",
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/services", element: <Services /> },
-      { path: "/services/:id", element: <ServiceDetails /> },
-      { path: "/about", element: <About /> },
-      { path: "/contact", element: <Contact /> },
-      { path: "/coverage-map", element: <ServiceCoverageMap /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/services",
+        element: <Services />,
+      },
+      {
+        path: "/services/:id",
+        element: <ServiceDetails />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/coverage-map",
+        element: <ServiceCoverageMap />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
     ],
   },
+
+  // Dashboard Routes
   {
     path: "/dashboard",
     element: (
@@ -58,23 +83,29 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage />,
     children: [
-      // User Routes
-      { path: "/dashboard", element: <UserDashboard /> },
-      // { path: "/dashboard/my-profile", element: <MyProfile /> },
-      { path: "/dashboard/my-bookings", element: <MyBookings /> },
-      // { path: "/dashboard/payment-history", element: <PaymentHistory /> },
+      // User Routes (Default - shows UserDashboard at /dashboard)
+      {
+        index: true,
+        element: <UserDashboard />,
+      },
       {
         path: "my-profile",
-        Component: MyProfile,
+        element: <MyProfile />,
+      },
+      {
+        path: "my-bookings",
+        element: <MyBookings />,
       },
       {
         path: "payment-history",
-        Component: PaymentHistory,
+        element: <PaymentHistory />,
       },
+
       // Admin Routes
       {
-        path: "/dashboard/admin",
+        path: "admin",
         element: (
           <AdminRoute>
             <AdminDashboard />
@@ -82,7 +113,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/services",
+        path: "admin/services",
         element: (
           <AdminRoute>
             <ManageServices />
@@ -90,7 +121,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/bookings",
+        path: "admin/bookings",
         element: (
           <AdminRoute>
             <ManageBookings />
@@ -98,7 +129,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/decorators",
+        path: "admin/decorators",
         element: (
           <AdminRoute>
             <ManageDecorators />
@@ -106,7 +137,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/admin/analytics",
+        path: "admin/analytics",
         element: (
           <AdminRoute>
             <Analytics />
@@ -116,7 +147,7 @@ export const router = createBrowserRouter([
 
       // Decorator Routes
       {
-        path: "/dashboard/decorator",
+        path: "decorator",
         element: (
           <DecoratorRoute>
             <DecoratorDashboard />
@@ -124,7 +155,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/decorator/projects",
+        path: "decorator/projects",
         element: (
           <DecoratorRoute>
             <MyProjects />
@@ -132,7 +163,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/decorator/schedule",
+        path: "decorator/schedule",
         element: (
           <DecoratorRoute>
             <TodaySchedule />
@@ -140,7 +171,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dashboard/decorator/earnings",
+        path: "decorator/earnings",
         element: (
           <DecoratorRoute>
             <Earnings />
