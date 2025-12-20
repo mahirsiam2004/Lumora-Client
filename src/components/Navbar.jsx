@@ -58,9 +58,10 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `font-medium transition-colors ${isActive
-                    ? "text-purple-600"
-                    : "text-gray-700 hover:text-purple-600"
+                  `font-medium transition-colors ${
+                    isActive
+                      ? "text-purple-600"
+                      : "text-gray-700 hover:text-purple-600"
                   }`
                 }
               >
@@ -98,6 +99,7 @@ const Navbar = () => {
                   >
                     <div className="w-10 rounded-full ring ring-purple-500 ring-offset-2">
                       <img
+                        referrerPolicy="no-referrer"
                         src={
                           user.photoURL || "https://i.ibb.co/3YRjQxv/user.png"
                         }
@@ -164,9 +166,10 @@ const Navbar = () => {
                   to={link.to}
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
-                    `px-4 py-2 rounded-lg font-medium ${isActive
-                      ? "bg-purple-100 text-purple-600"
-                      : "text-gray-700"
+                    `px-4 py-2 rounded-lg font-medium ${
+                      isActive
+                        ? "bg-purple-100 text-purple-600"
+                        : "text-gray-700"
                     }`
                   }
                 >
