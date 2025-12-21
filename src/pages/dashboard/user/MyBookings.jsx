@@ -1,18 +1,18 @@
+// src/pages/dashboard/user/MyBookings.jsx
+// FIXED VERSION - No more redirectToCheckout error!
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
 import { FiTrash2, FiCreditCard, FiCalendar, FiMapPin } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { loadStripe } from "@stripe/stripe-js";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const MyBookings = () => {
   const { user } = useAuth();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(null);
 
   useEffect(() => {
     fetchBookings();
@@ -36,11 +36,10 @@ const MyBookings = () => {
   };
 
   const handlePayment = async (booking) => {
-    setPaymentLoading(true);
+    setPaymentLoading(booking._id);
 
     try {
       const token = localStorage.getItem("lumora-token");
-      const stripe = await stripePromise;
 
       // Create checkout session
       const { data } = await axios.post(
@@ -54,19 +53,16 @@ const MyBookings = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Redirect to Stripe Checkout
-      const result = await stripe.redirectToCheckout({
-        sessionId: data.sessionId,
-      });
-
-      if (result.error) {
-        toast.error(result.error.message);
+      // FIXED: Use window.location.href instead of redirectToCheckout
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        toast.error("Failed to create checkout session");
       }
     } catch (error) {
       console.error("Payment error:", error);
       toast.error("Failed to process payment");
-    } finally {
-      setPaymentLoading(false);
+      setPaymentLoading(null);
     }
   };
 
@@ -181,6 +177,12 @@ const MyBookings = () => {
                       Decorator: <strong>{booking.decoratorName}</strong>
                     </p>
                   )}
+
+                  {booking.notes && (
+                    <p className="text-sm text-gray-600 mt-2">
+                      Notes: {booking.notes}
+                    </p>
+                  )}
                 </div>
 
                 <div className="flex lg:flex-col gap-2 mt-4 lg:mt-0 lg:ml-4">
@@ -188,11 +190,14 @@ const MyBookings = () => {
                     <>
                       <button
                         onClick={() => handlePayment(booking)}
-                        disabled={paymentLoading}
-                        className="btn btn-sm bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+                        disabled={paymentLoading === booking._id}
+                        className="btn btn-sm bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none hover:scale-105 transition-transform"
                       >
-                        {paymentLoading ? (
-                          <span className="loading loading-spinner loading-xs"></span>
+                        {paymentLoading === booking._id ? (
+                          <>
+                            <span className="loading loading-spinner loading-xs"></span>
+                            Processing...
+                          </>
                         ) : (
                           <>
                             <FiCreditCard /> Pay Now
@@ -201,6 +206,7 @@ const MyBookings = () => {
                       </button>
                       <button
                         onClick={() => handleCancelBooking(booking._id)}
+                        disabled={paymentLoading === booking._id}
                         className="btn btn-sm btn-error btn-outline"
                       >
                         <FiTrash2 /> Cancel
@@ -208,7 +214,24 @@ const MyBookings = () => {
                     </>
                   )}
                   {booking.isPaid && (
-                    <div className="badge badge-success badge-lg">✓ Paid</div>
+                    <div className="flex items-center space-x-2">
+                      <div className="badge badge-success badge-lg gap-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          className="inline-block w-4 h-4 stroke-current"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M5 13l4 4L19 7"
+                          ></path>
+                        </svg>
+                        Paid
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>

@@ -11,10 +11,11 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import ServiceCoverageMap from "../pages/ServiceCoverageMap";
 import ErrorPage from "../pages/ErrorPage";
+import PaymentSuccess from "../pages/PaymentSuccess";
+import PaymentCancel from "../pages/PaymentCancel";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import DecoratorRoute from "./DecoratorRoute";
-import DashboardRedirect from "./DashboardRedirect";
 
 // Dashboard Pages
 import UserDashboard from "../pages/dashboard/user/UserDashboard";
@@ -29,10 +30,9 @@ import ManageDecorators from "../pages/dashboard/admin/ManageDecorators";
 import Analytics from "../pages/dashboard/admin/Analytics";
 
 import DecoratorDashboard from "../pages/dashboard/decorator/DecoratorDashboard";
-
-import TodaySchedule from "../pages/dashboard/decorator/TodaySchedule";
-import Earnings from "../pages/dashboard/decorator/Earnings"; 
 import MyProjects from "../pages/dashboard/decorator/MyProjects";
+import TodaySchedule from "../pages/dashboard/decorator/TodaySchedule";
+import Earnings from "../pages/dashboard/decorator/Earnings";
 
 export const router = createBrowserRouter([
   // Main Website Routes
@@ -73,6 +73,22 @@ export const router = createBrowserRouter([
         path: "/register",
         element: <Register />,
       },
+      {
+        path: "/payment/success",
+        element: (
+          <PrivateRoute>
+            <PaymentSuccess />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment/cancel",
+        element: (
+          <PrivateRoute>
+            <PaymentCancel />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 
@@ -86,14 +102,9 @@ export const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
     children: [
-      // Dashboard index - redirects based on role
+      // User Routes (Default - shows UserDashboard at /dashboard)
       {
         index: true,
-        element: <DashboardRedirect />,
-      },
-      // User Routes
-      {
-        path: "user",
         element: <UserDashboard />,
       },
       {
