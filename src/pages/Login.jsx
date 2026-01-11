@@ -106,10 +106,21 @@ const Login = () => {
 
           <button
             onClick={handleGoogleLogin}
-            className="btn btn-outline btn-lg w-full"
+            className="btn btn-outline btn-lg w-full mb-4"
           >
             <FcGoogle size={24} />
             Continue with Google
+          </button>
+
+          <button
+            onClick={() => {
+              setEmail("admin@lumora.com");
+              setPassword("123456");
+            }}
+            type="button"
+            className="btn btn-ghost btn-outline btn-lg w-full"
+          >
+            Demo Admin Login
           </button>
 
           <p className="text-center mt-6 text-gray-600">

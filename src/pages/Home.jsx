@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "../utilits/axiosInstance";
-import { FiStar, FiMapPin, FiArrowRight, FiCheck } from "react-icons/fi";
+import { FiStar, FiMapPin, FiArrowRight, FiCheck, FiUsers, FiAward, FiClock, FiTrendingUp, FiShield, FiZap } from "react-icons/fi";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -20,7 +20,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const [servicesRes, decoratorsRes] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/api/services?limit=6`),
+        axios.get(`${import.meta.env.VITE_API_URL}/api/services?limit=8`),
         axios.get(`${import.meta.env.VITE_API_URL}/api/decorators`),
       ]);
 
@@ -35,7 +35,7 @@ const Home = () => {
 
   // Hero Section
   const Hero = () => (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           animate={{
@@ -172,6 +172,92 @@ const Home = () => {
     </section>
   );
 
+  // Stats Section
+  const StatsSection = () => (
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-4 gap-8">
+          {[
+            { icon: FiUsers, number: "500+", label: "Happy Clients", color: "purple" },
+            { icon: FiAward, number: "50+", label: "Awards Won", color: "pink" },
+            { icon: FiClock, number: "1000+", label: "Projects Completed", color: "blue" },
+            { icon: FiTrendingUp, number: "98%", label: "Success Rate", color: "green" },
+          ].map((stat, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="text-center p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 hover:shadow-xl transition-all"
+            >
+              <stat.icon className={`mx-auto text-${stat.color}-600 mb-4`} size={48} />
+              <div className="text-4xl font-bold text-gray-800 mb-2">{stat.number}</div>
+              <div className="text-gray-600">{stat.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  // Features Section
+  const FeaturesSection = () => (
+    <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Why Choose{" "}
+            <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              Lumora
+            </span>
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            We provide exceptional decoration services with attention to every detail
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            {
+              icon: FiShield,
+              title: "Quality Guaranteed",
+              description: "We ensure the highest quality in every project we undertake",
+            },
+            {
+              icon: FiZap,
+              title: "Fast Delivery",
+              description: "Quick turnaround time without compromising on quality",
+            },
+            {
+              icon: FiAward,
+              title: "Expert Team",
+              description: "Professional decorators with years of experience",
+            },
+          ].map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all"
+            >
+              <feature.icon className="text-purple-600 mb-4" size={48} />
+              <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
+              <p className="text-gray-600">{feature.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
   // Services Section
   const ServicesSection = () => (
     <section className="py-20 bg-white">
@@ -194,8 +280,8 @@ const Home = () => {
         </motion.div>
 
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
               <div key={i} className="card bg-base-100 shadow-xl">
                 <Skeleton height={200} />
                 <div className="card-body">
@@ -205,7 +291,7 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
               <motion.div
                 key={service._id}
@@ -215,7 +301,7 @@ const Home = () => {
                 transition={{ delay: index * 0.1 }}
               >
                 <Link to={`/services/${service._id}`}>
-                  <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group overflow-hidden">
+                  <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group overflow-hidden h-full">
                     <figure className="relative h-48 overflow-hidden">
                       <img
                         src={
@@ -241,7 +327,7 @@ const Home = () => {
                       <div className="flex justify-between items-center mt-4">
                         <div>
                           <span className="text-2xl font-bold text-purple-600">
-                            ৳{service.cost}
+                            BDT {service.cost}
                           </span>
                           <span className="text-sm text-gray-500">
                             /{service.unit}
@@ -273,9 +359,57 @@ const Home = () => {
     </section>
   );
 
+  // How It Works Section
+  const HowItWorksSection = () => (
+    <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            How It{" "}
+            <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              Works
+            </span>
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Simple steps to get your dream decoration
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-4 gap-8">
+          {[
+            { step: "01", title: "Choose Service", description: "Browse and select your desired decoration package" },
+            { step: "02", title: "Book Appointment", description: "Schedule a convenient time for our team" },
+            { step: "03", title: "Customize", description: "Work with our experts to personalize your design" },
+            { step: "04", title: "Enjoy", description: "Sit back and watch your vision come to life" },
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="text-center"
+            >
+              <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-purple-600 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                {item.step}
+              </div>
+              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+              <p className="text-gray-600">{item.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
   // Decorators Section
   const DecoratorsSection = () => (
-    <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -302,7 +436,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="card bg-white shadow-xl hover:shadow-2xl transition-all"
+              className="card bg-white shadow-xl hover:shadow-2xl transition-all h-full"
             >
               <figure className="px-6 pt-6">
                 <img
@@ -329,6 +463,83 @@ const Home = () => {
                   <span className="text-sm text-gray-600 ml-2">(4.9)</span>
                 </div>
               </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  // Testimonials Section
+  const TestimonialsSection = () => (
+    <section className="py-20 bg-gradient-to-br from-purple-50 to-pink-50">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Client{" "}
+            <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              Testimonials
+            </span>
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            What our happy clients say about us
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            {
+              name: "Sarah Ahmed",
+              role: "Wedding Client",
+              image: "https://i.pravatar.cc/150?img=1",
+              text: "Lumora made our wedding day absolutely magical! The attention to detail was incredible.",
+              rating: 5,
+            },
+            {
+              name: "Karim Rahman",
+              role: "Corporate Event",
+              image: "https://i.pravatar.cc/150?img=2",
+              text: "Professional service and stunning results. Our office event was a huge success!",
+              rating: 5,
+            },
+            {
+              name: "Nadia Khan",
+              role: "Home Decoration",
+              image: "https://i.pravatar.cc/150?img=3",
+              text: "They transformed my home beautifully. Highly recommend their services!",
+              rating: 5,
+            },
+          ].map((testimonial, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white p-6 rounded-2xl shadow-lg"
+            >
+              <div className="flex items-center mb-4">
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-16 h-16 rounded-full mr-4"
+                />
+                <div>
+                  <h4 className="font-bold">{testimonial.name}</h4>
+                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                </div>
+              </div>
+              <div className="flex mb-3">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <FiStar key={i} className="text-yellow-500 fill-yellow-500" size={16} />
+                ))}
+              </div>
+              <p className="text-gray-600">{testimonial.text}</p>
             </motion.div>
           ))}
         </div>
@@ -401,12 +612,111 @@ const Home = () => {
     </section>
   );
 
+  // FAQ Section
+  const FaqSection = () => (
+    <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            Frequently Asked{" "}
+            <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              Questions
+            </span>
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Find answers to common questions about our services
+          </p>
+        </motion.div>
+
+        <div className="max-w-3xl mx-auto space-y-4">
+          {[
+            {
+              question: "How far in advance should I book?",
+              answer: "We recommend booking at least 2-4 weeks in advance for regular events and 2-3 months for weddings.",
+            },
+            {
+              question: "Do you provide customization options?",
+              answer: "Yes! We work closely with you to customize every aspect of your decoration to match your vision.",
+            },
+            {
+              question: "What areas do you serve?",
+              answer: "We currently serve Dhaka and surrounding areas. Check our coverage map for specific locations.",
+            },
+            {
+              question: "What is your cancellation policy?",
+              answer: "Cancellations made 7 days before the event receive a full refund. Within 7 days, a 50% fee applies.",
+            },
+          ].map((faq, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="collapse collapse-plus bg-white shadow-lg"
+            >
+              <input type="radio" name="faq-accordion" />
+              <div className="collapse-title text-xl font-medium">
+                {faq.question}
+              </div>
+              <div className="collapse-content">
+                <p className="text-gray-600">{faq.answer}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  // Newsletter Section
+  const NewsletterSection = () => (
+    <section className="py-20 bg-gradient-to-r from-purple-600 to-pink-500">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center max-w-2xl mx-auto"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+            Stay Updated
+          </h2>
+          <p className="text-white/90 mb-8">
+            Subscribe to our newsletter for exclusive offers and decoration tips
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="input input-lg flex-1 max-w-md"
+            />
+            <button className="btn btn-lg bg-white text-purple-600 hover:bg-gray-100 border-none">
+              Subscribe
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+
   return (
     <div>
       <Hero />
+      <StatsSection />
+      <FeaturesSection />
       <ServicesSection />
+      <HowItWorksSection />
       <DecoratorsSection />
+      <TestimonialsSection />
       <CoverageMapSection />
+      <FaqSection />
+      <NewsletterSection />
     </div>
   );
 };

@@ -2,14 +2,32 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { motion } from "framer-motion";
-import { FiMenu, FiX, FiLogOut, FiUser, FiGrid } from "react-icons/fi";
-import { useState } from "react";
+import {
+  FiMenu,
+  FiX,
+  FiLogOut,
+  FiUser,
+  FiGrid,
+  FiMoon,
+  FiSun,
+} from "react-icons/fi";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
   const { user, userRole, logoutUser } = useAuth();
   const navigate = useNavigate();
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
 
   const handleLogout = async () => {
     try {
@@ -72,6 +90,11 @@ const Navbar = () => {
 
           {/* Auth Section */}
           <div className="hidden lg:flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <button onClick={toggleTheme} className="btn btn-ghost btn-circle">
+              {theme === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
+            </button>
+
             {user ? (
               <div className="flex items-center space-x-4">
                 {(userRole === "admin" || userRole === "decorator") && (

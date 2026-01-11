@@ -4,7 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "../utilits/axiosInstance";
 import { useAuth } from "../contexts/AuthContext";
-import { FiCalendar, FiMapPin, FiDollarSign, FiTag } from "react-icons/fi";
+import {
+  FiCalendar,
+  FiMapPin,
+  FiDollarSign,
+  FiTag,
+  FiStar,
+} from "react-icons/fi";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 
@@ -192,6 +198,87 @@ const ServiceDetails = () => {
                     </motion.li>
                   ))}
                 </ul>
+              </div>
+
+              {/* Reviews Section */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Reviews & Ratings</h2>
+                <div className="space-y-4">
+                  {[
+                    {
+                      user: "Alice Green",
+                      rating: 5,
+                      date: "2 days ago",
+                      comment:
+                        "Absolutely amazing service! The team was professional and the decorations were stunning.",
+                      avatar: "https://i.pravatar.cc/150?u=alice",
+                    },
+                    {
+                      user: "John Doe",
+                      rating: 4,
+                      date: "1 week ago",
+                      comment:
+                        "Great experience overall. Highly recommended for wedding decorations.",
+                      avatar: "https://i.pravatar.cc/150?u=john",
+                    },
+                  ].map((review, i) => (
+                    <div key={i} className="bg-gray-50 p-4 rounded-xl">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-3">
+                          <img
+                            src={review.avatar}
+                            alt={review.user}
+                            className="w-10 h-10 rounded-full"
+                          />
+                          <div>
+                            <div className="font-bold">{review.user}</div>
+                            <div className="text-xs text-gray-500">
+                              {review.date}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex text-yellow-500">
+                          {[...Array(5)].map((_, starI) => (
+                            <FiStar
+                              key={starI}
+                              className={
+                                starI < review.rating
+                                  ? "fill-current"
+                                  : "text-gray-300"
+                              }
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-gray-600">{review.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Related Services */}
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Related Services</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {[1, 2].map((item) => (
+                    <div
+                      key={item}
+                      className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border"
+                    >
+                      <div className="card-body p-4">
+                        <h3 className="font-bold">
+                          Birthday Party Deluxe Package
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          Starting from ৳15,000
+                        </p>
+                        <button className="btn btn-sm btn-link px-0 text-purple-600">
+                          View Details
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

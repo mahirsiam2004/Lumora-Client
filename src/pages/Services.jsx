@@ -164,7 +164,7 @@ const Services = () => {
 
         {/* Services Grid */}
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
               <div key={i} className="card bg-white shadow-xl">
                 <Skeleton height={200} />
@@ -185,7 +185,7 @@ const Services = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {services.map((service, index) => (
               <motion.div
@@ -221,7 +221,7 @@ const Services = () => {
                       <div className="flex justify-between items-center mt-4">
                         <div>
                           <span className="text-xl font-bold text-purple-600">
-                            ৳{service.cost}
+                            BDT {service.cost}
                           </span>
                           <span className="text-xs text-gray-500">
                             /{service.unit}
