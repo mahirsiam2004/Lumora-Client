@@ -92,12 +92,12 @@ const DashboardLayout = () => {
   if (userRole === "decorator") links = decoratorLinks;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-base-200">
       {/* Mobile Menu Button */}
       <div className="lg:hidden fixed top-20 left-4 z-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="btn btn-circle bg-white shadow-lg"
+          className="btn btn-circle bg-base-100 shadow-lg"
         >
           {sidebarOpen ? <FiX size={20} /> : <FiMenu size={20} />}
         </button>
@@ -109,7 +109,7 @@ const DashboardLayout = () => {
           initial={{ x: -300 }}
           animate={{ x: sidebarOpen || window.innerWidth >= 1024 ? 0 : -300 }}
           className={`
-            fixed lg:sticky top-0 left-0 h-screen w-64 bg-white shadow-xl z-40 pt-24 lg:pt-24
+            fixed lg:sticky top-0 left-0 h-screen w-64 bg-base-100 shadow-xl z-40 pt-24 lg:pt-24
             ${sidebarOpen ? "block" : "hidden lg:block"}
           `}
         >
@@ -138,10 +138,9 @@ const DashboardLayout = () => {
                     end={link.end}
                     onClick={() => setSidebarOpen(false)}
                     className={({ isActive }) =>
-                      `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${
-                        isActive
-                          ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white"
-                          : "text-gray-700 hover:bg-gray-100"
+                      `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${isActive
+                        ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white"
+                        : "text-base-content hover:bg-base-200"
                       }`
                     }
                   >
@@ -156,7 +155,7 @@ const DashboardLayout = () => {
             <div className="mt-8 pt-6 border-t">
               <Link
                 to="/"
-                className="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 transition-all"
+                className="flex items-center space-x-3 px-4 py-3 rounded-xl text-base-content hover:bg-base-200 transition-all"
               >
                 <FiHome size={20} />
                 <span className="font-medium">Back to Home</span>

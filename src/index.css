@@ -1,4 +1,67 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes: light --default, dark;
+}
+
+/* Custom dark theme styles */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+[data-theme="light"] body {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+/* Dark theme gradient backgrounds - all variations */
+[data-theme="dark"] .bg-gradient-to-br.from-purple-50,
+[data-theme="dark"] .bg-gradient-to-br.from-blue-50,
+[data-theme="dark"] .bg-gradient-to-br.from-pink-50,
+[data-theme="dark"] .bg-gradient-to-br.from-purple-50.via-pink-50,
+[data-theme="dark"] .bg-gradient-to-br.from-purple-50.to-pink-50,
+[data-theme="dark"] .bg-gradient-to-br.from-blue-50.to-purple-50 {
+  background: linear-gradient(to bottom right, #1f2937, #111827) !important;
+}
+
+/* Specific gradient combinations */
+[data-theme="dark"] .bg-gradient-to-br.from-purple-50.via-pink-50.to-blue-50 {
+  background: linear-gradient(to bottom right, #1f2937 0%, #111827 50%, #0f172a 100%) !important;
+}
+
+[data-theme="dark"] .bg-gradient-to-br.from-gray-50.to-gray-100 {
+  background: linear-gradient(to bottom right, #374151, #1f2937) !important;
+}
+
+/* Dark theme text colors - make them lighter and visible */
+[data-theme="dark"] .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+[data-theme="dark"] .text-gray-700 {
+  color: #e5e7eb !important;
+}
+
+[data-theme="dark"] .text-gray-800 {
+  color: #f3f4f6 !important;
+}
+
+[data-theme="dark"] .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+[data-theme="dark"] .text-gray-400 {
+  color: #9ca3af !important;
+}
+
+/* Smooth transitions for theme changes */
+*,
+section,
+div {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
 }

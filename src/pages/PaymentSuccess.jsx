@@ -66,7 +66,7 @@ const PaymentSuccess = () => {
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-2xl w-full"
       >
-        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 text-center">
+        <div className="bg-base-100 rounded-3xl shadow-2xl p-8 md:p-12 text-center">
           {/* Success Icon */}
           <motion.div
             initial={{ scale: 0 }}

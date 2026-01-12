@@ -24,7 +24,7 @@ const MyProfile = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl shadow-xl p-8"
+        className="bg-base-100 rounded-2xl shadow-xl p-8"
       >
         <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
           <img

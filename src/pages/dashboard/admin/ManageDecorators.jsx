@@ -55,10 +55,10 @@ const ManageDecorators = () => {
           <span className="loading loading-spinner loading-lg"></span>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div className="bg-base-100 rounded-2xl shadow-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="table">
-              <thead className="bg-gray-50">
+              <thead className="bg-base-200">
                 <tr>
                   <th>Name</th>
                   <th>Email</th>

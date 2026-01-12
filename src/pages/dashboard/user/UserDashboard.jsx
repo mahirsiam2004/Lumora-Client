@@ -126,7 +126,7 @@ const UserDashboard = () => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white rounded-2xl shadow-xl p-6"
+          className="bg-base-100 rounded-2xl shadow-xl p-6"
         >
           <h3 className="text-xl font-bold mb-6">Booking Status</h3>
           <div className="h-[300px] w-full">
@@ -162,7 +162,7 @@ const UserDashboard = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white rounded-2xl shadow-xl p-6 flex flex-col justify-center items-center text-center"
+          className="bg-base-100 rounded-2xl shadow-xl p-6 flex flex-col justify-center items-center text-center"
         >
           <div className="p-4 bg-purple-50 rounded-full mb-4">
             <FiPackage className="text-purple-600 text-4xl" />

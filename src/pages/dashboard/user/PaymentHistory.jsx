@@ -64,7 +64,7 @@ const PaymentHistory = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-xl p-6"
+              className="bg-base-100 rounded-2xl shadow-xl p-6"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">

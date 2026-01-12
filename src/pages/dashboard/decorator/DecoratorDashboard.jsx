@@ -28,14 +28,12 @@ const DecoratorDashboard = () => {
       const token = localStorage.getItem("lumora-token");
       const [projectsRes, earningsRes] = await Promise.all([
         axios.get(
-          `${import.meta.env.VITE_API_URL}/api/bookings/decorator/${
-            user.email
+          `${import.meta.env.VITE_API_URL}/api/bookings/decorator/${user.email
           }`,
           { headers: { Authorization: `Bearer ${token}` } }
         ),
         axios.get(
-          `${import.meta.env.VITE_API_URL}/api/payments/decorator/${
-            user.email
+          `${import.meta.env.VITE_API_URL}/api/payments/decorator/${user.email
           }`,
           { headers: { Authorization: `Bearer ${token}` } }
         ),
@@ -135,7 +133,7 @@ const DecoratorDashboard = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="bg-white rounded-2xl shadow-xl p-6"
+        className="bg-base-100 rounded-2xl shadow-xl p-6"
       >
         <h2 className="text-2xl font-bold mb-6">Quick Actions</h2>
         <div className="grid md:grid-cols-3 gap-4">

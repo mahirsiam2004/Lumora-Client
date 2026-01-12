@@ -51,7 +51,7 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="bg-white shadow-md sticky top-0 z-50"
+      className="bg-base-100 shadow-md sticky top-0 z-50 transition-colors duration-300"
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -76,10 +76,9 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `font-medium transition-colors ${
-                    isActive
-                      ? "text-purple-600"
-                      : "text-gray-700 hover:text-purple-600"
+                  `font-medium transition-colors ${isActive
+                    ? "text-purple-600"
+                    : "text-base-content hover:text-purple-600"
                   }`
                 }
               >
@@ -189,10 +188,9 @@ const Navbar = () => {
                   to={link.to}
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
-                    `px-4 py-2 rounded-lg font-medium ${
-                      isActive
-                        ? "bg-purple-100 text-purple-600"
-                        : "text-gray-700"
+                    `px-4 py-2 rounded-lg font-medium ${isActive
+                      ? "bg-purple-100 text-purple-600"
+                      : "text-base-content"
                     }`
                   }
                 >

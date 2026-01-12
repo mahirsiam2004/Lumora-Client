@@ -146,7 +146,7 @@ const Home = () => {
                 transition={{ duration: 0.3 }}
               />
               <motion.div
-                className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl"
+                className="absolute -bottom-6 -left-6 bg-base-100 p-6 rounded-2xl shadow-xl"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1 }}
@@ -174,7 +174,7 @@ const Home = () => {
 
   // Stats Section
   const StatsSection = () => (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-base-100">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           {[
@@ -246,7 +246,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all"
+              className="bg-base-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all"
             >
               <feature.icon className="text-purple-600 mb-4" size={48} />
               <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
@@ -260,7 +260,7 @@ const Home = () => {
 
   // Services Section
   const ServicesSection = () => (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-base-100">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -409,7 +409,7 @@ const Home = () => {
 
   // Decorators Section
   const DecoratorsSection = () => (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-base-100">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -436,7 +436,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="card bg-white shadow-xl hover:shadow-2xl transition-all h-full"
+              className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all h-full"
             >
               <figure className="px-6 pt-6">
                 <img
@@ -521,7 +521,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white p-6 rounded-2xl shadow-lg"
+              className="bg-base-100 p-6 rounded-2xl shadow-lg"
             >
               <div className="flex items-center mb-4">
                 <img
@@ -549,7 +549,7 @@ const Home = () => {
 
   // Coverage Map Section
   const CoverageMapSection = () => (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-base-100">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -658,7 +658,7 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="collapse collapse-plus bg-white shadow-lg"
+              className="collapse collapse-plus bg-base-100 shadow-lg"
             >
               <input type="radio" name="faq-accordion" />
               <div className="collapse-title text-xl font-medium">

@@ -95,7 +95,7 @@ const Services = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl shadow-xl p-6 mb-8"
+          className="bg-base-100 rounded-2xl shadow-xl p-6 mb-8"
         >
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search */}
@@ -166,7 +166,7 @@ const Services = () => {
         {loading ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="card bg-white shadow-xl">
+              <div key={i} className="card bg-base-100 shadow-xl">
                 <Skeleton height={200} />
                 <div className="card-body">
                   <Skeleton count={3} />
@@ -195,7 +195,7 @@ const Services = () => {
                 transition={{ delay: index * 0.05 }}
               >
                 <Link to={`/services/${service._id}`}>
-                  <div className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300 group h-full">
+                  <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group h-full">
                     <figure className="relative h-48 overflow-hidden">
                       <img
                         src={

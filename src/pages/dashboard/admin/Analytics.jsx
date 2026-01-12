@@ -84,8 +84,8 @@ const Analytics = () => {
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={serviceDemandData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis 
-                  dataKey="name" 
+                <XAxis
+                  dataKey="name"
                   angle={-45}
                   textAnchor="end"
                   height={100}
@@ -93,9 +93,9 @@ const Analytics = () => {
                 />
                 <YAxis tick={{ fill: '#6b7280' }} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar 
-                  dataKey="bookings" 
-                  fill="url(#colorGradient)" 
+                <Bar
+                  dataKey="bookings"
+                  fill="url(#colorGradient)"
                   radius={[8, 8, 0, 0]}
                   label={{ position: 'top', fill: '#9333ea', fontSize: 12, fontWeight: 'bold' }}
                 />
@@ -127,19 +127,19 @@ const Analytics = () => {
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={revenueData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis 
-                  dataKey="month" 
+                <XAxis
+                  dataKey="month"
                   tick={{ fill: '#6b7280' }}
                 />
-                <YAxis 
+                <YAxis
                   tick={{ fill: '#6b7280' }}
                   tickFormatter={(value) => `৳${value.toLocaleString()}`}
                 />
-                <Tooltip 
+                <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload.length) {
                       return (
-                        <div className="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
+                        <div className="bg-base-100 p-4 rounded-lg shadow-xl border border-base-300">
                           <p className="font-semibold text-gray-800">{payload[0].payload.month}</p>
                           <p className="text-pink-600 font-bold text-lg">
                             ৳{payload[0].value.toLocaleString()}
@@ -151,10 +151,10 @@ const Analytics = () => {
                   }}
                 />
                 <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="revenue" 
-                  stroke="#ec4899" 
+                <Line
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="#ec4899"
                   strokeWidth={3}
                   dot={{ fill: '#ec4899', r: 6 }}
                   activeDot={{ r: 8, fill: '#9333ea' }}

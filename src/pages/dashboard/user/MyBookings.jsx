@@ -131,7 +131,7 @@ const MyBookings = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-xl p-6"
+              className="bg-base-100 rounded-2xl shadow-xl p-6"
             >
               <div className="flex flex-col lg:flex-row justify-between">
                 <div className="flex-1">

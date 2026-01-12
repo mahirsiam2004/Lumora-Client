@@ -105,7 +105,7 @@ const AdminDashboard = () => {
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
+        <div className="bg-base-100 p-4 rounded-lg shadow-xl border border-base-300">
           <p className="font-semibold text-gray-800">
             {payload[0].payload.name}
           </p>
@@ -156,7 +156,7 @@ const AdminDashboard = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="bg-white rounded-2xl shadow-xl p-6"
+        className="bg-base-100 rounded-2xl shadow-xl p-6"
       >
         <h2 className="text-2xl font-bold mb-6 text-gray-800">
           Top Services by Demand

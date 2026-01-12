@@ -78,7 +78,7 @@ const Register = () => {
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-3xl shadow-2xl p-8">
+        <div className="bg-base-100 rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-8">
             <h2 className="text-4xl font-bold mb-2">
               Join{" "}

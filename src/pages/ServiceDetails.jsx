@@ -106,7 +106,7 @@ const ServiceDetails = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-3xl shadow-2xl overflow-hidden"
+          className="bg-base-100 rounded-3xl shadow-2xl overflow-hidden"
         >
           {/* Image Gallery */}
           <div className="h-96 relative overflow-hidden">
@@ -194,7 +194,7 @@ const ServiceDetails = () => {
                       className="flex items-center space-x-2"
                     >
                       <div className="w-2 h-2 bg-purple-600 rounded-full" />
-                      <span className="text-gray-700">{feature}</span>
+                      <span className="text-base-content">{feature}</span>
                     </motion.li>
                   ))}
                 </ul>
@@ -222,7 +222,7 @@ const ServiceDetails = () => {
                       avatar: "https://i.pravatar.cc/150?u=john",
                     },
                   ].map((review, i) => (
-                    <div key={i} className="bg-gray-50 p-4 rounded-xl">
+                    <div key={i} className="bg-base-200 p-4 rounded-xl">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-3">
                           <img

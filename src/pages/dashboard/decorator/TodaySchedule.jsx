@@ -81,7 +81,7 @@ const TodaySchedule = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow"
+              className="bg-base-100 rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-shadow"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -106,7 +106,7 @@ const TodaySchedule = () => {
                       <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
                         <FiMapPin className="text-purple-600" />
                       </div>
-                      <p className="text-gray-700">{project.location}</p>
+                      <p className="text-base-content">{project.location}</p>
                     </div>
 
                     <div className="flex items-center space-x-3">
@@ -134,13 +134,12 @@ const TodaySchedule = () => {
                     ৳{project.serviceCost}
                   </div>
                   <span
-                    className={`badge badge-lg ${
-                      project.status === "completed"
+                    className={`badge badge-lg ${project.status === "completed"
                         ? "badge-success"
                         : project.status === "setup-in-progress"
-                        ? "badge-warning"
-                        : "badge-info"
-                    }`}
+                          ? "badge-warning"
+                          : "badge-info"
+                      }`}
                   >
                     {project.status.replace("-", " ").toUpperCase()}
                   </span>

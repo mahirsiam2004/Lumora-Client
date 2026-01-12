@@ -87,7 +87,7 @@ const Contact = () => {
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-2"
           >
-            <div className="bg-white rounded-3xl shadow-2xl p-8">
+            <div className="bg-base-100 rounded-3xl shadow-2xl p-8">
               <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
 
               <form onSubmit={handleSubmit} className="space-y-6">
