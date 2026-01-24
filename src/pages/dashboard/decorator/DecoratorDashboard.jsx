@@ -61,7 +61,7 @@ const DecoratorDashboard = () => {
       icon: FiBriefcase,
       label: "Active Projects",
       value: stats.activeProjects,
-      color: "from-blue-500 to-cyan-500",
+      color: "from-amber-500 to-yellow-500",
       link: "/dashboard/decorator/projects",
     },
     {
@@ -82,7 +82,7 @@ const DecoratorDashboard = () => {
       icon: FiDollarSign,
       label: "Total Earnings",
       value: `৳${stats.totalEarnings}`,
-      color: "from-purple-500 to-pink-500",
+      color: "from-[#e8a803] to-[#f59e0b]",
       link: "/dashboard/decorator/earnings",
     },
   ];
@@ -96,7 +96,7 @@ const DecoratorDashboard = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           Welcome,{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             {user?.displayName?.split(" ")[0]}
           </span>
         </h1>
@@ -145,7 +145,7 @@ const DecoratorDashboard = () => {
           </Link>
           <Link
             to="/dashboard/decorator/schedule"
-            className="btn btn-lg bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+            className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
           >
             Today's Schedule
           </Link>

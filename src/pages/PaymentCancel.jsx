@@ -82,7 +82,7 @@ const PaymentCancel = () => {
           >
             <button
               onClick={() => navigate("/dashboard/my-bookings")}
-              className="btn btn-lg bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none hover:scale-105 transition-transform"
+              className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:scale-105 transition-transform"
             >
               <FiCreditCard />
               Try Payment Again
@@ -101,7 +101,7 @@ const PaymentCancel = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="mt-8 p-4 bg-blue-50 rounded-xl"
+            className="mt-8 p-4 bg-amber-50 rounded-xl"
           >
             <p className="text-sm text-gray-600 mb-2">
               💡 <strong>Need help?</strong>
@@ -111,7 +111,7 @@ const PaymentCancel = () => {
               team at{" "}
               <a
                 href="mailto:support@lumora.com"
-                className="text-purple-600 font-semibold hover:underline"
+                className="text-[#e8a803] font-semibold hover:underline"
               >
                 support@lumora.com
               </a>

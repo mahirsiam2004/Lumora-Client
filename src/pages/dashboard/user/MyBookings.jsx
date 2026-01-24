@@ -99,7 +99,7 @@ const MyBookings = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           My{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             Bookings
           </span>
         </h1>
@@ -118,7 +118,7 @@ const MyBookings = () => {
           <p className="text-2xl text-gray-600 mb-4">No bookings yet</p>
           <a
             href="/services"
-            className="btn bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+            className="btn bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
           >
             Browse Services
           </a>
@@ -191,7 +191,7 @@ const MyBookings = () => {
                       <button
                         onClick={() => handlePayment(booking)}
                         disabled={paymentLoading === booking._id}
-                        className="btn btn-sm bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none hover:scale-105 transition-transform"
+                        className="btn btn-sm bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:scale-105 transition-transform"
                       >
                         {paymentLoading === booking._id ? (
                           <>

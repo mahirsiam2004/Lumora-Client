@@ -62,7 +62,7 @@ const UserDashboard = () => {
       title: "Total Bookings",
       value: stats.totalBookings,
       icon: FiCalendar,
-      color: "from-blue-500 to-cyan-500",
+      color: "from-amber-500 to-yellow-500",
     },
     {
       title: "Pending Payment",
@@ -89,7 +89,7 @@ const UserDashboard = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           Welcome back,{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             {user?.displayName?.split(" ")[0]}
           </span>
         </h1>
@@ -164,7 +164,7 @@ const UserDashboard = () => {
           transition={{ delay: 0.4 }}
           className="bg-base-100 rounded-2xl shadow-xl p-6 flex flex-col justify-center items-center text-center"
         >
-          <div className="p-4 bg-purple-50 rounded-full mb-4">
+          <div className="p-4 bg-amber-50 rounded-full mb-4">
             <FiPackage className="text-purple-600 text-4xl" />
           </div>
           <h3 className="text-xl font-bold mb-2">Need Help?</h3>
@@ -189,7 +189,7 @@ const UserDashboard = () => {
         <div className="grid md:grid-cols-3 gap-4">
           <Link
             to="/services"
-            className="btn btn-lg bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+            className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
           >
             Browse Services
           </Link>

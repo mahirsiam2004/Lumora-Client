@@ -10,4 +10,13 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://lumora-server-seven.vercel.app',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

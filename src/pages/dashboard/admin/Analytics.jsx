@@ -69,7 +69,7 @@ const Analytics = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-4xl font-bold mb-8"
       >
-        <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Analytics</span>
+        <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">Analytics</span>
       </motion.h1>
 
       <div className="space-y-8">
@@ -177,7 +177,7 @@ const Analytics = () => {
           transition={{ delay: 0.4 }}
           className="grid md:grid-cols-3 gap-6"
         >
-          <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-amber-500 to-yellow-500 rounded-2xl p-6 text-white">
             <p className="text-sm opacity-90 mb-2">Total Bookings</p>
             <p className="text-4xl font-bold">{analytics?.totalBookings || 0}</p>
           </div>
@@ -185,7 +185,7 @@ const Analytics = () => {
             <p className="text-sm opacity-90 mb-2">Paid Bookings</p>
             <p className="text-4xl font-bold">{analytics?.paidBookings || 0}</p>
           </div>
-          <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-[#e8a803] to-[#f59e0b] rounded-2xl p-6 text-white">
             <p className="text-sm opacity-90 mb-2">Total Revenue</p>
             <p className="text-4xl font-bold">৳{(analytics?.totalRevenue || 0).toLocaleString()}</p>
           </div>

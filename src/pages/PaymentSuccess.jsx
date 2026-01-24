@@ -166,7 +166,7 @@ const PaymentSuccess = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="mt-8 p-4 bg-blue-50 rounded-xl"
+            className="mt-8 p-4 bg-amber-50 rounded-xl"
           >
             <p className="text-sm text-gray-600">
               📧 A confirmation email has been sent to{" "}

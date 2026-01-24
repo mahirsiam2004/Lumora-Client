@@ -41,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#e8a80310] via-[#fbbf2420] to-[#fcd34d10] py-12 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ const Login = () => {
           <div className="text-center mb-8">
             <h2 className="text-4xl font-bold mb-2">
               Welcome{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
                 Back
               </span>
             </h2>
@@ -96,7 +96,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-lg w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none hover:scale-105 transition-transform"
+              className="btn btn-lg w-full bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:scale-105 transition-transform"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -127,7 +127,7 @@ const Login = () => {
             Don&apos;t have an account?{" "}
             <Link
               to="/register"
-              className="text-purple-600 font-medium hover:underline"
+              className="text-[#e8a803] font-medium hover:underline"
             >
               Register here
             </Link>

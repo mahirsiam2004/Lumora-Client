@@ -39,7 +39,7 @@ const PaymentHistory = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           Payment{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             History
           </span>
         </h1>

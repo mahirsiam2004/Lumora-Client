@@ -139,7 +139,7 @@ const DashboardLayout = () => {
                     onClick={() => setSidebarOpen(false)}
                     className={({ isActive }) =>
                       `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${isActive
-                        ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white"
+                        ? "bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white"
                         : "text-base-content hover:bg-base-200"
                       }`
                     }

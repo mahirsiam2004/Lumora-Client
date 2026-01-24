@@ -18,7 +18,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-20">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -27,7 +27,7 @@ const Contact = () => {
         >
           <h1 className="text-5xl font-bold mb-4">
             Get In{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
               Touch
             </span>
           </h1>
@@ -49,7 +49,7 @@ const Contact = () => {
                 icon: FiPhone,
                 title: "Call Us",
                 value: "+880 1234-567890",
-                color: "from-blue-500 to-cyan-500",
+                color: "from-amber-500 to-yellow-500",
               },
               {
                 icon: FiMail,
@@ -61,7 +61,7 @@ const Contact = () => {
                 icon: FiMapPin,
                 title: "Visit Us",
                 value: "Dhaka, Bangladesh",
-                color: "from-pink-500 to-red-500",
+                color: "from-[#f59e0b] to-[#fb923c]",
               },
             ].map((contact, index) => {
               const Icon = contact.icon;
@@ -158,7 +158,7 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="btn btn-lg w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+                  className="btn btn-lg w-full bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
                 >
                   <FiSend className="mr-2" />
                   Send Message

@@ -1,7 +1,132 @@
 @import "tailwindcss";
 
-@plugin "daisyui" {
-  themes: light --default, dark;
+/* Dual Font System: Poppins for body, Bebas Neue for headings */
+* {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+/* Bebas Neue for headings and highlights */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading-font {
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* Poppins Weight Classes */
+.poppins-thin {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poppins-medium {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.poppins-bold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.poppins-extrabold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.poppins-black {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Poppins Italic Classes */
+.poppins-thin-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.poppins-extralight-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.poppins-light-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.poppins-regular-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.poppins-medium-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.poppins-semibold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.poppins-bold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.poppins-extrabold-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.poppins-black-italic {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: italic;
 }
 
 /* Custom dark theme styles */
@@ -20,17 +145,17 @@
 }
 
 /* Dark theme gradient backgrounds - all variations */
-[data-theme="dark"] .bg-gradient-to-br.from-purple-50,
-[data-theme="dark"] .bg-gradient-to-br.from-blue-50,
-[data-theme="dark"] .bg-gradient-to-br.from-pink-50,
-[data-theme="dark"] .bg-gradient-to-br.from-purple-50.via-pink-50,
-[data-theme="dark"] .bg-gradient-to-br.from-purple-50.to-pink-50,
-[data-theme="dark"] .bg-gradient-to-br.from-blue-50.to-purple-50 {
+[data-theme="dark"] .bg-gradient-to-br.from-amber-50,
+[data-theme="dark"] .bg-gradient-to-br.from-yellow-50,
+[data-theme="dark"] .bg-gradient-to-br.from-orange-50,
+[data-theme="dark"] .bg-gradient-to-br.from-amber-50.via-yellow-50,
+[data-theme="dark"] .bg-gradient-to-br.from-amber-50.to-yellow-50,
+[data-theme="dark"] .bg-gradient-to-br.from-amber-50.to-orange-50 {
   background: linear-gradient(to bottom right, #1f2937, #111827) !important;
 }
 
 /* Specific gradient combinations */
-[data-theme="dark"] .bg-gradient-to-br.from-purple-50.via-pink-50.to-blue-50 {
+[data-theme="dark"] .bg-gradient-to-br.from-amber-50.via-yellow-50.to-orange-50 {
   background: linear-gradient(to bottom right, #1f2937 0%, #111827 50%, #0f172a 100%) !important;
 }
 
@@ -64,4 +189,110 @@
 section,
 div {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+}
+
+/* Professional button animations - DaisyUI Style */
+.btn-animate {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-animate::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.8s ease, height 0.8s ease;
+}
+
+.btn-animate:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+.btn-animate:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(232, 168, 3, 0.4);
+}
+
+.btn-animate:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Card hover effects - Optimized for Framer Motion + GSAP */
+.card-hover {
+  transition: box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.card-hover:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+/* Button styles - DaisyUI Professional */
+.btn {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-sm {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+}
+
+.btn-lg {
+  font-size: 1rem;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: 0.5rem;
+}
+
+.btn-primary {
+  box-shadow: 0 4px 15px rgba(232, 168, 3, 0.3);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 8px 25px rgba(232, 168, 3, 0.4);
+}
+
+.btn-ghost {
+  background-color: transparent;
+}
+
+.btn-ghost:hover {
+  background-color: rgba(232, 168, 3, 0.1);
+}
+
+.btn-circle {
+  border-radius: 50%;
+  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }

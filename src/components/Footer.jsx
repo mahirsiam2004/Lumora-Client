@@ -9,10 +9,12 @@ import {
   FiMapPin,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
+import { LogoDark } from "./LogoDark";
+
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
+    <footer className="bg-gradient-to-br from-gray-900 via-[#1a1a1a] to-gray-900 text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
@@ -22,23 +24,24 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+              {/* <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xl">L</span>
-              </div>
-              <span className="text-2xl font-bold">Lumora</span>
+              </div> */}
+              {/* <span className="text-2xl font-bold">Lumora</span> */}
+              <LogoDark></LogoDark>
             </div>
             <p className="text-gray-300 mb-4">
               Transform your spaces into extraordinary experiences with our
               professional decoration services.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-purple-400 transition-colors">
+              <a href="#" className="hover:text-[#e8a803] transition-colors">
                 <FiFacebook size={20} />
               </a>
-              <a href="#" className="hover:text-purple-400 transition-colors">
+              <a href="#" className="hover:text-[#e8a803] transition-colors">
                 <FiInstagram size={20} />
               </a>
-              <a href="#" className="hover:text-purple-400 transition-colors">
+              <a href="#" className="hover:text-[#e8a803] transition-colors">
                 <FiTwitter size={20} />
               </a>
             </div>
@@ -56,7 +59,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/services"
-                  className="text-gray-300 hover:text-purple-400 transition-colors"
+                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
                 >
                   Services
                 </Link>
@@ -64,7 +67,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/coverage-map"
-                  className="text-gray-300 hover:text-purple-400 transition-colors"
+                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
                 >
                   Coverage Map
                 </Link>
@@ -72,7 +75,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-gray-300 hover:text-purple-400 transition-colors"
+                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
                 >
                   About Us
                 </Link>
@@ -80,7 +83,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-gray-300 hover:text-purple-400 transition-colors"
+                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
                 >
                   Contact
                 </Link>
@@ -98,15 +101,15 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-3">
               <li className="flex items-center space-x-2">
-                <FiPhone className="text-purple-400" />
+                <FiPhone className="text-[#e8a803]" />
                 <span className="text-gray-300">+880 1234-567890</span>
               </li>
               <li className="flex items-center space-x-2">
-                <FiMail className="text-purple-400" />
+                <FiMail className="text-[#e8a803]" />
                 <span className="text-gray-300">info@lumora.com</span>
               </li>
               <li className="flex items-start space-x-2">
-                <FiMapPin className="text-purple-400 mt-1" />
+                <FiMapPin className="text-[#e8a803] mt-1" />
                 <span className="text-gray-300">Dhaka, Bangladesh</span>
               </li>
             </ul>

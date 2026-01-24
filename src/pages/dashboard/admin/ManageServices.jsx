@@ -124,7 +124,7 @@ const ManageServices = () => {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">
           Manage{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             Services
           </span>
         </h1>
@@ -141,7 +141,7 @@ const ManageServices = () => {
             });
             setShowModal(true);
           }}
-          className="btn bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+          className="btn bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
         >
           <FiPlus /> Add Service
         </button>
@@ -321,7 +321,7 @@ const ManageServices = () => {
                 </button>
                 <button
                   type="submit"
-                  className="btn bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+                  className="btn bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
                 >
                   {editingService ? "Update" : "Create"}
                 </button>

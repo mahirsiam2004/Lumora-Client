@@ -13,6 +13,7 @@ import {
 } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { Logo } from "./Logo";
 
 const Navbar = () => {
   const { user, userRole, logoutUser } = useAuth();
@@ -57,16 +58,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <motion.div
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.6 }}
-              className="w-10 h-10 bg-gradient-to-br from-purple-600 to-pink-500 rounded-lg flex items-center justify-center"
-            >
-              <span className="text-white font-bold text-xl">L</span>
-            </motion.div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
-              Lumora
-            </span>
+            <Logo />
           </Link>
 
           {/* Desktop Menu */}
@@ -77,8 +69,8 @@ const Navbar = () => {
                 to={link.to}
                 className={({ isActive }) =>
                   `font-medium transition-colors ${isActive
-                    ? "text-purple-600"
-                    : "text-base-content hover:text-purple-600"
+                    ? "text-[#e8a803]"
+                    : "text-base-content hover:text-[#e8a803]"
                   }`
                 }
               >
@@ -89,65 +81,56 @@ const Navbar = () => {
 
           {/* Auth Section */}
           <div className="hidden lg:flex items-center space-x-4">
-            {/* Theme Toggle */}
-            <button onClick={toggleTheme} className="btn btn-ghost btn-circle">
-              {theme === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
-            </button>
 
             {user ? (
-              <div className="flex items-center space-x-4">
-                {(userRole === "admin" || userRole === "decorator") && (
-                  <Link
-                    to={`/dashboard/${userRole}`}
-                    className="btn btn-sm btn-outline btn-primary"
-                  >
-                    <FiGrid className="mr-1" />
-                    Dashboard
-                  </Link>
-                )}
-                {userRole === "user" && (
-                  <Link
-                    to="/dashboard"
-                    className="btn btn-sm btn-outline btn-primary"
-                  >
-                    <FiUser className="mr-1" />
-                    My Account
-                  </Link>
-                )}
-                <div className="dropdown dropdown-end">
-                  <label
+              <div className="flex items-center gap-4">
+                <details className="dropdown dropdown-end">
+                  <summary
                     tabIndex={0}
-                    className="btn btn-ghost btn-circle avatar"
+                    role="button"
+                    className="btn btn-ghost normal-case gap-2 flex items-center"
                   >
-                    <div className="w-10 rounded-full ring ring-purple-500 ring-offset-2">
+                    <div className="w-10 rounded-full ring ring-[#e8a803] ring-offset-2 overflow-hidden">
                       <img
                         referrerPolicy="no-referrer"
                         src={
                           user.photoURL || "https://i.ibb.co/3YRjQxv/user.png"
                         }
                         alt={user.displayName}
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                  </label>
+                    <span className="hidden md:inline-block font-medium text-base-content">
+                      {user.displayName}
+                    </span>
+                  </summary>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-52 mt-3"
+                    className="dropdown-content z-[50] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4"
                   >
-                    <li className="menu-title">
-                      <span>{user.displayName}</span>
+                    <li className="menu-title px-4 py-2 text-center text-[#e8a803] font-semibold border-b border-base-200 mb-2">
+                      {user.displayName}
                     </li>
+
+                    <li>
+                      <Link to={userRole === "user" ? "/dashboard" : `/dashboard/${userRole}`}>
+                        {userRole === "user" ? <FiUser /> : <FiGrid />}
+                        Dashboard
+                      </Link>
+                    </li>
+
                     <li>
                       <Link to="/dashboard/my-profile">
                         <FiUser /> Profile
                       </Link>
                     </li>
                     <li>
-                      <button onClick={handleLogout}>
+                      <button onClick={handleLogout} className="text-error">
                         <FiLogOut /> Logout
                       </button>
                     </li>
                   </ul>
-                </div>
+                </details>
               </div>
             ) : (
               <div className="flex items-center space-x-3">
@@ -156,12 +139,24 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="btn btn-primary btn-sm bg-gradient-to-r from-purple-600 to-pink-500 border-none"
+                  className="btn btn-primary btn-sm btn-animate bg-gradient-to-r from-[#e8a803] via-[#f59e0b] to-[#fbbf24] text-white border-none hover:shadow-xl relative overflow-hidden group"
                 >
-                  Get Started
+                  <span className="relative z-10">Get Started</span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#e8a803] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </Link>
               </div>
             )}
+
+            {/* Theme Toggle - Right Side */}
+            <motion.button
+              onClick={toggleTheme}
+              whileHover={{ rotate: 20 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn btn-ghost btn-circle text-[#e8a803]"
+              title="Toggle theme"
+            >
+              {theme === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
+            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -189,7 +184,7 @@ const Navbar = () => {
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
                     `px-4 py-2 rounded-lg font-medium ${isActive
-                      ? "bg-purple-100 text-purple-600"
+                      ? "bg-[#e8a80320] text-[#e8a803]"
                       : "text-base-content"
                     }`
                   }

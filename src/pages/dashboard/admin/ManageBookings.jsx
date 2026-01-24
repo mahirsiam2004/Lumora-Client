@@ -66,7 +66,7 @@ const ManageBookings = () => {
     <div>
       <h1 className="text-4xl font-bold mb-8">
         Manage{" "}
-        <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
           Bookings
         </span>
       </h1>

@@ -4,14 +4,14 @@ import { FiHome } from "react-icons/fi";
 
 export const ErrorPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-yellow-50">
       <div className="text-center">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-9xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <h1 className="text-9xl font-bold bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             404
           </h1>
         </motion.div>
@@ -30,7 +30,7 @@ export const ErrorPage = () => {
         >
           <Link
             to="/"
-            className="btn btn-lg bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none"
+            className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
           >
             <FiHome className="mr-2" />
             Back to Home

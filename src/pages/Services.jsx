@@ -1,7 +1,8 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { gsap } from "gsap";
 import axios from "../utilits/axiosInstance";
 import { FiSearch, FiFilter } from "react-icons/fi";
 import Skeleton from "react-loading-skeleton";
@@ -17,6 +18,9 @@ const Services = () => {
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  // Create refs array for GSAP animations
+  const cardRefs = useRef([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -72,7 +76,7 @@ const Services = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#e8a80310] via-[#fbbf2420] to-[#fcd34d10] py-12">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -82,7 +86,7 @@ const Services = () => {
         >
           <h1 className="text-5xl font-bold mb-4">
             Our{" "}
-            <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
               Services
             </span>
           </h1>
@@ -187,55 +191,88 @@ const Services = () => {
             animate={{ opacity: 1 }}
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
-            {services.map((service, index) => (
-              <motion.div
-                key={service._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <Link to={`/services/${service._id}`}>
-                  <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group h-full">
-                    <figure className="relative h-48 overflow-hidden">
-                      <img
-                        src={
-                          service.image ||
-                          "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600"
-                        }
-                        alt={service.service_name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-lg">
-                        <span className="text-xs font-bold text-purple-600">
-                          {service.service_category}
-                        </span>
-                      </div>
-                    </figure>
-                    <div className="card-body">
-                      <h3 className="card-title text-lg">
-                        {service.service_name}
-                      </h3>
-                      <p className="text-gray-600 text-sm line-clamp-2">
-                        {service.description}
-                      </p>
-                      <div className="flex justify-between items-center mt-4">
-                        <div>
-                          <span className="text-xl font-bold text-purple-600">
-                            BDT {service.cost}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            /{service.unit}
+            {services.map((service, index) => {
+              const handleMouseEnter = () => {
+                if (cardRefs.current[index]) {
+                  gsap.to(cardRefs.current[index], {
+                    y: -15,
+                    scale: 1.03,
+                    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
+                    duration: 0.5,
+                    ease: "power3.out",
+                  });
+                }
+              };
+
+              const handleMouseLeave = () => {
+                if (cardRefs.current[index]) {
+                  gsap.to(cardRefs.current[index], {
+                    y: 0,
+                    scale: 1,
+                    boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)",
+                    duration: 0.5,
+                    ease: "power3.out",
+                  });
+                }
+              };
+
+              return (
+                <motion.div
+                  key={service._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+
+                >
+                  <Link to={`/services/${service._id}`}>
+                    <div
+                      ref={(el) => (cardRefs.current[index] = el)}
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                      className="card p-4 rounded-2xl bg-base-100 shadow-xl group h-full"
+                      style={{ boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)" }}
+                    >
+                      <figure className="relative h-48 overflow-hidden">
+                        <img
+                          src={
+                            service.image ||
+                            "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600"
+                          }
+                          alt={service.service_name}
+                          className="w-full roun h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-lg">
+                          <span className="text-xs font-bold text-[#e8a803]">
+                            {service.service_category}
                           </span>
                         </div>
-                        <button className="btn btn-sm bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none">
-                          Book Now
-                        </button>
+                      </figure>
+                      <div className="card-body ">
+                        <h3 className="card-title text-lg">
+                          {service.service_name}
+                        </h3>
+                        <p className="text-gray-600 text-sm line-clamp-2 poppins-regular">
+                          {service.description}
+                        </p>
+                        <div className="flex justify-between items-center mt-4">
+                          <div>
+                            <span className="text-xl font-bold text-[#e8a803]">
+                              BDT {service.cost}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              /{service.unit}
+                            </span>
+                          </div>
+                          <button className="btn btn-sm bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:shadow-lg">
+                            Book Now
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                  </Link>
+                </motion.div>
+              );
+            })}
           </motion.div>
         )}
 

@@ -95,7 +95,7 @@ const Earnings = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           My{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             Earnings
           </span>
         </h1>
@@ -112,7 +112,7 @@ const Earnings = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-purple-600 via-pink-500 to-blue-500 rounded-3xl p-8 text-white mb-8 shadow-2xl"
+            className="bg-gradient-to-br from-[#e8a803] via-[#f59e0b] to-[#fbbf24] rounded-3xl p-8 text-white mb-8 shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <div>

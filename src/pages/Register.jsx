@@ -72,7 +72,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#e8a80310] via-[#fbbf2420] to-[#fcd34d10] py-12 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ const Register = () => {
           <div className="text-center mb-8">
             <h2 className="text-4xl font-bold mb-2">
               Join{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
                 Lumora
               </span>
             </h2>
@@ -149,23 +149,25 @@ const Register = () => {
             </div>
 
             <div className="form-control">
-              <label className="label">
+              <label className="label justify-center">
                 <span className="label-text font-medium">Profile Photo</span>
               </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  setFormData({ ...formData, photoFile: e.target.files[0] })
-                }
-                className="file-input file-input-bordered w-full"
-              />
+              <div className="flex justify-center">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) =>
+                    setFormData({ ...formData, photoFile: e.target.files[0] })
+                  }
+                  className="file-input file-input-bordered file-input-primary w-full"
+                />
+              </div>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-lg w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white border-none hover:scale-105 transition-transform"
+              className="btn btn-lg w-full bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:scale-105 transition-transform"
             >
               {loading ? "Registering..." : "Register"}
             </button>
@@ -185,7 +187,7 @@ const Register = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-purple-600 font-medium hover:underline"
+              className="text-[#e8a803] font-medium hover:underline"
             >
               Login here
             </Link>

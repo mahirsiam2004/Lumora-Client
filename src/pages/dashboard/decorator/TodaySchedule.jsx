@@ -43,7 +43,7 @@ const TodaySchedule = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           Today's{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
             Schedule
           </span>
         </h1>
@@ -65,7 +65,7 @@ const TodaySchedule = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl p-12 text-center"
+          className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-3xl p-12 text-center"
         >
           <div className="text-6xl mb-4">🎉</div>
           <h2 className="text-3xl font-bold mb-2">No Projects Today!</h2>
@@ -91,7 +91,7 @@ const TodaySchedule = () => {
 
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
                         <FiUser className="text-blue-600" />
                       </div>
                       <div>
@@ -103,7 +103,7 @@ const TodaySchedule = () => {
                     </div>
 
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
                         <FiMapPin className="text-purple-600" />
                       </div>
                       <p className="text-base-content">{project.location}</p>
