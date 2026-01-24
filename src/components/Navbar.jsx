@@ -11,7 +11,7 @@ import {
   FiMoon,
   FiSun,
 } from "react-icons/fi";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { Logo } from "./Logo";
 
@@ -20,11 +20,30 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [mobileMenu, setMobileMenu] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -32,6 +51,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
+      setDropdownOpen(false);
       await logoutUser();
       toast.success("Logged out successfully!");
       navigate("/");
@@ -68,9 +88,10 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `font-medium transition-colors ${isActive
-                    ? "text-[#e8a803]"
-                    : "text-base-content hover:text-[#e8a803]"
+                  `font-medium transition-colors ${
+                    isActive
+                      ? "text-[#e8a803]"
+                      : "text-base-content hover:text-[#e8a803]"
                   }`
                 }
               >
@@ -81,56 +102,94 @@ const Navbar = () => {
 
           {/* Auth Section */}
           <div className="hidden lg:flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              whileHover={{ rotate: 20 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-2 rounded-lg hover:bg-base-200 text-[#e8a803] transition-colors duration-200"
+              title="Toggle theme"
+            >
+              {theme === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
+            </motion.button>
 
             {user ? (
-              <div className="flex items-center gap-4">
-                <details className="dropdown dropdown-end">
-                  <summary
-                    tabIndex={0}
-                    role="button"
-                    className="btn btn-ghost normal-case gap-2 flex items-center"
+              <div className="flex items-center space-x-4">
+                {(userRole === "admin" || userRole === "decorator") && (
+                  <Link
+                    to={`/dashboard/${userRole}`}
+                    className="btn btn-sm btn-outline hover:bg-[#e8a803] hover:border-[#e8a803] hover:text-white border-[#e8a803] text-[#e8a803]"
                   >
-                    <div className="w-10 rounded-full ring ring-[#e8a803] ring-offset-2 overflow-hidden">
+                    <FiGrid className="mr-1" />
+                    Dashboard
+                  </Link>
+                )}
+                {userRole === "user" && (
+                  <Link
+                    to="/dashboard"
+                    className="btn btn-sm btn-outline hover:bg-[#e8a803] hover:border-[#e8a803] hover:text-white border-[#e8a803] text-[#e8a803]"
+                  >
+                    <FiUser className="mr-1" />
+                    My Account
+                  </Link>
+                )}
+                
+                {/* Avatar Dropdown */}
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="btn btn-ghost btn-circle avatar"
+                  >
+                    <div className="w-10 rounded-full ring ring-[#e8a803] ring-offset-base-100 ring-offset-2">
                       <img
                         referrerPolicy="no-referrer"
+                        className="rounded-full"
                         src={
                           user.photoURL || "https://i.ibb.co/3YRjQxv/user.png"
                         }
                         alt={user.displayName}
-                        className="w-full h-full object-cover"
                       />
                     </div>
-                    <span className="hidden md:inline-block font-medium text-base-content">
-                      {user.displayName}
-                    </span>
-                  </summary>
-                  <ul
-                    tabIndex={0}
-                    className="dropdown-content z-[50] menu p-2 shadow bg-base-100 rounded-box w-52 mt-4"
-                  >
-                    <li className="menu-title px-4 py-2 text-center text-[#e8a803] font-semibold border-b border-base-200 mb-2">
-                      {user.displayName}
-                    </li>
+                  </button>
 
-                    <li>
-                      <Link to={userRole === "user" ? "/dashboard" : `/dashboard/${userRole}`}>
-                        {userRole === "user" ? <FiUser /> : <FiGrid />}
-                        Dashboard
-                      </Link>
-                    </li>
-
-                    <li>
-                      <Link to="/dashboard/my-profile">
-                        <FiUser /> Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <button onClick={handleLogout} className="text-error">
-                        <FiLogOut /> Logout
-                      </button>
-                    </li>
-                  </ul>
-                </details>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-52 bg-base-100 rounded-box shadow-lg border border-base-300 overflow-hidden z-[100]"
+                    >
+                      <div className="p-3 border-b border-base-200">
+                        <p className="font-semibold text-sm truncate">
+                          {user.displayName}
+                        </p>
+                        <p className="text-xs text-base-content opacity-60 capitalize">
+                          {userRole === "user" ? "Customer" : userRole}
+                        </p>
+                      </div>
+                      
+                      <ul className="menu p-2">
+                        <li>
+                          <Link
+                            to="/dashboard/my-profile"
+                            onClick={() => setDropdownOpen(false)}
+                            className="flex items-center gap-2"
+                          >
+                            <FiUser size={16} /> Profile
+                          </Link>
+                        </li>
+                        <li>
+                          <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-2 text-error hover:bg-error hover:bg-opacity-10"
+                          >
+                            <FiLogOut size={16} /> Logout
+                          </button>
+                        </li>
+                      </ul>
+                    </motion.div>
+                  )}
+                </div>
               </div>
             ) : (
               <div className="flex items-center space-x-3">
@@ -139,33 +198,23 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="btn btn-primary btn-sm btn-animate bg-gradient-to-r from-[#e8a803] via-[#f59e0b] to-[#fbbf24] text-white border-none hover:shadow-xl relative overflow-hidden group"
+                  className="btn btn-sm bg-gradient-to-r from-[#e8a803] via-[#f59e0b] to-[#fbbf24] border-none text-white hover:shadow-lg transition-all"
                 >
-                  <span className="relative z-10">Get Started</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#e8a803] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  Get Started
                 </Link>
               </div>
             )}
-
-            {/* Theme Toggle - Right Side */}
-            <motion.button
-              onClick={toggleTheme}
-              whileHover={{ rotate: 20 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn btn-ghost btn-circle text-[#e8a803]"
-              title="Toggle theme"
-            >
-              {theme === "light" ? <FiMoon size={20} /> : <FiSun size={20} />}
-            </motion.button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenu(!mobileMenu)}
-            className="lg:hidden btn btn-ghost btn-circle"
-          >
-            {mobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
+          {/* Mobile Menu Button - Only visible on mobile/tablet */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setMobileMenu(!mobileMenu)}
+              className="btn btn-ghost btn-circle"
+            >
+              {mobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -174,37 +223,59 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden pb-4"
+            className="lg:hidden pb-4 border-t border-base-200"
           >
-            <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-3 pt-4">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
-                    `px-4 py-2 rounded-lg font-medium ${isActive
-                      ? "bg-[#e8a80320] text-[#e8a803]"
-                      : "text-base-content"
+                    `px-4 py-2 rounded-lg font-medium transition-colors ${
+                      isActive
+                        ? "bg-[#e8a803] bg-opacity-10 text-[#e8a803]"
+                        : "text-base-content hover:bg-base-200"
                     }`
                   }
                 >
                   {link.label}
                 </NavLink>
               ))}
+              
+              <div className="divider my-2"></div>
+              
+              {/* Theme Toggle Mobile */}
+              <button
+                onClick={toggleTheme}
+                className="flex items-center gap-3 px-4 py-2 rounded-lg font-medium text-base-content hover:bg-base-200 transition-colors"
+              >
+                {theme === "light" ? <FiMoon size={18} /> : <FiSun size={18} />}
+                {theme === "light" ? "Dark Mode" : "Light Mode"}
+              </button>
+              
               {user ? (
                 <>
                   <Link
-                    to="/dashboard"
+                    to={
+                      userRole === "user"
+                        ? "/dashboard"
+                        : `/dashboard/${userRole}`
+                    }
                     onClick={() => setMobileMenu(false)}
-                    className="btn btn-sm btn-outline btn-primary"
+                    className="btn btn-sm btn-outline hover:bg-[#e8a803] hover:border-[#e8a803] hover:text-white border-[#e8a803] text-[#e8a803]"
                   >
+                    <FiGrid className="mr-1" />
                     Dashboard
                   </Link>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      setMobileMenu(false);
+                      handleLogout();
+                    }}
                     className="btn btn-sm btn-error"
                   >
+                    <FiLogOut className="mr-1" />
                     Logout
                   </button>
                 </>
@@ -220,7 +291,7 @@ const Navbar = () => {
                   <Link
                     to="/register"
                     onClick={() => setMobileMenu(false)}
-                    className="btn btn-sm btn-primary"
+                    className="btn btn-sm bg-gradient-to-r from-[#e8a803] via-[#f59e0b] to-[#fbbf24] border-none text-white"
                   >
                     Register
                   </Link>
