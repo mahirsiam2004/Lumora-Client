@@ -651,7 +651,7 @@ const Home = () => {
   // FAQ Section
   const FaqSection = () => (
     <section className="py-20 bg-gradient-to-br from-amber-50 to-orange-50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -669,7 +669,7 @@ const Home = () => {
           </p>
         </motion.div>
 
-        <div className="max-w-3xl mx-auto space-y-4">
+        <div className="max-w-3xl mx-auto space-y-4 ">
           {[
             {
               question: "How far in advance should I book?",
@@ -730,7 +730,7 @@ const Home = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="input input-lg flex-1 max-w-md"
+              className="input input-lg flex-1 max-w-md border border-2  rounded-2xl text-black border-white px-10"
             />
             <button className="btn btn-lg bg-white text-[#e8a803] hover:bg-gray-100 border-none">
               Subscribe

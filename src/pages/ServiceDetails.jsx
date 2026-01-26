@@ -135,7 +135,7 @@ const ServiceDetails = () => {
                 transition={{ delay: 0.2 }}
                 className="flex items-center space-x-4"
               >
-                <span className="badge badge-lg bg-white text-[#e8a803]">
+                <span className="py-2 px-8 rounded-xl font-bold badge badge-lg bg-white/20 text-[#e8a803]">
                   {service.service_category}
                 </span>
               </motion.div>
