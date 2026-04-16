@@ -199,7 +199,9 @@ const AdminDashboard = () => {
           </ResponsiveContainer>
         ) : (
           <div className="text-center py-20 text-gray-500">
-            <div className="text-6xl mb-4">📊</div>
+            <div className="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center mx-auto mb-4">
+              <FiBarChart2 size={28} className="text-base-content/30" />
+            </div>
             <p className="text-xl">No booking data available yet</p>
             <p className="text-sm mt-2">
               Data will appear once services are booked

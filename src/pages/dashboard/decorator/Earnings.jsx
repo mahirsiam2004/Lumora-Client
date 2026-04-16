@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
-import { FiDollarSign, FiCheckCircle, FiCalendar } from "react-icons/fi";
+import { FiDollarSign, FiCheckCircle, FiCalendar, FiInbox } from "react-icons/fi";
 import {
   LineChart,
   Line,
@@ -204,7 +204,9 @@ const Earnings = () => {
 
             {earnings.payments.length === 0 ? (
               <div className="text-center py-20">
-                <div className="text-6xl mb-4">💰</div>
+                <div className="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center mx-auto mb-4">
+                  <FiInbox size={28} className="text-base-content/30" />
+                </div>
                 <p className="text-xl text-gray-600 mb-2">No payments yet</p>
                 <p className="text-sm text-gray-500">
                   Complete projects to start earning

@@ -723,16 +723,16 @@ const Home = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             Stay Updated
           </h2>
-          <p className="text-white/90 mb-8">
+          <p className="text-white/80 mb-8 text-lg">
             Subscribe to our newsletter for exclusive offers and decoration tips
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
             <input
               type="email"
-              placeholder="Enter your email"
-              className="input input-lg flex-1 max-w-md border border-2  rounded-2xl text-black border-white px-10"
+              placeholder="Enter your email address"
+              className="flex-1 h-12 px-5 rounded-xl text-sm font-medium bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/60 focus:outline-none focus:bg-white/30 focus:border-white/60 transition-all"
             />
-            <button className="btn btn-lg bg-white text-[#e8a803] hover:bg-gray-100 border-none">
+            <button className="h-12 px-6 rounded-xl bg-white text-[#e8a803] font-semibold text-sm hover:bg-white/90 transition-all shadow-lg whitespace-nowrap">
               Subscribe
             </button>
           </div>

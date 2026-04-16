@@ -11,7 +11,7 @@ const DashboardRedirect = () => {
     return <LoadingSpinner />;
   }
 
-  // Redirect based on user role
+ 
   if (userRole === "admin") {
     return <Navigate to="/dashboard/admin" replace />;
   }
@@ -20,7 +20,6 @@ const DashboardRedirect = () => {
     return <Navigate to="/dashboard/decorator" replace />;
   }
 
-  // Show user dashboard for regular users
   return <UserDashboard />;
 };
 

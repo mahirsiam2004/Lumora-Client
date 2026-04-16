@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { FiCheckCircle, FiArrowRight } from "react-icons/fi";
+import { FiCheckCircle, FiArrowRight, FiMail } from "react-icons/fi";
 import confetti from "canvas-confetti";
 
 const PaymentSuccess = () => {
@@ -168,14 +168,18 @@ const PaymentSuccess = () => {
             transition={{ delay: 0.7 }}
             className="mt-8 p-4 bg-amber-50 rounded-xl"
           >
-            <p className="text-sm text-gray-600">
-              📧 A confirmation email has been sent to{" "}
-              <strong>{paymentDetails?.userEmail}</strong>
-            </p>
-            <p className="text-sm text-gray-600 mt-2">
-              Our team will contact you shortly to confirm the decoration
-              details.
-            </p>
+            <div className="flex items-start gap-2 text-sm text-gray-600">
+              <FiMail size={15} className="text-[#e8a803] flex-shrink-0 mt-0.5" />
+              <div>
+                <p>
+                  A confirmation email has been sent to{" "}
+                  <strong>{paymentDetails?.userEmail}</strong>
+                </p>
+                <p className="mt-1">
+                  Our team will contact you shortly to confirm the decoration details.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </motion.div>
