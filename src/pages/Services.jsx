@@ -19,7 +19,7 @@ const Services = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Create refs array for GSAP animations
+
   const cardRefs = useRef([]);
 
   useEffect(() => {
@@ -99,18 +99,18 @@ const Services = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-base-100 rounded-2xl shadow-xl p-6 mb-8"
+          className="bg-base-100 rounded-2xl border border-base-200 shadow-sm p-6 mb-8"
         >
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search */}
             <div className="relative">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <FiSearch size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base-content/40 pointer-events-none" />
               <input
                 type="text"
                 placeholder="Search services..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="input input-bordered w-full pl-10"
+                className="input input-bordered w-full pl-10 text-sm"
               />
             </div>
 
@@ -118,41 +118,39 @@ const Services = () => {
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full text-sm"
             >
               <option value="all">All Categories</option>
               {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
+                <option key={cat} value={cat}>{cat}</option>
               ))}
             </select>
 
             {/* Min Price */}
             <input
               type="number"
-              placeholder="Min Price"
+              placeholder="Min price (BDT)"
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full text-sm"
             />
 
             {/* Max Price */}
             <input
               type="number"
-              placeholder="Max Price"
+              placeholder="Max price (BDT)"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="input input-bordered w-full"
+              className="input input-bordered w-full text-sm"
             />
 
             {/* Sort */}
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value)}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full text-sm"
             >
-              <option value="">Sort By</option>
+              <option value="">Sort by</option>
               <option value="price_asc">Price: Low to High</option>
               <option value="price_desc">Price: High to Low</option>
               <option value="newest">Newest First</option>
@@ -160,8 +158,8 @@ const Services = () => {
           </div>
 
           <div className="flex justify-end mt-4">
-            <button onClick={handleReset} className="btn btn-ghost btn-sm">
-              <FiFilter /> Reset Filters
+            <button onClick={handleReset} className="btn btn-ghost btn-sm gap-1.5 text-base-content/60 hover:text-base-content">
+              <FiFilter size={14} /> Reset Filters
             </button>
           </div>
         </motion.div>

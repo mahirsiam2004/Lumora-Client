@@ -1,5 +1,6 @@
 // src/layouts/DashboardLayout.jsx
 import { Outlet, Link, NavLink } from "react-router-dom";
+import ScrollToTop from "../components/ScrollToTop";
 import { useAuth } from "../contexts/AuthContext";
 import { motion } from "framer-motion";
 import {
@@ -93,6 +94,7 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-base-200">
+      <ScrollToTop />
       {/* Mobile Menu Button */}
       <div className="lg:hidden fixed top-20 left-4 z-50">
         <button
@@ -115,15 +117,15 @@ const DashboardLayout = () => {
         >
           <div className="p-6 overflow-y-auto h-full">
             {/* User Info */}
-            <div className="flex items-center space-x-3 mb-8">
+            <div className="flex items-center space-x-3 mb-8 p-3 rounded-xl bg-base-200">
               <img
                 src={user?.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
                 alt={user?.displayName}
-                className="w-12 h-12 rounded-full ring-2 ring-purple-500 object-cover"
+                className="w-11 h-11 rounded-full ring-2 ring-[#e8a803] ring-offset-2 ring-offset-base-200 object-cover flex-shrink-0"
               />
-              <div>
-                <p className="font-semibold text-sm">{user?.displayName}</p>
-                <p className="text-xs text-gray-500 capitalize">{userRole}</p>
+              <div className="min-w-0">
+                <p className="font-semibold text-sm truncate">{user?.displayName}</p>
+                <p className="text-xs text-gray-500 capitalize">{userRole === "user" ? "Customer" : userRole}</p>
               </div>
             </div>
 

@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import {
   FiFacebook,
@@ -8,141 +7,112 @@ import {
   FiPhone,
   FiMapPin,
 } from "react-icons/fi";
-import { motion } from "framer-motion";
 import { LogoDark } from "./LogoDark";
 
-
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-[#1a1a1a] to-gray-900 text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* About */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="flex items-center space-x-2 mb-4">
-              {/* <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">L</span>
-              </div> */}
-              {/* <span className="text-2xl font-bold">Lumora</span> */}
-              <LogoDark></LogoDark>
+    <footer className="bg-[#0f172a] text-slate-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <div className="mb-4">
+              <LogoDark />
             </div>
-            <p className="text-gray-300 mb-4">
+            <p className="text-slate-400 text-sm leading-relaxed mb-5">
               Transform your spaces into extraordinary experiences with our
-              professional decoration services.
+              professional decoration services across Dhaka.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="hover:text-[#e8a803] transition-colors">
-                <FiFacebook size={20} />
-              </a>
-              <a href="#" className="hover:text-[#e8a803] transition-colors">
-                <FiInstagram size={20} />
-              </a>
-              <a href="#" className="hover:text-[#e8a803] transition-colors">
-                <FiTwitter size={20} />
-              </a>
+            <div className="flex items-center gap-3">
+              {[
+                { icon: FiFacebook, href: "#" },
+                { icon: FiInstagram, href: "#" },
+                { icon: FiTwitter, href: "#" },
+              ].map(({ icon: Icon, href }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  className="w-9 h-9 rounded-lg bg-white/5 hover:bg-[#e8a803] flex items-center justify-center text-slate-400 hover:text-white transition-all duration-200"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-          >
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/services"
-                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/coverage-map"
-                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
-                >
-                  Coverage Map
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/about"
-                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/contact"
-                  className="text-gray-300 hover:text-[#e8a803] transition-colors"
-                >
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Quick Links</h4>
             <ul className="space-y-3">
-              <li className="flex items-center space-x-2">
-                <FiPhone className="text-[#e8a803]" />
-                <span className="text-gray-300">+880 1234-567890</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <FiMail className="text-[#e8a803]" />
-                <span className="text-gray-300">info@lumora.com</span>
-              </li>
-              <li className="flex items-start space-x-2">
-                <FiMapPin className="text-[#e8a803] mt-1" />
-                <span className="text-gray-300">Dhaka, Bangladesh</span>
-              </li>
+              {[
+                { to: "/services", label: "Services" },
+                { to: "/coverage-map", label: "Coverage Map" },
+                { to: "/about", label: "About Us" },
+                { to: "/contact", label: "Contact" },
+              ].map(({ to, label }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="text-slate-400 hover:text-[#e8a803] text-sm transition-colors duration-200"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </motion.div>
+          </div>
 
-          {/* Working Hours */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
-            <h3 className="text-lg font-semibold mb-4">Working Hours</h3>
-            <ul className="space-y-2 text-gray-300">
-              <li className="flex justify-between">
-                <span>Monday - Friday</span>
-                <span>9:00 AM - 8:00 PM</span>
+          {/* Contact */}
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Contact</h4>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-3 text-sm">
+                <FiPhone size={15} className="text-[#e8a803] flex-shrink-0" />
+                <span className="text-slate-400">+880 1234-567890</span>
               </li>
-              <li className="flex justify-between">
-                <span>Saturday</span>
-                <span>10:00 AM - 6:00 PM</span>
+              <li className="flex items-center gap-3 text-sm">
+                <FiMail size={15} className="text-[#e8a803] flex-shrink-0" />
+                <span className="text-slate-400">info@lumora.com</span>
               </li>
-              <li className="flex justify-between">
-                <span>Sunday</span>
-                <span>Closed</span>
+              <li className="flex items-start gap-3 text-sm">
+                <FiMapPin size={15} className="text-[#e8a803] flex-shrink-0 mt-0.5" />
+                <span className="text-slate-400">Dhaka, Bangladesh</span>
               </li>
             </ul>
-          </motion.div>
+          </div>
+
+          {/* Hours */}
+          <div>
+            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Working Hours</h4>
+            <ul className="space-y-3 text-sm">
+              <li className="flex justify-between gap-4">
+                <span className="text-slate-400">Mon – Fri</span>
+                <span className="text-slate-300 font-medium">9am – 8pm</span>
+              </li>
+              <li className="flex justify-between gap-4">
+                <span className="text-slate-400">Saturday</span>
+                <span className="text-slate-300 font-medium">10am – 6pm</span>
+              </li>
+              <li className="flex justify-between gap-4">
+                <span className="text-slate-400">Sunday</span>
+                <span className="text-slate-500">Closed</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} Lumora. All rights reserved.</p>
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-slate-500 text-sm">
+            &copy; {year} Lumora. All rights reserved.
+          </p>
+          <div className="flex items-center gap-5 text-sm">
+            <a href="#" className="text-slate-500 hover:text-slate-300 transition-colors">Privacy Policy</a>
+            <a href="#" className="text-slate-500 hover:text-slate-300 transition-colors">Terms of Service</a>
+          </div>
         </div>
       </div>
     </footer>

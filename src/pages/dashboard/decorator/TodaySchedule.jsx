@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useAuth } from "../../../contexts/AuthContext";
-import { FiCalendar, FiMapPin, FiUser } from "react-icons/fi";
+import { FiCalendar, FiMapPin, FiUser, FiSun } from "react-icons/fi";
 
 const TodaySchedule = () => {
   const { user } = useAuth();
@@ -67,7 +67,9 @@ const TodaySchedule = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-3xl p-12 text-center"
         >
-          <div className="text-6xl mb-4">🎉</div>
+          <div className="w-20 h-20 rounded-full bg-[#e8a803]/10 flex items-center justify-center mx-auto mb-5">
+            <FiSun size={36} className="text-[#e8a803]" />
+          </div>
           <h2 className="text-3xl font-bold mb-2">No Projects Today!</h2>
           <p className="text-gray-600 text-lg">
             Enjoy your free time or catch up on pending tasks

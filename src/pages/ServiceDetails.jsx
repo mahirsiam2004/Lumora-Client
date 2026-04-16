@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "../utilits/axiosInstance";
 import { useAuth } from "../contexts/AuthContext";
@@ -10,6 +10,8 @@ import {
   FiDollarSign,
   FiTag,
   FiStar,
+  FiX,
+  FiArrowRight,
 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
@@ -21,7 +23,7 @@ const ServiceDetails = () => {
 
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [relatedServices, setRelatedServices] = useState([]);
 
   const [bookingData, setBookingData] = useState({
     bookingDate: "",
@@ -36,6 +38,13 @@ const ServiceDetails = () => {
           `${import.meta.env.VITE_API_URL}/api/services/${id}`
         );
         setService(data);
+
+        // Fetch related services from same category
+        const relRes = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/services?limit=4`
+        );
+        const all = relRes.data.services || [];
+        setRelatedServices(all.filter((s) => s._id !== id).slice(0, 2));
       } catch (error) {
         console.error("Error fetching service:", error);
         toast.error("Failed to load service details");
@@ -208,52 +217,69 @@ const ServiceDetails = () => {
                 <div className="space-y-4">
                   {[
                     {
-                      user: "Alice Green",
+                      user: "Nusrat Jahan",
                       rating: 5,
                       date: "2 days ago",
                       comment:
-                        "Absolutely amazing service! The team was professional and the decorations were stunning.",
-                      avatar: "https://i.pravatar.cc/150?u=alice",
+                        "অসাধারণ সার্ভিস! টিম খুবই প্রফেশনাল ছিল এবং ডেকোরেশন দেখে সবাই মুগ্ধ হয়ে গেছে।",
+                      avatar: "https://i.pravatar.cc/150?img=47",
                     },
                     {
-                      user: "John Doe",
+                      user: "Md. Rakibul Hasan",
+                      rating: 5,
+                      date: "4 days ago",
+                      comment:
+                        "Wedding decoration was absolutely breathtaking. Every detail was perfect. Highly recommend Lumora to everyone!",
+                      avatar: "https://i.pravatar.cc/150?img=12",
+                    },
+                    {
+                      user: "Fatema Akter",
                       rating: 4,
                       date: "1 week ago",
                       comment:
-                        "Great experience overall. Highly recommended for wedding decorations.",
-                      avatar: "https://i.pravatar.cc/150?u=john",
+                        "খুব সুন্দর কাজ করেছে। সময়মতো এসেছে এবং সব কিছু পরিষ্কার-পরিচ্ছন্নভাবে সাজিয়েছে। পরের বার আবার নেব।",
+                      avatar: "https://i.pravatar.cc/150?img=44",
                     },
                   ].map((review, i) => (
-                    <div key={i} className="bg-base-200 p-4 rounded-xl">
-                      <div className="flex items-center justify-between mb-2">
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="bg-base-200 p-5 rounded-xl"
+                    >
+                      <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center space-x-3">
                           <img
                             src={review.avatar}
                             alt={review.user}
-                            className="w-10 h-10 rounded-full"
+                            className="w-11 h-11 rounded-full object-cover ring-2 ring-[#e8a803]/20"
                           />
                           <div>
-                            <div className="font-bold">{review.user}</div>
-                            <div className="text-xs text-gray-500">
+                            <div className="font-semibold text-sm">{review.user}</div>
+                            <div className="text-xs text-base-content/40 mt-0.5">
                               {review.date}
                             </div>
                           </div>
                         </div>
-                        <div className="flex text-yellow-500">
+                        <div className="flex items-center gap-0.5">
                           {[...Array(5)].map((_, starI) => (
                             <FiStar
                               key={starI}
+                              size={14}
                               className={
                                 starI < review.rating
-                                  ? "fill-current"
-                                  : "text-gray-300"
+                                  ? "text-yellow-400 fill-yellow-400"
+                                  : "text-base-content/20"
                               }
                             />
                           ))}
                         </div>
                       </div>
-                      <p className="text-gray-600">{review.comment}</p>
-                    </div>
+                      <p className="text-sm text-base-content/70 leading-relaxed">
+                        {review.comment}
+                      </p>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -261,26 +287,66 @@ const ServiceDetails = () => {
               {/* Related Services */}
               <div>
                 <h2 className="text-2xl font-bold mb-4">Related Services</h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {[1, 2].map((item) => (
-                    <div
-                      key={item}
-                      className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border"
-                    >
-                      <div className="card-body p-4">
-                        <h3 className="font-bold">
-                          Birthday Party Deluxe Package
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                          Starting from ৳15,000
-                        </p>
-                        <button className="btn btn-sm btn-link px-0 text-[#e8a803]">
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {relatedServices.length === 0 ? (
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {[1, 2].map((i) => (
+                      <Skeleton key={i} height={160} borderRadius={12} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid md:grid-cols-2 gap-4">
+                    {relatedServices.map((rel) => (
+                      <Link
+                        key={rel._id}
+                        to={`/services/${rel._id}`}
+                        className="group block"
+                      >
+                        <motion.div
+                          whileHover={{ y: -3 }}
+                          transition={{ duration: 0.2 }}
+                          className="rounded-xl border border-base-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-base-100"
+                        >
+                          {/* Image */}
+                          <div className="h-36 overflow-hidden relative">
+                            <img
+                              src={
+                                rel.image ||
+                                "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600"
+                              }
+                              alt={rel.service_name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-400"
+                            />
+                            <div className="absolute top-2 left-2">
+                              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white/90 text-[#e8a803]">
+                                {rel.service_category}
+                              </span>
+                            </div>
+                          </div>
+                          {/* Body */}
+                          <div className="p-4">
+                            <h3 className="font-semibold text-sm text-base-content line-clamp-1 mb-1">
+                              {rel.service_name}
+                            </h3>
+                            <p className="text-xs text-base-content/50 line-clamp-2 mb-3">
+                              {rel.description}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-bold text-[#e8a803]">
+                                ৳{rel.cost}
+                                <span className="text-xs font-normal text-base-content/40">
+                                  /{rel.unit}
+                                </span>
+                              </span>
+                              <span className="flex items-center gap-1 text-xs font-semibold text-[#e8a803] group-hover:gap-2 transition-all">
+                                View Details <FiArrowRight size={12} />
+                              </span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -334,74 +400,68 @@ const ServiceDetails = () => {
       </div>
 
       {/* ==================== BOOKING MODAL ==================== */}
-      <dialog id="booking_modal" className="modal modal-bottom sm:modal-middle mx-auto mt-20 p-10 rounded-lg">
-        <div className="modal-box max-w-md w-11/12 sm:w-full mx-auto">
-          {/* Close button (X) */}
+      <dialog id="booking_modal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box max-w-md w-11/12 sm:w-full mx-auto rounded-2xl">
+          {/* Close button */}
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-3 top-3 text-base-content/50">
+              <FiX size={16} />
             </button>
           </form>
 
-          <h3 className="font-bold text-2xl mb-6 text-center">
-            Complete Your Booking
-          </h3>
+          <h3 className="font-bold text-xl mb-1">Complete Your Booking</h3>
+          <p className="text-sm text-base-content/50 mb-6">Fill in the details below to confirm your booking</p>
 
           <form onSubmit={handleBookingSubmit} className="space-y-4">
             {/* Name */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Your Name</span>
+              <label className="label pb-1.5">
+                <span className="label-text">Your name</span>
               </label>
               <input
                 type="text"
                 value={user?.displayName || ""}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full text-sm bg-base-200 cursor-not-allowed"
                 disabled
               />
             </div>
 
             {/* Email */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Your Email</span>
+              <label className="label pb-1.5">
+                <span className="label-text">Email address</span>
               </label>
               <input
                 type="email"
                 value={user?.email || ""}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full text-sm bg-base-200 cursor-not-allowed"
                 disabled
               />
             </div>
 
             {/* Service */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Service</span>
+              <label className="label pb-1.5">
+                <span className="label-text">Service</span>
               </label>
               <input
                 type="text"
                 value={service.service_name}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full text-sm bg-base-200 cursor-not-allowed"
                 disabled
               />
             </div>
 
             {/* Booking Date */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Booking Date *</span>
+              <label className="label pb-1.5">
+                <span className="label-text">Booking date <span className="text-error">*</span></span>
               </label>
               <input
                 type="date"
                 value={bookingData.bookingDate}
-                onChange={(e) =>
-                  setBookingData({
-                    ...bookingData,
-                    bookingDate: e.target.value,
-                  })
-                }
-                className="input input-bordered w-full"
+                onChange={(e) => setBookingData({ ...bookingData, bookingDate: e.target.value })}
+                className="input input-bordered w-full text-sm"
                 min={new Date().toISOString().split("T")[0]}
                 required
               />
@@ -409,50 +469,45 @@ const ServiceDetails = () => {
 
             {/* Location */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Location *</span>
+              <label className="label pb-1.5">
+                <span className="label-text">Location <span className="text-error">*</span></span>
               </label>
               <input
                 type="text"
-                placeholder="Enter your location"
+                placeholder="Enter your full address"
                 value={bookingData.location}
-                onChange={(e) =>
-                  setBookingData({ ...bookingData, location: e.target.value })
-                }
-                className="input input-bordered w-full"
+                onChange={(e) => setBookingData({ ...bookingData, location: e.target.value })}
+                className="input input-bordered w-full text-sm"
                 required
               />
             </div>
 
             {/* Notes */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">
-                  Additional Notes (Optional)
-                </span>
+              <label className="label pb-1.5">
+                <span className="label-text">Additional notes <span className="text-base-content/40 font-normal">(optional)</span></span>
               </label>
               <textarea
-                placeholder="Any special requirements..."
+                placeholder="Any special requirements or preferences..."
                 value={bookingData.notes}
-                onChange={(e) =>
-                  setBookingData({ ...bookingData, notes: e.target.value })
-                }
-                className="textarea textarea-bordered w-full h-28"
+                onChange={(e) => setBookingData({ ...bookingData, notes: e.target.value })}
+                className="textarea textarea-bordered w-full text-sm resize-none"
+                rows={3}
               />
             </div>
 
             {/* Buttons */}
-            <div className="modal-action flex justify-between sm:justify-end gap-3 mt-6">
+            <div className="flex gap-3 pt-2">
               <button
                 type="button"
-                className="btn btn-outline"
+                className="btn btn-outline flex-1"
                 onClick={() => document.getElementById("booking_modal").close()}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="btn bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
+                className="btn btn-primary flex-1"
               >
                 Confirm Booking
               </button>

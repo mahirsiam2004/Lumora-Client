@@ -114,7 +114,9 @@ const MyBookings = () => {
         </div>
       ) : bookings.length === 0 ? (
         <div className="text-center py-20">
-          <div className="text-6xl mb-4">📅</div>
+          <div className="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center mx-auto mb-4">
+            <FiCalendar size={28} className="text-base-content/30" />
+          </div>
           <p className="text-2xl text-gray-600 mb-4">No bookings yet</p>
           <a
             href="/services"

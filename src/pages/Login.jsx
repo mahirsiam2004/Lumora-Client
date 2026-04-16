@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { motion } from "framer-motion";
-import { FiMail, FiLock } from "react-icons/fi";
+import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { loginUser, googleLogin } = useAuth();
   const navigate = useNavigate();
@@ -18,13 +19,12 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       await loginUser(email, password);
-      toast.success("Login successful!");
+      toast.success("Welcome back!");
       navigate(from, { replace: true });
     } catch {
-      toast.error("Login failed");
+      toast.error("Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -33,103 +33,124 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     try {
       await googleLogin();
-      toast.success("Login successful!");
+      toast.success("Welcome back!");
       navigate(from, { replace: true });
     } catch {
-      toast.error("Google login failed");
+      toast.error("Google sign-in failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#e8a80310] via-[#fbbf2420] to-[#fcd34d10] py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50/60 via-white to-yellow-50/40 py-12 px-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-[420px]"
       >
-        <div className="bg-base-100 rounded-3xl shadow-2xl p-8">
+        {/* Card */}
+        <div className="bg-base-100 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.10)] border border-base-200 p-8">
+          {/* Header */}
           <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold mb-2">
-              Welcome{" "}
-              <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
-                Back
-              </span>
-            </h2>
-            <p className="text-gray-600">Login to continue to Lumora</p>
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#e8a803] to-[#f59e0b] shadow-[0_4px_14px_rgba(232,168,3,0.4)] mb-4">
+              <FiLock size={24} className="text-white" />
+            </div>
+            <h1 className="text-2xl font-bold text-base-content mb-1">Welcome back</h1>
+            <p className="text-sm text-base-content/50">Sign in to your Lumora account</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-5">
+            {/* Email */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Email</span>
+              <label className="label pb-1.5">
+                <span className="label-text">Email address</span>
               </label>
               <div className="relative">
-                <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <FiMail
+                  size={16}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base-content/40 pointer-events-none"
+                />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="input input-bordered w-full pl-10"
-                  placeholder="your@email.com"
+                  className="input input-bordered w-full pl-10 text-sm"
+                  placeholder="you@example.com"
                   required
+                  autoComplete="email"
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div className="form-control">
-              <label className="label">
-                <span className="label-text font-medium">Password</span>
+              <label className="label pb-1.5">
+                <span className="label-text">Password</span>
               </label>
               <div className="relative">
-                <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <FiLock
+                  size={16}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-base-content/40 pointer-events-none"
+                />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="input input-bordered w-full pl-10"
+                  className="input input-bordered w-full pl-10 pr-10 text-sm"
                   placeholder="••••••••"
                   required
+                  autoComplete="current-password"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content/70 transition-colors"
+                >
+                  {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                </button>
               </div>
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-lg w-full bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:scale-105 transition-transform"
+              className="btn btn-primary w-full mt-2"
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? (
+                <span className="loading loading-spinner loading-sm" />
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
 
-          <div className="divider">OR</div>
+          {/* Divider */}
+          <div className="divider my-5 text-xs">OR CONTINUE WITH</div>
 
+          {/* Google */}
           <button
             onClick={handleGoogleLogin}
-            className="btn btn-outline btn-lg w-full mb-4"
+            className="btn btn-outline w-full gap-2 text-sm"
           >
-            <FcGoogle size={24} />
-            Continue with Google
+            <FcGoogle size={20} />
+            Google
           </button>
 
+          {/* Demo */}
           <button
-            onClick={() => {
-              setEmail("admin@lumora.com");
-              setPassword("123456");
-            }}
+            onClick={() => { setEmail("admin@lumora.com"); setPassword("123456"); }}
             type="button"
-            className="btn btn-ghost btn-outline btn-lg w-full"
+            className="btn btn-ghost w-full mt-2 text-sm text-base-content/50 hover:text-base-content"
           >
-            Demo Admin Login
+            Use Demo Admin Credentials
           </button>
 
-          <p className="text-center mt-6 text-gray-600">
+          {/* Footer */}
+          <p className="text-center text-sm text-base-content/50 mt-6">
             Don&apos;t have an account?{" "}
-            <Link
-              to="/register"
-              className="text-[#e8a803] font-medium hover:underline"
-            >
-              Register here
+            <Link to="/register" className="text-[#e8a803] font-semibold hover:underline">
+              Create one
             </Link>
           </p>
         </div>

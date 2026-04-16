@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiXCircle, FiArrowLeft, FiCreditCard } from "react-icons/fi";
+import { FiXCircle, FiArrowLeft, FiCreditCard, FiHelpCircle, FiShield } from "react-icons/fi";
 
 const PaymentCancel = () => {
   const [searchParams] = useSearchParams();
@@ -101,13 +101,14 @@ const PaymentCancel = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="mt-8 p-4 bg-amber-50 rounded-xl"
+            className="mt-8 p-4 bg-amber-50 rounded-xl text-left"
           >
-            <p className="text-sm text-gray-600 mb-2">
-              💡 <strong>Need help?</strong>
-            </p>
-            <p className="text-sm text-gray-600">
-              If you're having issues with payment, please contact our support
+            <div className="flex items-start gap-2 mb-2">
+              <FiHelpCircle size={16} className="text-[#e8a803] flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-gray-600 font-semibold">Need help?</p>
+            </div>
+            <p className="text-sm text-gray-600 pl-6">
+              If you&apos;re having issues with payment, please contact our support
               team at{" "}
               <a
                 href="mailto:support@lumora.com"
@@ -123,10 +124,10 @@ const PaymentCancel = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="mt-6 text-xs text-gray-500"
+            className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500"
           >
-            🔒 All payments are secured by Stripe. Your payment information is
-            encrypted and secure.
+            <FiShield size={13} className="text-gray-400" />
+            <span>All payments are secured by Stripe. Your information is encrypted and safe.</span>
           </motion.div>
         </div>
       </motion.div>
