@@ -120,16 +120,25 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-6 border-t border-[#8CC0EB]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[#14202C]/50">
-          <p>© 2026 Lumora. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <Link to="/" className="hover:text-[#5B9BD5] transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/" className="hover:text-[#5B9BD5] transition-colors">
-              Terms of Service
-            </Link>
+        <div className="mt-14 pt-6 border-t border-[#8CC0EB]/20">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[#14202C]/50">
+            <p>© 2026 Lumora. All rights reserved.</p>
+            <div className="flex items-center gap-6">
+              <Link to="/" className="hover:text-[#5B9BD5] transition-colors">
+                Privacy Policy
+              </Link>
+              <Link to="/" className="hover:text-[#5B9BD5] transition-colors">
+                Terms of Service
+              </Link>
+            </div>
           </div>
+          <p className="mt-4 text-xs text-[#14202C]/40 leading-relaxed">
+            Lumora is a proprietary decoration-booking platform. All brand names,
+            service marks, and imagery shown are the property of their respective
+            owners and are used for demonstration purposes only. This site and its
+            contents are provided "as is" without warranty of any kind. Unauthorized
+            copying, redistribution, or commercial use is strictly prohibited.
+          </p>
         </div>
       </div>
     </footer>

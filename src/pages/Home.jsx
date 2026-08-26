@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 import axios from "../utilits/axiosInstance";
 import {
   FiStar,
@@ -14,6 +16,17 @@ import {
   FiMapPin,
   FiClock,
   FiMessageSquare,
+  FiSearch,
+  FiEdit3,
+  FiCalendar,
+  FiDollarSign,
+  FiGrid,
+  FiHome,
+  FiBriefcase,
+  FiGift,
+  FiSmile,
+  FiUsers,
+  FiSun,
 } from "react-icons/fi";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Skeleton from "react-loading-skeleton";
@@ -24,9 +37,44 @@ const Home = () => {
   const [decorators, setDecorators] = useState([]);
   const [loading, setLoading] = useState(true);
   const cardRefs = useRef([]);
+  const stepsRef = useRef(null);
 
   useEffect(() => {
     fetchData();
+  }, []);
+
+  /* GSAP scroll reveal for the How-It-Works milestone steps */
+  useEffect(() => {
+    if (!stepsRef.current) return;
+    const ctx = gsap.context(() => {
+      const steps = gsap.utils.toArray(".hiw-step");
+      gsap.set(steps, { opacity: 0, y: 28 });
+      gsap.to(steps, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power3.out",
+        stagger: 0.18,
+        scrollTrigger: {
+          trigger: stepsRef.current,
+          start: "top 78%",
+        },
+      });
+      gsap.fromTo(
+        ".hiw-line",
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 1.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: stepsRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+    }, stepsRef);
+    return () => ctx.revert();
   }, []);
 
   const fetchData = async () => {
@@ -128,6 +176,144 @@ const Home = () => {
             </span>
           ))}
         </motion.div>
+      </div>
+    </section>
+  );
+
+  /* ── Stats (pill counter cards — Pinterest idea) ──────── */
+  const StatsBar = () => (
+    <section className="relative -mt-10 z-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { num: "250+", label: "Events Styled" },
+            { num: "12+", label: "Years of Craft" },
+            { num: "98%", label: "Happy Clients" },
+            { num: "45+", label: "Decorators" },
+          ].map((s, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="bg-white/90 backdrop-blur rounded-3xl px-6 py-7 text-center shadow-[0_18px_44px_rgba(140,192,235,0.18)] border border-[#8CC0EB]/15"
+            >
+              <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+                {s.num}
+              </div>
+              <div className="mt-1 text-sm font-medium text-[#14202C]/60">{s.label}</div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  /* ── Events We Cover (category cards — daisyUI style) ──── */
+  const EventsWeCover = () => (
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
+        >
+          <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+            For every moment
+          </span>
+          <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+            Events we{" "}
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+              cover
+            </span>
+          </h2>
+          <p className="mt-3 text-[#14202C]/55 max-w-xl mx-auto">
+            Not just weddings — Lumora styles any space that deserves to feel special.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+          {[
+            { icon: FiGift, label: "Weddings" },
+            { icon: FiHome, label: "Home interiors" },
+            { icon: FiSmile, label: "Birthdays" },
+            { icon: FiBriefcase, label: "Corporate" },
+            { icon: FiUsers, label: "Anniversaries" },
+            { icon: FiSun, label: "Festivals" },
+          ].map((e, i) => {
+            const Icon = e.icon;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="group bg-gradient-to-b from-[#FFF9D2]/50 to-white rounded-3xl p-6 text-center border border-[#8CC0EB]/15 shadow-[0_10px_30px_rgba(140,192,235,0.10)] hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(140,192,235,0.20)] transition-all duration-300"
+              >
+                <div className="mx-auto w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] flex items-center justify-center shadow-[0_8px_20px_rgba(94,155,213,0.35)] group-hover:scale-105 transition-transform">
+                  <Icon size={24} className="text-white" />
+                </div>
+                <h3 className="mt-4 text-[15px] font-semibold text-[#14202C]">{e.label}</h3>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+
+  /* ── Why Lumora (feature grid) ────────────────────────── */
+  const WhyLumora = () => (
+    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/25 via-white to-[#FFF9D2]/40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
+        >
+          <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+            Why Lumora
+          </span>
+          <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+            A calmer way to{" "}
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+              decorate
+            </span>
+          </h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { icon: FiSearch, title: "Curated packages", text: "Handpicked decoration styles for every budget — browse, compare, decide in minutes." },
+            { icon: FiUsers, title: "Vetted decorators", text: "Work with experienced professionals, each rated by real clients after every event." },
+            { icon: FiEdit3, title: "Fully customizable", text: "Colors, themes, flowers — shape every detail with your decorator before the day." },
+            { icon: FiCalendar, title: "Flexible scheduling", text: "Book the exact date and time you need, with clear status from start to finish." },
+            { icon: FiDollarSign, title: "Transparent pricing", text: "No hidden fees. See the full cost upfront and pay securely when you're ready." },
+            { icon: FiShield, title: "Peace of mind", text: "Insured setups, on-time delivery, and a support team that picks up the phone." },
+          ].map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                className="bg-white/80 backdrop-blur rounded-3xl p-7 border border-[#8CC0EB]/20 shadow-[0_12px_36px_rgba(140,192,235,0.12)] hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFEBCC] to-[#8CC0EB] flex items-center justify-center mb-4">
+                  <Icon size={22} className="text-[#14202C]" />
+                </div>
+                <h3 className="text-lg font-bold text-[#14202C]">{f.title}</h3>
+                <p className="text-[#14202C]/55 text-sm mt-2 leading-relaxed">{f.text}</p>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -259,13 +445,13 @@ const Home = () => {
 
   /* ── How it works (horizontal steps) ──────────────────────── */
   const HowItWorksSection = () => (
-    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/30 via-white to-[#FFF9D2]/40">
+    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/30 via-white to-[#FFF9D2]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14"
+          className="text-center mb-16"
         >
           <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
             Simple process
@@ -276,32 +462,39 @@ const Home = () => {
               works
             </span>
           </h2>
+          <p className="mt-3 text-[#14202C]/55 max-w-xl mx-auto">
+            From first idea to the finished room — four calm steps.
+          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-6">
-          {[
-            { step: "01", title: "Choose", text: "Pick the decoration package that fits your moment." },
-            { step: "02", title: "Book", text: "Schedule a time that works for you in a few taps." },
-            { step: "03", title: "Customize", text: "Shape the look with our expert decorators." },
-            { step: "04", title: "Enjoy", text: "Relax while we bring the vision to life." },
-          ].map((s, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="relative bg-white/80 backdrop-blur rounded-3xl p-7 border border-[#8CC0EB]/20 shadow-[0_12px_36px_rgba(140,192,235,0.12)]"
-            >
-              <span className="text-5xl font-bold bg-gradient-to-diagonal from-[#8CC0EB]/30 to-[#BFDDF0]/30 bg-clip-text text-transparent">
-                {s.step}
-              </span>
-              <h3 className="text-xl font-bold text-[#14202C] mt-3">{s.title}</h3>
-              <p className="text-[#14202C]/55 text-sm mt-2 leading-relaxed">
-                {s.text}
-              </p>
-            </motion.div>
-          ))}
+        <div ref={stepsRef} className="relative">
+          {/* connector line */}
+          <div className="hiw-line absolute top-9 left-0 right-0 h-0.5 bg-gradient-to-r from-[#8CC0EB] via-[#5B9BD5] to-[#8CC0EB] origin-left hidden md:block" />
+
+          <div className="grid md:grid-cols-4 gap-8 md:gap-6">
+            {[
+              { step: "01", icon: FiSearch, title: "Choose", text: "Pick the decoration package that fits your moment." },
+              { step: "02", icon: FiCalendar, title: "Book", text: "Schedule a time that works for you in a few taps." },
+              { step: "03", icon: FiEdit3, title: "Customize", text: "Shape the look with our expert decorators." },
+              { step: "04", icon: FiSmile, title: "Enjoy", text: "Relax while we bring the vision to life." },
+            ].map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <div key={i} className="hiw-step relative text-center">
+                  <div className="relative z-10 mx-auto w-18 h-18 rounded-full bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] flex items-center justify-center shadow-[0_12px_30px_rgba(94,155,213,0.4)] ring-8 ring-white">
+                    <Icon size={28} className="text-white" />
+                  </div>
+                  <span className="mt-5 block text-3xl font-bold text-[#8CC0EB]/40">
+                    {s.step}
+                  </span>
+                  <h3 className="text-xl font-bold text-[#14202C] mt-1">{s.title}</h3>
+                  <p className="text-[#14202C]/55 text-sm mt-2 leading-relaxed max-w-[15rem] mx-auto">
+                    {s.text}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -571,8 +764,11 @@ const Home = () => {
   return (
     <div>
       <Hero />
+      <StatsBar />
       <ServicesSection />
+      <EventsWeCover />
       <HowItWorksSection />
+      <WhyLumora />
       <DecoratorsSection />
       <TestimonialsSection />
       <CoverageMapSection />

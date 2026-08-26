@@ -1,91 +1,42 @@
-# Lumora Frontend
+# Lumora — Event & Space Decoration Platform
 
-A modern, responsive React application for the Lumora decoration services platform. Built with React, Vite, and Tailwind CSS, featuring a beautiful UI with smooth animations and seamless user experience.
+**Lumora** is a modern decoration-booking platform for Dhaka. Clients browse
+professionally curated decoration packages — home interiors, weddings, birthdays,
+corporate events, and more — book a slot, and get matched with expert decorators
+who bring the vision to life.
 
-##  Features
+## What it does
 
-- **User Authentication**
-  - Firebase Authentication integration
-  - Google Sign-In support
-  - JWT token management
-  - Protected routes
+- **Browse & book services** — category-filtered decoration packages with pricing, photos, and coverage map
+- **Decorator marketplace** — meet vetted decorators, view ratings, and request custom work
+- **Auth** — Firebase email/password + Google sign-in, protected routes
+- **Booking & payments** — create bookings, track status, Stripe checkout
+- **Dashboards** — client, admin (analytics + service management), and decorator (projects, earnings, schedule)
+- **Polished UI** — responsive, animation-rich (Framer Motion + GSAP), soft sky/cream design system
 
-- **Service Discovery**
-  - Browse decoration services
-  - Service details with images
-  - Category filtering
-  - Search functionality
-  - Service coverage map
+## Tech Stack
 
-- **Booking System**
-  - Create bookings
-  - View booking history
-  - Booking management
-  - Status tracking
+React 19 · Vite 7 · React Router 7 · Tailwind CSS 4 + DaisyUI · Framer Motion · GSAP · Firebase Auth · React Leaflet · Axios · Stripe · Recharts
 
-- **Payment Integration**
-  - Stripe Checkout integration
-  - Secure payment processing
-  - Payment success/cancel pages
-  - Payment history
+## Getting started
 
-- **Dashboard**
-  - User Dashboard
-  - Admin Dashboard (analytics, service management)
-  - Decorator Dashboard (projects, earnings, schedule)
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # production build
+```
 
-- **UI/UX**
-  - Responsive design (mobile-first)
-  - Smooth animations (Framer Motion)
-  - Loading states and skeletons
-  - Toast notifications
-  - Modern gradient designs
+Requires a Firebase project (auth config in `src/utilits/firebase.config.js`) and a
+backend API (see `.env` for `VITE_IMAGEBB_API_KEY`, Stripe, etc.).
 
-## 🛠️ Tech Stack
+## License & Disclaimer
 
-- **Framework**: React 19
-- **Build Tool**: Vite 7
-- **Routing**: React Router DOM 7
-- **Styling**: Tailwind CSS 4 + DaisyUI
-- **Animations**: Framer Motion
-- **Forms**: React Hook Form
-- **HTTP Client**: Axios
-- **Authentication**: Firebase Auth
-- **Maps**: React Leaflet
-- **Charts**: Recharts
-- **Payment**: Stripe.js
-- **Notifications**: React Hot Toast
-- **Icons**: React Icons
-
-## 📋 Prerequisites
-
-- Node.js >= 18.x
-- npm or yarn
-- Firebase project (for authentication)
-- Backend API running (or deployed)
-
-## 🔧 Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd frontend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-
-## 📄 License
-
-This project is proprietary and confidential.
-
-## 👥 Support
-
-For issues and questions, please contact the development team.
+This software is proprietary and confidential to Lumora. All rights reserved.
+No part of this codebase may be copied, modified, distributed, or used without
+prior written permission from the copyright holder. Brand names, service marks,
+and visual assets shown here belong to their respective owners and are used for
+demonstration only. Provided "as is", without warranty of any kind.
 
 ---
 
-**Built with ❤️ for Lumora**
+Built with care for Lumora.
