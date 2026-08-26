@@ -56,9 +56,6 @@ const Login = () => {
           </div>
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-sky to-primarydeep shadow-[0_4px_14px_rgba(140,192,235,0.4)] mb-4">
-              <FiLock size={24} className="text-white" />
-            </div>
             <h1 className="text-2xl font-bold text-base-content mb-1">Sign in to Lumora</h1>
           </div>
 
