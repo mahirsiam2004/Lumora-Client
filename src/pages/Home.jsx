@@ -1,10 +1,21 @@
-
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { gsap } from "gsap";
 import axios from "../utilits/axiosInstance";
-import { FiStar, FiMapPin, FiArrowRight, FiCheck, FiUsers, FiAward, FiClock, FiTrendingUp, FiShield, FiZap } from "react-icons/fi";
+import {
+  FiStar,
+  FiMapPin,
+  FiArrowRight,
+  FiCheck,
+  FiUsers,
+  FiAward,
+  FiClock,
+  FiTrendingUp,
+  FiShield,
+  FiZap,
+  FiMail,
+} from "react-icons/fi";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -39,58 +50,55 @@ const Home = () => {
 
   // Hero Section
   const Hero = () => (
-    <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-gradient-to-br from-[#e8a80310] via-[#fbbf2420] to-[#fcd34d10]">
-      <div className="absolute inset-0 overflow-hidden">
+    <section className="relative min-h-[88vh] flex items-center overflow-hidden bg-gradient-to-br from-[#FFF9D2]/70 via-white to-[#BFDDF0]/40">
+      {/* Soft floating pastel blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute -top-40 -right-40 w-96 h-96 bg-[#e8a803] rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+          animate={{ scale: [1, 1.15, 1], x: [0, 30, 0], y: [0, -20, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-32 -right-24 w-[28rem] h-[28rem] bg-[#8CC0EB] rounded-full blur-3xl opacity-25"
         />
         <motion.div
-          animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [90, 0, 90],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-          className="absolute -bottom-40 -left-40 w-96 h-96 bg-amber-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30"
+          animate={{ scale: [1.1, 1, 1.1], x: [0, -20, 0], y: [0, 25, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-32 -left-24 w-[26rem] h-[26rem] bg-[#FFEBCC] rounded-full blur-3xl opacity-40"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 20, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/3 left-1/2 w-72 h-72 bg-[#BFDDF0] rounded-full blur-3xl opacity-20"
         />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 border border-[#8CC0EB]/40 text-[#5B9BD5] text-sm font-medium shadow-[0_2px_10px_rgba(140,192,235,0.15)] mb-6">
+              <FiStar size={14} />
+              Trusted by 500+ happy clients
+            </span>
+
             <motion.h1
-              className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] text-[#14202C]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.15 }}
             >
               Transform Your
-              <span className="block bg-gradient-to-r from-[#e8a803] via-[#f59e0b] to-[#fbbf24] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#8CC0EB] via-[#5B9BD5] to-[#3E7CB1] bg-clip-text text-transparent">
                 Spaces Into Magic
               </span>
             </motion.h1>
 
             <motion.p
-              className="text-xl text-gray-600 mb-8 max-w-lg"
+              className="text-lg text-[#14202C]/60 mb-9 max-w-lg leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.35 }}
             >
               Professional decoration services for homes, weddings, and special
               events. Create unforgettable memories with Lumora.
@@ -100,43 +108,48 @@ const Home = () => {
               className="flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.5 }}
             >
               <Link
                 to="/services"
-                className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:scale-105 transition-transform"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_8px_24px_rgba(140,192,235,0.45)] hover:shadow-[0_12px_32px_rgba(140,192,235,0.55)] hover:-translate-y-0.5 transition-all duration-300"
               >
                 Book Decoration Service
-                <FiArrowRight className="ml-2" />
+                <FiArrowRight size={18} />
               </Link>
-              <Link to="/coverage-map" className="btn btn-lg btn-outline">
+              <Link
+                to="/coverage-map"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-semibold border border-[#8CC0EB]/60 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all duration-300"
+              >
                 View Coverage
               </Link>
             </motion.div>
 
             <motion.div
-              className="mt-12 grid grid-cols-3 gap-6"
+              className="mt-14 grid grid-cols-3 gap-6 max-w-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 0.7 }}
             >
               {[
                 { number: "500+", label: "Happy Clients" },
                 { number: "50+", label: "Expert Decorators" },
                 { number: "1000+", label: "Projects Done" },
               ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-3xl font-bold bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+                <div key={index} className="text-left">
+                  <div className="text-3xl font-bold bg-gradient-to-r from-[#5B9BD5] to-[#3E7CB1] bg-clip-text text-transparent">
                     {stat.number}
                   </div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
+                  <div className="text-sm text-[#14202C]/55 mt-1">
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
@@ -145,25 +158,25 @@ const Home = () => {
               <motion.img
                 src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800"
                 alt="Decoration"
-                className="rounded-3xl shadow-2xl w-full"
+                className="rounded-[2rem] shadow-[0_30px_60px_rgba(94,155,213,0.25)] w-full object-cover"
                 whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.4 }}
               />
               <motion.div
-                className="absolute -bottom-6 -left-6 bg-base-100 p-6 rounded-2xl shadow-xl"
-                initial={{ opacity: 0, scale: 0.8 }}
+                className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur px-6 py-5 rounded-2xl shadow-[0_16px_40px_rgba(94,155,213,0.25)] border border-[#8CC0EB]/30"
+                initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1 }}
+                transition={{ delay: 0.9 }}
               >
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#e8a803] to-[#f59e0b] rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] rounded-full flex items-center justify-center">
                     <FiCheck className="text-white" size={24} />
                   </div>
                   <div>
-                    <div className="font-bold text-gray-800">
+                    <div className="font-bold text-[#14202C]">
                       100% Satisfaction
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-[#14202C]/55">
                       Guaranteed Quality
                     </div>
                   </div>
@@ -178,26 +191,32 @@ const Home = () => {
 
   // Stats Section
   const StatsSection = () => (
-    <section className="py-16 bg-base-100">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { icon: FiUsers, number: "500+", label: "Happy Clients", color: "purple" },
-            { icon: FiAward, number: "50+", label: "Awards Won", color: "pink" },
-            { icon: FiClock, number: "1000+", label: "Projects Completed", color: "blue" },
-            { icon: FiTrendingUp, number: "98%", label: "Success Rate", color: "green" },
+            { icon: FiUsers, number: "500+", label: "Happy Clients" },
+            { icon: FiAward, number: "50+", label: "Awards Won" },
+            { icon: FiClock, number: "1000+", label: "Projects Completed" },
+            { icon: FiTrendingUp, number: "98%", label: "Success Rate" },
           ].map((stat, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="text-center p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 hover:shadow-xl transition-all"
+              className="text-center p-8 rounded-3xl bg-gradient-to-br from-[#FFF9D2]/50 to-[#BFDDF0]/30 border border-white shadow-[0_10px_30px_rgba(140,192,235,0.12)] hover:shadow-[0_18px_40px_rgba(140,192,235,0.2)] hover:-translate-y-1 transition-all duration-300"
             >
-              <stat.icon className={`mx-auto text-${stat.color}-600 mb-4`} size={48} />
-              <div className="text-4xl font-bold text-gray-800 mb-2">{stat.number}</div>
-              <div className="text-gray-600">{stat.label}</div>
+              <stat.icon
+                className="mx-auto text-[#5B9BD5] mb-4"
+                size={44}
+                strokeWidth={1.6}
+              />
+              <div className="text-4xl font-bold text-[#14202C] mb-2">
+                {stat.number}
+              </div>
+              <div className="text-[#14202C]/55">{stat.label}</div>
             </motion.div>
           ))}
         </div>
@@ -207,22 +226,23 @@ const Home = () => {
 
   // Features Section
   const FeaturesSection = () => (
-    <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-gradient-to-br from-[#FFF9D2]/40 via-white to-[#BFDDF0]/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
             Why Choose{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
               Lumora
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            We provide exceptional decoration services with attention to every detail
+          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
+            We provide exceptional decoration services with attention to every
+            detail
           </p>
         </motion.div>
 
@@ -231,30 +251,39 @@ const Home = () => {
             {
               icon: FiShield,
               title: "Quality Guaranteed",
-              description: "We ensure the highest quality in every project we undertake",
+              description:
+                "We ensure the highest quality in every project we undertake",
             },
             {
               icon: FiZap,
               title: "Fast Delivery",
-              description: "Quick turnaround time without compromising on quality",
+              description:
+                "Quick turnaround time without compromising on quality",
             },
             {
               icon: FiAward,
               title: "Expert Team",
-              description: "Professional decorators with years of experience",
+              description:
+                "Professional decorators with years of experience",
             },
           ].map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-base-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all card-hover"
+              className="bg-white/80 backdrop-blur p-8 rounded-3xl shadow-[0_12px_36px_rgba(140,192,235,0.14)] border border-[#8CC0EB]/20 hover:-translate-y-1.5 hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] transition-all duration-300"
             >
-              <feature.icon className="text-[#e8a803] mb-4" size={48} />
-              <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#BFDDF0] to-[#8CC0EB] flex items-center justify-center mb-6">
+                <feature.icon className="text-white" size={26} strokeWidth={1.8} />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 text-[#14202C]">
+                {feature.title}
+              </h3>
+              <p className="text-[#14202C]/60 leading-relaxed">
+                {feature.description}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -264,21 +293,21 @@ const Home = () => {
 
   // Services Section
   const ServicesSection = () => (
-    <section className="py-20 bg-base-100">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
             Our{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
               Services
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
             Explore our wide range of decoration packages tailored to your needs
           </p>
         </motion.div>
@@ -286,9 +315,12 @@ const Home = () => {
         {loading ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="card bg-base-100 shadow-xl">
+              <div
+                key={i}
+                className="bg-white rounded-3xl shadow-[0_10px_30px_rgba(140,192,235,0.12)] overflow-hidden"
+              >
                 <Skeleton height={200} />
-                <div className="card-body">
+                <div className="p-5">
                   <Skeleton count={3} />
                 </div>
               </div>
@@ -300,9 +332,9 @@ const Home = () => {
               const handleMouseEnter = () => {
                 if (cardRefs.current[index]) {
                   gsap.to(cardRefs.current[index], {
-                    y: -15,
-                    scale: 1.03,
-                    boxShadow: "0 25px 50px rgba(0, 0, 0, 0.25)",
+                    y: -12,
+                    scale: 1.02,
+                    boxShadow: "0 30px 60px rgba(94,155,213,0.3)",
                     duration: 0.5,
                     ease: "power3.out",
                   });
@@ -314,7 +346,7 @@ const Home = () => {
                   gsap.to(cardRefs.current[index], {
                     y: 0,
                     scale: 1,
-                    boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)",
+                    boxShadow: "0 10px 30px rgba(140,192,235,0.12)",
                     duration: 0.5,
                     ease: "power3.out",
                   });
@@ -324,20 +356,20 @@ const Home = () => {
               return (
                 <motion.div
                   key={service._id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.08 }}
                 >
                   <Link to={`/services/${service._id}`}>
                     <div
                       ref={(el) => (cardRefs.current[index] = el)}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
-                      className="card bg-base-100 p-4 rounded-2xl shadow-xl group overflow-hidden h-full"
-                      style={{ boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)" }}
+                      className="bg-white p-4 rounded-3xl shadow-[0_10px_30px_rgba(140,192,235,0.12)] group overflow-hidden h-full border border-[#8CC0EB]/15"
+                      style={{ boxShadow: "0 10px 30px rgba(140,192,235,0.12)" }}
                     >
-                      <figure className="relative h-48 overflow-hidden">
+                      <figure className="relative h-48 overflow-hidden rounded-2xl">
                         <img
                           src={
                             service.image ||
@@ -346,29 +378,29 @@ const Home = () => {
                           alt={service.service_name}
                           className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-500"
                         />
-                        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
-                          <span className="text-sm font-bold text-[#e8a803]">
+                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full">
+                          <span className="text-sm font-semibold text-[#5B9BD5]">
                             {service.service_category}
                           </span>
                         </div>
                       </figure>
-                      <div className="card-body">
-                        <h3 className="card-title text-xl">
+                      <div className="p-4">
+                        <h3 className="text-xl font-bold text-[#14202C]">
                           {service.service_name}
                         </h3>
-                        <p className="text-gray-600 text-sm line-clamp-2 poppins-regular">
+                        <p className="text-[#14202C]/55 text-sm line-clamp-2 mt-2">
                           {service.description}
                         </p>
-                        <div className="flex justify-between items-center mt-4">
+                        <div className="flex justify-between items-center mt-5">
                           <div>
-                            <span className="text-2xl font-bold text-[#e8a803]">
+                            <span className="text-2xl font-bold text-[#5B9BD5]">
                               BDT {service.cost}
                             </span>
-                            <span className="text-sm text-gray-500">
+                            <span className="text-sm text-[#14202C]/45">
                               /{service.unit}
                             </span>
                           </div>
-                          <button className="btn btn-sm bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:shadow-lg">
+                          <button className="px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_6px_16px_rgba(140,192,235,0.4)] hover:shadow-[0_10px_24px_rgba(140,192,235,0.5)] transition-all">
                             View Details
                           </button>
                         </div>
@@ -385,10 +417,14 @@ const Home = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center mt-14"
         >
-          <Link to="/services" className="btn btn-lg btn-outline btn-primary">
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-semibold border border-[#8CC0EB]/60 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all duration-300"
+          >
             View All Services
+            <FiArrowRight size={18} />
           </Link>
         </motion.div>
       </div>
@@ -397,21 +433,21 @@ const Home = () => {
 
   // How It Works Section
   const HowItWorksSection = () => (
-    <section className="py-20 bg-gradient-to-br from-amber-50 to-orange-50">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/30 via-white to-[#FFF9D2]/40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
             How It{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
               Works
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
             Simple steps to get your dream decoration
           </p>
         </motion.div>
@@ -425,17 +461,19 @@ const Home = () => {
           ].map((item, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               className="text-center"
             >
-              <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#e8a803] to-[#f59e0b] rounded-full flex items-center justify-center text-white text-2xl font-bold">
+              <div className="w-20 h-20 mx-auto mb-5 bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-[0_12px_30px_rgba(140,192,235,0.4)]">
                 {item.step}
               </div>
-              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-              <p className="text-gray-600">{item.description}</p>
+              <h3 className="text-xl font-bold mb-2 text-[#14202C]">
+                {item.title}
+              </h3>
+              <p className="text-[#14202C]/55">{item.description}</p>
             </motion.div>
           ))}
         </div>
@@ -445,21 +483,21 @@ const Home = () => {
 
   // Decorators Section
   const DecoratorsSection = () => (
-    <section className="py-20 bg-base-100">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
             Our Top{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
               Decorators
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
             Meet our talented team of professional decorators
           </p>
         </motion.div>
@@ -468,11 +506,11 @@ const Home = () => {
           {decorators.map((decorator, index) => (
             <motion.div
               key={decorator._id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all h-full card-hover rounded-3xl border border-gray-100"
+              className="bg-white shadow-[0_12px_36px_rgba(140,192,235,0.14)] hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] hover:-translate-y-1.5 transition-all duration-300 h-full rounded-3xl border border-[#8CC0EB]/15"
             >
               <figure className="px-6 pt-8">
                 <img
@@ -480,23 +518,25 @@ const Home = () => {
                     decorator.photoURL || "https://i.ibb.co/3YRjQxv/user.png"
                   }
                   alt={decorator.displayName}
-                  className="rounded-full w-32 h-32 object-cover ring-4 ring-[#e8a80330] shadow-md"
+                  className="rounded-full w-32 h-32 object-cover ring-4 ring-[#8CC0EB]/30 shadow-md mx-auto"
                 />
               </figure>
-              <div className="card-body items-center text-center p-6">
-                <h3 className="card-title text-xl font-bold">{decorator.displayName}</h3>
-                <p className="text-sm text-gray-600 font-medium">
+              <div className="p-6 items-center text-center">
+                <h3 className="text-xl font-bold text-[#14202C]">
+                  {decorator.displayName}
+                </h3>
+                <p className="text-sm text-[#14202C]/55 font-medium mt-1">
                   {decorator.specialty || "Professional Decorator"}
                 </p>
-                <div className="flex items-center space-x-1 mt-2">
+                <div className="flex items-center justify-center space-x-1 mt-3">
                   {[...Array(5)].map((_, i) => (
                     <FiStar
                       key={i}
-                      className="text-yellow-500 fill-yellow-500"
+                      className="text-[#8CC0EB] fill-[#8CC0EB]"
                       size={16}
                     />
                   ))}
-                  <span className="text-sm text-gray-600 ml-2">(4.9)</span>
+                  <span className="text-sm text-[#14202C]/55 ml-2">(4.9)</span>
                 </div>
               </div>
             </motion.div>
@@ -508,21 +548,21 @@ const Home = () => {
 
   // Testimonials Section
   const TestimonialsSection = () => (
-    <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-gradient-to-br from-[#FFF9D2]/40 via-white to-[#BFDDF0]/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
             Client{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
               Testimonials
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
             What our happy clients say about us
           </p>
         </motion.div>
@@ -553,29 +593,31 @@ const Home = () => {
           ].map((testimonial, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-base-100 p-6 rounded-2xl shadow-lg card-hover"
+              className="bg-white/80 backdrop-blur p-7 rounded-3xl shadow-[0_12px_36px_rgba(140,192,235,0.14)] border border-[#8CC0EB]/20 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] transition-all duration-300"
             >
               <div className="flex items-center mb-4">
                 <img
                   src={testimonial.image}
                   alt={testimonial.name}
-                  className="w-16 h-16 rounded-full mr-4"
+                  className="w-14 h-14 rounded-full mr-4 object-cover"
                 />
                 <div>
-                  <h4 className="font-bold">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  <h4 className="font-bold text-[#14202C]">{testimonial.name}</h4>
+                  <p className="text-sm text-[#14202C]/55">{testimonial.role}</p>
                 </div>
               </div>
               <div className="flex mb-3">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <FiStar key={i} className="text-yellow-500 fill-yellow-500" size={16} />
+                  <FiStar key={i} className="text-[#8CC0EB] fill-[#8CC0EB]" size={16} />
                 ))}
               </div>
-              <p className="text-gray-600">{testimonial.text}</p>
+              <p className="text-[#14202C]/65 leading-relaxed">
+                {testimonial.text}
+              </p>
             </motion.div>
           ))}
         </div>
@@ -585,30 +627,30 @@ const Home = () => {
 
   // Coverage Map Section
   const CoverageMapSection = () => (
-    <section className="py-20 bg-base-100">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
             Service{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
               Coverage
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
             We provide decoration services across Dhaka and surrounding areas
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="h-[500px] rounded-3xl overflow-hidden shadow-2xl"
+          className="h-[500px] rounded-3xl overflow-hidden shadow-[0_24px_60px_rgba(94,155,213,0.25)] border border-[#8CC0EB]/20"
         >
           <MapContainer
             center={[23.8103, 90.4125]}
@@ -635,13 +677,14 @@ const Home = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center mt-8"
+          className="text-center mt-10"
         >
           <Link
             to="/coverage-map"
-            className="btn btn-lg btn-outline btn-primary"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-semibold border border-[#8CC0EB]/60 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all duration-300"
           >
             View Full Coverage Map
+            <FiArrowRight size={18} />
           </Link>
         </motion.div>
       </div>
@@ -650,42 +693,46 @@ const Home = () => {
 
   // FAQ Section
   const FaqSection = () => (
-    <section className="py-20 bg-gradient-to-br from-amber-50 to-orange-50">
-      <div className="container mx-auto px-4 ">
+    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/30 via-white to-[#FFF9D2]/40">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
             Frequently Asked{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
               Questions
             </span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
             Find answers to common questions about our services
           </p>
         </motion.div>
 
-        <div className="max-w-3xl mx-auto space-y-4 ">
+        <div className="space-y-4">
           {[
             {
               question: "How far in advance should I book?",
-              answer: "We recommend booking at least 2-4 weeks in advance for regular events and 2-3 months for weddings.",
+              answer:
+                "We recommend booking at least 2-4 weeks in advance for regular events and 2-3 months for weddings.",
             },
             {
               question: "Do you provide customization options?",
-              answer: "Yes! We work closely with you to customize every aspect of your decoration to match your vision.",
+              answer:
+                "Yes! We work closely with you to customize every aspect of your decoration to match your vision.",
             },
             {
               question: "What areas do you serve?",
-              answer: "We currently serve Dhaka and surrounding areas. Check our coverage map for specific locations.",
+              answer:
+                "We currently serve Dhaka and surrounding areas. Check our coverage map for specific locations.",
             },
             {
               question: "What is your cancellation policy?",
-              answer: "Cancellations made 7 days before the event receive a full refund. Within 7 days, a 50% fee applies.",
+              answer:
+                "Cancellations made 7 days before the event receive a full refund. Within 7 days, a 50% fee applies.",
             },
           ].map((faq, index) => (
             <motion.div
@@ -693,15 +740,15 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="collapse collapse-plus bg-base-100 shadow-lg"
+              transition={{ delay: index * 0.08 }}
+              className="collapse collapse-plus bg-white shadow-[0_10px_30px_rgba(140,192,235,0.12)] rounded-2xl border border-[#8CC0EB]/15"
             >
               <input type="radio" name="faq-accordion" />
-              <div className="collapse-title text-xl font-medium">
+              <div className="collapse-title text-lg font-semibold text-[#14202C]">
                 {faq.question}
               </div>
               <div className="collapse-content">
-                <p className="text-gray-600">{faq.answer}</p>
+                <p className="text-[#14202C]/60">{faq.answer}</p>
               </div>
             </motion.div>
           ))}
@@ -712,27 +759,30 @@ const Home = () => {
 
   // Newsletter Section
   const NewsletterSection = () => (
-    <section className="py-20 bg-gradient-to-r from-[#e8a803] to-[#f59e0b]">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/50 via-[#8CC0EB]/30 to-[#FFF9D2]/50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center max-w-2xl mx-auto"
+          className="text-center max-w-2xl mx-auto bg-white/70 backdrop-blur rounded-[2rem] shadow-[0_24px_60px_rgba(94,155,213,0.22)] border border-white p-10 sm:p-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] flex items-center justify-center mx-auto mb-6">
+            <FiMail className="text-white" size={26} strokeWidth={1.8} />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-[#14202C]">
             Stay Updated
           </h2>
-          <p className="text-white/80 mb-8 text-lg">
+          <p className="text-[#14202C]/60 mb-8 text-lg">
             Subscribe to our newsletter for exclusive offers and decoration tips
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email address"
-              className="flex-1 h-12 px-5 rounded-xl text-sm font-medium bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/60 focus:outline-none focus:bg-white/30 focus:border-white/60 transition-all"
+              className="flex-1 h-12 px-5 rounded-xl text-sm font-medium bg-white border border-[#8CC0EB]/40 text-[#14202C] placeholder-[#14202C]/40 focus:outline-none focus:border-[#5B9BD5] focus:ring-2 focus:ring-[#8CC0EB]/30 transition-all"
             />
-            <button className="h-12 px-6 rounded-xl bg-white text-[#e8a803] font-semibold text-sm hover:bg-white/90 transition-all shadow-lg whitespace-nowrap">
+            <button className="h-12 px-7 rounded-xl bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white font-semibold text-sm hover:shadow-[0_10px_24px_rgba(140,192,235,0.5)] hover:-translate-y-0.5 transition-all whitespace-nowrap">
               Subscribe
             </button>
           </div>

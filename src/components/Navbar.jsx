@@ -105,7 +105,7 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "text-[#e8a803]"
+                      ? "text-[#5B9BD5]"
                       : "text-base-content/70 hover:text-base-content hover:bg-base-200"
                   }`
                 }
@@ -116,7 +116,7 @@ const Navbar = () => {
                     {isActive && (
                       <motion.span
                         layoutId="nav-indicator"
-                        className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#e8a803] rounded-full"
+                        className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#8CC0EB] rounded-full"
                       />
                     )}
                   </>
@@ -130,7 +130,7 @@ const Navbar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-base-content/60 hover:text-[#e8a803] hover:bg-base-200 transition-all duration-200"
+              className="w-9 h-9 flex items-center justify-center rounded-lg text-base-content/60 hover:text-[#5B9BD5] hover:bg-base-200 transition-all duration-200"
               title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
             >
               {theme === "light" ? <FiMoon size={18} /> : <FiSun size={18} />}
@@ -142,7 +142,7 @@ const Navbar = () => {
                 {userRole === "admin" && (
                   <Link
                     to="/dashboard/admin"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border-1.5 border-[#e8a803] text-[#e8a803] hover:bg-[#e8a803] hover:text-white transition-all duration-200"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border-1.5 border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all duration-200"
                   >
                     <FiGrid size={15} />
                     Dashboard
@@ -151,7 +151,7 @@ const Navbar = () => {
                 {userRole === "decorator" && (
                   <Link
                     to="/dashboard/decorator"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border border-[#e8a803] text-[#e8a803] hover:bg-[#e8a803] hover:text-white transition-all duration-200"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all duration-200"
                   >
                     <FiGrid size={15} />
                     Dashboard
@@ -160,7 +160,7 @@ const Navbar = () => {
                 {userRole === "user" && (
                   <Link
                     to="/dashboard"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border border-[#e8a803] text-[#e8a803] hover:bg-[#e8a803] hover:text-white transition-all duration-200"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all duration-200"
                   >
                     <FiUser size={15} />
                     My Account
@@ -177,7 +177,7 @@ const Navbar = () => {
                       referrerPolicy="no-referrer"
                       src={user.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
                       alt={user.displayName}
-                      className="w-8 h-8 rounded-full object-cover ring-2 ring-[#e8a803]/40"
+                      className="w-8 h-8 rounded-full object-cover ring-2 ring-[#8CC0EB]/50"
                     />
                     <FiChevronDown
                       size={14}
@@ -232,7 +232,7 @@ const Navbar = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white shadow-[0_2px_8px_rgba(232,168,3,0.35)] hover:shadow-[0_4px_16px_rgba(232,168,3,0.45)] hover:-translate-y-0.5 transition-all duration-200"
+                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-[#14202C] shadow-[0_2px_10px_rgba(140,192,235,0.4)] hover:shadow-[0_6px_18px_rgba(140,192,235,0.5)] hover:-translate-y-0.5 transition-all duration-200"
                 >
                   Get Started
                 </Link>
@@ -277,9 +277,9 @@ const Navbar = () => {
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
                     `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                      isActive
-                        ? "bg-[#e8a803]/10 text-[#e8a803]"
-                        : "text-base-content/70 hover:bg-base-200 hover:text-base-content"
+                    isActive
+                      ? "bg-[#8CC0EB]/15 text-[#5B9BD5]"
+                      : "text-base-content/70 hover:bg-base-200 hover:text-base-content"
                     }`
                   }
                 >
@@ -294,8 +294,8 @@ const Navbar = () => {
                       <img
                         referrerPolicy="no-referrer"
                         src={user.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
-                        alt={user.displayName}
-                        className="w-9 h-9 rounded-full object-cover ring-2 ring-[#e8a803]/40"
+                          alt={user.displayName}
+                          className="w-9 h-9 rounded-full object-cover ring-2 ring-[#8CC0EB]/50"
                       />
                       <div>
                         <p className="text-sm font-semibold">{user.displayName}</p>
@@ -307,7 +307,7 @@ const Navbar = () => {
                     <Link
                       to={userRole === "user" ? "/dashboard" : `/dashboard/${userRole}`}
                       onClick={() => setMobileMenu(false)}
-                      className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-sm font-semibold border border-[#e8a803] text-[#e8a803] hover:bg-[#e8a803] hover:text-white transition-all"
+                      className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-sm font-semibold border border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all"
                     >
                       <FiGrid size={16} />
                       Dashboard
@@ -332,7 +332,7 @@ const Navbar = () => {
                     <Link
                       to="/register"
                       onClick={() => setMobileMenu(false)}
-                      className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white transition-all"
+                      className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-[#14202C] transition-all"
                     >
                       Get Started
                     </Link>
