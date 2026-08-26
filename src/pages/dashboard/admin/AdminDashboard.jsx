@@ -1,214 +1,112 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { FiDollarSign, FiUsers, FiPackage, FiCalendar } from "react-icons/fi";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-} from "recharts";
+import { FiDollarSign, FiUsers, FiPackage, FiCalendar, FiBarChart2, FiArrowUpRight } from "react-icons/fi";
+import { L, fmtCurrency, fmtNum, Card, Stat, Grid, Loader, ChartTooltip } from "../dashTheme.jsx";
+import { PageHeader, SectionTitle, SupportCard } from "../_ui";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+
+const API = import.meta.env.VITE_API_URL || "https://lumora-server.vercel.app";
 
 const AdminDashboard = () => {
-  const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({ revenue: 0, users: 0, services: 0, bookings: 0 });
+  const [monthly, setMonthly] = useState([]);
+  const [recent, setRecent] = useState([]);
 
   useEffect(() => {
-    fetchAnalytics();
+    const load = async () => {
+      try {
+        const token = await localStorage.getItem("authToken");
+        const headers = { Authorization: `Bearer ${token}` };
+        const [s, m, r] = await Promise.all([
+          axios.get(`${API}/api/analytics/summary`, { headers }).catch(() => ({ data: {} })),
+          axios.get(`${API}/api/analytics/monthly-revenue`, { headers }).catch(() => ({ data: [] })),
+          axios.get(`${API}/api/bookings?limit=5`, { headers }).catch(() => ({ data: [] })),
+        ]);
+        setStats({
+          revenue: s.data.totalRevenue || 0,
+          users: s.data.totalUsers || 0,
+          services: s.data.totalServices || 0,
+          bookings: s.data.totalBookings || 0,
+        });
+        setMonthly(m.data || []);
+        setRecent(Array.isArray(r.data) ? r.data : r.data.bookings || []);
+      } catch {
+        /* ignore */
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
-  const fetchAnalytics = async () => {
-    try {
-      const token = localStorage.getItem("lumora-token");
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/analytics/dashboard`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  if (loading) return <Loader />;
 
-      console.log("Analytics data received:", data);
-      console.log("Service demand data:", data.serviceDemand);
-
-      setAnalytics(data);
-    } catch (error) {
-      console.error("Error fetching analytics:", error);
-      console.error("Error details:", error.response?.data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-20">
-        <span className="loading loading-spinner loading-lg text-purple-600"></span>
-      </div>
-    );
-  }
-
-  const stats = [
-    {
-      icon: FiDollarSign,
-      label: "Total Revenue",
-      value: `৳${(analytics?.totalRevenue || 0).toLocaleString()}`,
-      color: "from-green-500 to-emerald-500",
-    },
-    {
-      icon: FiCalendar,
-      label: "Total Bookings",
-      value: analytics?.totalBookings || 0,
-      color: "from-amber-500 to-yellow-500",
-    },
-    {
-      icon: FiUsers,
-      label: "Total Users",
-      value: analytics?.totalUsers || 0,
-      color: "from-[#e8a803] to-[#f59e0b]",
-    },
-    {
-      icon: FiPackage,
-      label: "Total Decorators",
-      value: analytics?.totalDecorators || 0,
-      color: "from-orange-500 to-red-500",
-    },
+  const statsArr = [
+    { icon: FiDollarSign, label: "Revenue", value: fmtCurrency(stats.revenue), accent: L.primary },
+    { icon: FiUsers, label: "Users", value: fmtNum(stats.users), accent: L.teal },
+    { icon: FiPackage, label: "Services", value: fmtNum(stats.services), accent: L.indigo },
+    { icon: FiCalendar, label: "Bookings", value: fmtNum(stats.bookings), accent: L.amber },
   ];
-
-  // Transform service demand data
-  const chartData =
-    analytics?.serviceDemand?.slice(0, 8).map((item) => ({
-      name:
-        item._id && item._id.length > 15
-          ? item._id.substring(0, 15) + "..."
-          : item._id || "Unknown",
-      bookings: item.count || 0,
-    })) || [];
-
-  console.log("Chart data for AdminDashboard:", chartData);
-  console.log("Has data?", chartData.length > 0);
-
-  // Colors for bars
-  const COLORS = [
-    "#9333ea",
-    "#ec4899",
-    "#3b82f6",
-    "#10b981",
-    "#f59e0b",
-    "#ef4444",
-    "#8b5cf6",
-    "#06b6d4",
-  ];
-
-  // Custom Tooltip
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-base-100 p-4 rounded-lg shadow-xl border border-base-300">
-          <p className="font-semibold text-gray-800">
-            {payload[0].payload.name}
-          </p>
-          <p className="text-purple-600 font-bold text-lg">
-            {payload[0].value} bookings
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
-    <div>
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-4xl font-bold mb-8"
-      >
-        Admin{" "}
-        <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
-          Dashboard
-        </span>
-      </motion.h1>
+    <div className="mx-auto max-w-6xl">
+      <PageHeader title="Admin Dashboard" subtitle="A bird's-eye view of Lumora's operations." />
 
-      {/* Stats Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat, index) => {
-          const Icon = stat.icon;
-          return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={`bg-gradient-to-br ${stat.color} rounded-2xl p-6 text-white shadow-xl hover:shadow-2xl transition-shadow`}
-            >
-              <Icon size={32} className="mb-4 opacity-80" />
-              <p className="text-3xl font-bold mb-2">{stat.value}</p>
-              <p className="opacity-90 font-medium">{stat.label}</p>
-            </motion.div>
-          );
-        })}
+      <Grid cols={4}>
+        {statsArr.map((s, i) => (
+          <Stat key={s.label} {...s} index={i} />
+        ))}
+      </Grid>
+
+      <div className="mt-6 grid gap-5 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <SectionTitle icon={FiBarChart2}>Revenue Overview</SectionTitle>
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={monthly} margin={{ left: -16, right: 8, top: 8 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--lum-skysoft)" vertical={false} />
+                <XAxis dataKey="month" tick={{ fontSize: 11, fill: "var(--lum-text)" }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill: "var(--lum-text)" }} axisLine={false} tickLine={false} />
+                <Tooltip content={<ChartTooltip formatter={fmtCurrency} />} cursor={{ fill: "rgba(140,192,235,0.12)" }} />
+                <Bar dataKey="revenue" name="Revenue" fill={L.primary} radius={[8, 8, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+
+        <Card>
+          <SectionTitle icon={FiCalendar}>Recent Bookings</SectionTitle>
+          {recent.length === 0 ? (
+            <p className="py-10 text-center text-sm text-[var(--lum-text)]/45">No bookings yet.</p>
+          ) : (
+            <ul className="divide-y divide-[var(--lum-skysoft)]/50">
+              {recent.map((b) => (
+                <li key={b._id} className="flex items-center justify-between py-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-[var(--lum-text)]">{b.serviceName || b.eventType || "Booking"}</p>
+                    <p className="text-xs text-[var(--lum-text)]/45">{b.userName || b.customerName || "Customer"}</p>
+                  </div>
+                  <span
+                    className={`rounded-full px-2.5 py-1 text-[11px] font-medium capitalize ${
+                      b.status === "completed"
+                        ? "bg-[#4FD1C5]/15 text-[#0F9B8E]"
+                        : b.status === "pending"
+                        ? "bg-[#F6A623]/15 text-[#B9760A]"
+                        : "bg-[var(--lum-skysoft)]/40 text-[var(--lum-text)]/70"
+                    }`}
+                  >
+                    {b.status || "new"}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
       </div>
 
-      {/* Service Demand Chart */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="bg-base-100 rounded-2xl shadow-xl p-6"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">
-          Top Services by Demand
-        </h2>
-        {chartData.length > 0 ? (
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart
-              data={chartData}
-              margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis
-                dataKey="name"
-                angle={-45}
-                textAnchor="end"
-                height={100}
-                tick={{ fill: "#6b7280", fontSize: 12 }}
-                interval={0}
-              />
-              <YAxis tick={{ fill: "#6b7280" }} allowDecimals={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <Bar
-                dataKey="bookings"
-                radius={[8, 8, 0, 0]}
-                label={{
-                  position: "top",
-                  fill: "#9333ea",
-                  fontSize: 12,
-                  fontWeight: "bold",
-                }}
-              >
-                {chartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        ) : (
-          <div className="text-center py-20 text-gray-500">
-            <div className="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center mx-auto mb-4">
-              <FiBarChart2 size={28} className="text-base-content/30" />
-            </div>
-            <p className="text-xl">No booking data available yet</p>
-            <p className="text-sm mt-2">
-              Data will appear once services are booked
-            </p>
-          </div>
-        )}
-      </motion.div>
+      <SupportCard />
     </div>
   );
 };

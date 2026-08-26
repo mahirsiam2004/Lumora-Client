@@ -1,209 +1,126 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { FiCalendar, FiCreditCard, FiPackage } from "react-icons/fi";
+import { FiCalendar, FiCreditCard, FiPackage, FiArrowRight, FiClock } from "react-icons/fi";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { useAuth } from "../../../contexts/AuthContext";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import { L, fmtCurrency, Card, Grid, Loader, ChartTooltip } from "../dashTheme.jsx";
+import { PageHeader, SectionTitle, EmptyState, SupportCard } from "../_ui";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+
+const API = import.meta.env.VITE_API_URL || "https://lumora-server.vercel.app";
 
 const UserDashboard = () => {
-  const { user } = useAuth();
-  const [stats, setStats] = useState({
-    totalBookings: 0,
-    pendingBookings: 0,
-    completedBookings: 0,
-    cancelledBookings: 0,
-  });
-  const [chartData, setChartData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [bookings, setBookings] = useState([]);
+  const [trend, setTrend] = useState([]);
 
-  const fetchUserStats = useCallback(async () => {
+  const load = useCallback(async () => {
     try {
-      const token = localStorage.getItem("lumora-token");
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/bookings/user/${user.email}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      const bookings = data.bookings || [];
-      const pending = bookings.filter((b) => !b.isPaid).length;
-      const completed = bookings.filter((b) => b.status === "completed").length;
-      const cancelled = bookings.filter((b) => b.status === "cancelled").length;
-
-      setStats({
-        totalBookings: bookings.length,
-        pendingBookings: pending,
-        completedBookings: completed,
-        cancelledBookings: cancelled,
-      });
-
-      setChartData([
-        { name: "Pending", value: pending },
-        { name: "Completed", value: completed },
-        { name: "Cancelled", value: cancelled },
+      const token = await localStorage.getItem("authToken");
+      const headers = { Authorization: `Bearer ${token}` };
+      const [b, t] = await Promise.all([
+        axios.get(`${API}/api/bookings/my-bookings`, { headers }).catch(() => ({ data: [] })),
+        axios.get(`${API}/api/analytics/my-booking-trend`, { headers }).catch(() => ({ data: [] })),
       ]);
-    } catch (error) {
-      console.error("Error fetching stats:", error);
+      setBookings(Array.isArray(b.data) ? b.data : b.data.bookings || []);
+      setTrend(t.data || []);
+    } catch {
+      /* ignore */
+    } finally {
+      setLoading(false);
     }
-  }, [user.email]);
+  }, []);
 
   useEffect(() => {
-    fetchUserStats();
-  }, [fetchUserStats]);
+    load();
+  }, [load]);
 
-  const statCards = [
-    {
-      title: "Total Bookings",
-      value: stats.totalBookings,
-      icon: FiCalendar,
-      color: "from-amber-500 to-yellow-500",
-    },
-    {
-      title: "Pending Payment",
-      value: stats.pendingBookings,
-      icon: FiCreditCard,
-      color: "from-orange-500 to-yellow-500",
-    },
-    {
-      title: "Completed",
-      value: stats.completedBookings,
-      icon: FiPackage,
-      color: "from-green-500 to-emerald-500",
-    },
+  if (loading) return <Loader />;
+
+  const upcoming = bookings.filter((b) => b.status === "pending" || b.status === "confirmed").slice(0, 3);
+  const spent = bookings.reduce((a, b) => a + (b.amount || b.price || 0), 0);
+
+  const statsArr = [
+    { icon: FiCalendar, label: "My Bookings", value: bookings.length, accent: L.primary, to: "/dashboard/my-bookings" },
+    { icon: FiClock, label: "Upcoming", value: upcoming.length, accent: L.teal, to: "/dashboard/my-bookings" },
+    { icon: FiCreditCard, label: "Total Spent", value: fmtCurrency(spent), accent: L.indigo, to: "/dashboard/payment-history" },
+    { icon: FiPackage, label: "Browse Services", value: "→", accent: L.amber, to: "/services" },
   ];
 
-  const COLORS = ["#f59e0b", "#10b981", "#ef4444"];
-
   return (
-    <div>
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <h1 className="text-4xl font-bold mb-2">
-          Welcome back,{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
-            {user?.displayName?.split(" ")[0]}
-          </span>
-        </h1>
-        <p className="text-gray-600">
-          Here&apos;s an overview of your bookings and activities
-        </p>
-      </motion.div>
+    <div className="mx-auto max-w-6xl">
+      <PageHeader title="My Dashboard" subtitle="Welcome back — here's your Lumora activity." />
 
-      {/* Stats Grid */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
-        {statCards.map((stat, index) => {
-          const Icon = stat.icon;
-          return (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={`bg-gradient-to-br ${stat.color} rounded-2xl p-6 text-white`}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <Icon size={32} />
-                <span className="text-4xl font-bold">{stat.value}</span>
+      <Grid cols={4}>
+        {statsArr.map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.05 }}
+          >
+            <Link to={s.to} className="block">
+              <div className="group rounded-2xl border border-[var(--lum-skysoft)]/60 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div
+                    className="flex h-11 w-11 items-center justify-center rounded-xl"
+                    style={{ background: `${s.accent}1a`, color: s.accent }}
+                  >
+                    <s.icon size={20} />
+                  </div>
+                  <FiArrowRight size={16} className="text-[var(--lum-text)]/30 transition-transform group-hover:translate-x-1" />
+                </div>
+                <p className="mt-4 text-2xl font-bold text-[var(--lum-text)]">{s.value}</p>
+                <p className="text-sm text-[var(--lum-text)]/55">{s.label}</p>
               </div>
-              <p className="text-lg font-medium opacity-90">{stat.title}</p>
-            </motion.div>
-          );
-        })}
+            </Link>
+          </motion.div>
+        ))}
+      </Grid>
+
+      <div className="mt-6 grid gap-5 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <SectionTitle icon={FiCalendar}>Booking Activity</SectionTitle>
+          {trend.length === 0 ? (
+            <p className="py-10 text-center text-sm text-[var(--lum-text)]/45">No activity to chart yet.</p>
+          ) : (
+            <div className="h-72 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={trend} margin={{ left: -16, right: 8, top: 8 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--lum-skysoft)" vertical={false} />
+                  <XAxis dataKey="month" tick={{ fontSize: 11, fill: "var(--lum-text)" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fill: "var(--lum-text)" }} axisLine={false} tickLine={false} />
+                  <Tooltip content={<ChartTooltip />} cursor={{ stroke: L.accent, strokeOpacity: 0.3 }} />
+                  <Line type="monotone" dataKey="bookings" name="Bookings" stroke={L.primary} strokeWidth={3} dot={{ r: 3, fill: L.primary }} activeDot={{ r: 5 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
+        </Card>
+
+        <Card>
+          <SectionTitle icon={FiClock}>Upcoming</SectionTitle>
+          {upcoming.length === 0 ? (
+            <EmptyState icon={FiCalendar} title="Nothing scheduled" note="Book a service to get started." />
+          ) : (
+            <ul className="space-y-3">
+              {upcoming.map((b) => (
+                <li key={b._id} className="flex items-center gap-3 rounded-xl border border-[var(--lum-skysoft)]/50 p-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--lum-skysoft)]/50 text-[var(--lum-accent)]">
+                    <FiPackage size={16} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-[var(--lum-text)]">{b.serviceName || b.eventType || "Booking"}</p>
+                    <p className="text-xs text-[var(--lum-text)]/45 capitalize">{b.status}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
       </div>
 
-      {/* Charts Section */}
-      <div className="grid lg:grid-cols-2 gap-8 mb-8">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-base-100 rounded-2xl shadow-xl p-6"
-        >
-          <h3 className="text-xl font-bold mb-6">Booking Status</h3>
-          <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  outerRadius={100}
-                  fill="#8884d8"
-                  dataKey="value"
-                  label={({ name, percent }) =>
-                    percent > 0 ? `${name} ${(percent * 100).toFixed(0)}%` : ""
-                  }
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-base-100 rounded-2xl shadow-xl p-6 flex flex-col justify-center items-center text-center"
-        >
-          <div className="p-4 bg-amber-50 rounded-full mb-4">
-            <FiPackage className="text-purple-600 text-4xl" />
-          </div>
-          <h3 className="text-xl font-bold mb-2">Need Help?</h3>
-          <p className="text-gray-600 mb-6">
-            Have questions about your bookings? Our support team is here to help
-            you 24/7.
-          </p>
-          <Link to="/contact" className="btn btn-primary w-full max-w-xs">
-            Contact Support
-          </Link>
-        </motion.div>
-      </div>
-
-      {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="bg-white rounded-2xl shadow-xl p-6"
-      >
-        <h2 className="text-2xl font-bold mb-6">Quick Actions</h2>
-        <div className="grid md:grid-cols-3 gap-4">
-          <Link
-            to="/services"
-            className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
-          >
-            Browse Services
-          </Link>
-          <Link to="/dashboard/my-bookings" className="btn btn-lg btn-outline">
-            View My Bookings
-          </Link>
-          <Link
-            to="/dashboard/payment-history"
-            className="btn btn-lg btn-outline"
-          >
-            Payment History
-          </Link>
-        </div>
-      </motion.div>
+      <SupportCard />
     </div>
   );
 };

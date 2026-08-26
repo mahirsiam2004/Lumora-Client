@@ -21,9 +21,11 @@ import {
   FiGift,
 } from "react-icons/fi";
 import { useState } from "react";
+import { useSiteSettings } from "../contexts/SiteSettingsContext";
 
 const DashboardLayout = () => {
   const { user, userRole } = useAuth();
+  const { settings } = useSiteSettings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // User Navigation Links
@@ -123,16 +125,20 @@ const DashboardLayout = () => {
           style={{ boxShadow: "4px 0 24px rgba(15,27,42,0.18)" }}
         >
           <div className="p-6 overflow-y-auto h-full flex flex-col">
-            {/* Brand */}
+            {/* Brand — Lumora logo image (no text) */}
             <div className="flex items-center gap-3 mb-8 px-1">
-              <div
-                className="flex h-10 w-10 items-center justify-center rounded-xl text-white shadow-lg"
-                style={{ background: "linear-gradient(135deg, var(--lum-accent), var(--lum-primary))" }}
-              >
-                <FiGrid size={20} />
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15 overflow-hidden">
+                {settings.logoUrl ? (
+                  <img
+                    src={settings.logoUrl}
+                    alt={settings.brandName || "Lumora"}
+                    className="h-9 w-9 object-contain"
+                  />
+                ) : (
+                  <span className="text-base font-bold text-white">L</span>
+                )}
               </div>
               <div className="leading-tight">
-                <p className="text-base font-bold tracking-tight">Lumora</p>
                 <p className="text-[11px] uppercase tracking-widest text-white/40">
                   Dashboard
                 </p>
