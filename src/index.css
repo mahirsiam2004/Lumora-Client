@@ -41,6 +41,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ─── Soft Pastel Theme Variables ──────────────────────────── */
+/* Lumora dynamic theme tokens — overridden at runtime by the
+   SiteSettingsProvider from admin-configured values (see
+   src/contexts/SiteSettingsContext.jsx). Components reference these
+   via var(--lum-*) so the admin can recolor the whole project. */
+:root {
+  --lum-primary: #8CC0EB;
+  --lum-accent: #5B9BD5;
+  --lum-text: #14202C;
+  --lum-bg: #FFF9D2;
+  --lum-cream: #FFF9D2;
+  --lum-peach: #FFEBCC;
+  --lum-skysoft: #BFDDF0;
+  --lum-legacy: #e8a803; /* legacy gold -> follows accent */
+}
+
 [data-theme="light"] {
   --color-bg: #FFFBF2;
   --color-surface: #FFFFFF;
@@ -48,11 +63,11 @@ h1, h2, h3, h4, h5, h6 {
   --color-border: #E6EFF6;
   --color-text: #1F3A52;
   --color-text-muted: #5C7184;
-  --color-primary: #8CC0EB;
-  --color-primary-deep: #5B9BD5;
-  --color-peach: #FFEBCC;
-  --color-cream: #FFF9D2;
-  --color-skysoft: #BFDDF0;
+  --color-primary: var(--lum-primary);
+  --color-primary-deep: var(--lum-accent);
+  --color-peach: var(--lum-peach);
+  --color-cream: var(--lum-cream);
+  --color-skysoft: var(--lum-skysoft);
 
   --shadow-sm: 0 1px 3px rgba(31, 58, 82, 0.06), 0 1px 2px rgba(31, 58, 82, 0.04);
   --shadow-md: 0 6px 18px rgba(31, 58, 82, 0.07), 0 2px 6px rgba(31, 58, 82, 0.04);
@@ -61,17 +76,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 [data-theme="dark"] {
-  --color-bg: #14202C;
+  --color-bg: var(--lum-text);
   --color-surface: #1B2A38;
   --color-surface-2: #213243;
   --color-border: #2C4154;
   --color-text: #EAF2F8;
   --color-text-muted: #9DB2C4;
-  --color-primary: #8CC0EB;
-  --color-primary-deep: #5B9BD5;
-  --color-peach: #FFEBCC;
-  --color-cream: #FFF9D2;
-  --color-skysoft: #BFDDF0;
+  --color-primary: var(--lum-primary);
+  --color-primary-deep: var(--lum-accent);
+  --color-peach: var(--lum-peach);
+  --color-cream: var(--lum-cream);
+  --color-skysoft: var(--lum-skysoft);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.35);
@@ -81,7 +96,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Dark Theme Overrides ──────────────────────────────────── */
 [data-theme="dark"] body {
-  background-color: #14202C;
+  background-color: var(--lum-text);
   color: #EAF2F8;
 }
 
@@ -146,7 +161,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .input:focus, .select:focus, .textarea:focus {
   outline: none !important;
-  border-color: #8CC0EB !important;
+  border-color: var(--lum-primary) !important;
   box-shadow: 0 0 0 4px rgba(140, 192, 235, 0.18) !important;
 }
 
@@ -165,7 +180,7 @@ h1, h2, h3, h4, h5, h6 {
 [data-theme="dark"] .input-bordered:focus,
 [data-theme="dark"] .select-bordered:focus,
 [data-theme="dark"] .textarea-bordered:focus {
-  border-color: #8CC0EB !important;
+  border-color: var(--lum-primary) !important;
   box-shadow: 0 0 0 4px rgba(140, 192, 235, 0.22) !important;
 }
 
@@ -193,7 +208,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .file-input:focus {
-  border-color: #8CC0EB !important;
+  border-color: var(--lum-primary) !important;
   box-shadow: 0 0 0 4px rgba(140, 192, 235, 0.18) !important;
 }
 
@@ -250,15 +265,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Primary: soft sky-blue */
 .btn-primary {
-  background: linear-gradient(135deg, #8CC0EB, #5B9BD5);
+  background: linear-gradient(135deg, var(--lum-primary), var(--lum-accent));
   border-color: transparent;
-  color: #14202C;
+  color: var(--lum-text);
   box-shadow: 0 6px 18px rgba(140, 192, 235, 0.40);
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, #9CC8EE, #6BA8DC);
-  color: #14202C;
+  color: var(--lum-text);
   box-shadow: 0 14px 30px rgba(140, 192, 235, 0.50);
 }
 
@@ -271,7 +286,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-outline:hover {
   background: #F0F6FB;
-  border-color: #8CC0EB;
+  border-color: var(--lum-primary);
   color: #1F3A52;
 }
 
@@ -282,7 +297,7 @@ h1, h2, h3, h4, h5, h6 {
 
 [data-theme="dark"] .btn-outline:hover {
   background: #213243;
-  border-color: #8CC0EB;
+  border-color: var(--lum-primary);
   color: #EAF2F8;
 }
 
@@ -353,7 +368,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Gradient Text (soft) ──────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(120deg, #5B9BD5, #8CC0EB 55%, #BFDDF0);
+  background: linear-gradient(120deg, var(--lum-accent), var(--lum-primary) 55%, var(--lum-skysoft));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -381,7 +396,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Loading Spinner ────────────────────────────────────────── */
 .loading-spinner-brand {
-  border-color: #8CC0EB;
+  border-color: var(--lum-primary);
   border-top-color: transparent;
 }
 
@@ -410,7 +425,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Focus Ring ─────────────────────────────────────────────── */
 *:focus-visible {
-  outline: 2px solid #8CC0EB;
+  outline: 2px solid var(--lum-primary);
   outline-offset: 2px;
 }
 
@@ -462,7 +477,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   height: 2px;
-  background: #8CC0EB;
+  background: var(--lum-primary);
   border-radius: 1px;
 }
 

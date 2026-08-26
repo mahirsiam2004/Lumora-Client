@@ -35,7 +35,7 @@ const Navbar = () => {
         <nav
           className={`flex items-center justify-between gap-4 rounded-full px-3.5 py-1.5 transition-all duration-300 ${
             scrolled
-              ? "bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgba(94,155,213,0.18)] border border-[#8CC0EB]/25"
+              ? "bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgba(94,155,213,0.18)] border border-[var(--lum-primary)]/25"
               : "bg-white/50 backdrop-blur-md border border-transparent"
           }`}
         >
@@ -53,8 +53,8 @@ const Navbar = () => {
                 className={({ isActive }) =>
                   `px-4 py-1 rounded-full text-sm font-medium transition-all ${
                     isActive
-                      ? "bg-white text-[#5B9BD5] shadow-sm"
-                      : "text-[#14202C]/55 hover:text-[#14202C]"
+                      ? "bg-white text-[var(--lum-accent)] shadow-sm"
+                      : "text-[var(--lum-text)]/55 hover:text-[var(--lum-text)]"
                   }`
                 }
               >
@@ -68,7 +68,7 @@ const Navbar = () => {
             {user ? (
               <Link
                 to="/dashboard"
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
               >
                 Dashboard
                 <FiArrowRight size={15} />
@@ -76,7 +76,7 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/login"
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
               >
                 Sign In
                 <FiArrowRight size={15} />
@@ -85,7 +85,7 @@ const Navbar = () => {
 
             <button
               onClick={() => setMobileMenu((v) => !v)}
-              className="lg:hidden w-9 h-9 grid place-items-center rounded-full bg-[#F2F8FD] text-[#14202C]"
+              className="lg:hidden w-9 h-9 grid place-items-center rounded-full bg-[#F2F8FD] text-[var(--lum-text)]"
               aria-label="Toggle menu"
             >
               {mobileMenu ? <FiX size={18} /> : <FiMenu size={18} />}
@@ -98,7 +98,7 @@ const Navbar = () => {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="lg:hidden mt-2 bg-white/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_50px_rgba(94,155,213,0.2)] border border-[#8CC0EB]/25 p-4"
+            className="lg:hidden mt-2 bg-white/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_50px_rgba(94,155,213,0.2)] border border-[var(--lum-primary)]/25 p-4"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
@@ -109,8 +109,8 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     `px-4 py-3 rounded-2xl text-sm font-medium transition-all ${
                       isActive
-                        ? "bg-[#8CC0EB]/15 text-[#5B9BD5]"
-                        : "text-[#14202C]/70 hover:bg-[#F2F8FD]"
+                        ? "bg-[var(--lum-primary)]/15 text-[var(--lum-accent)]"
+                        : "text-[var(--lum-text)]/70 hover:bg-[#F2F8FD]"
                     }`
                   }
                 >
@@ -118,12 +118,12 @@ const Navbar = () => {
                 </NavLink>
               ))}
             </div>
-            <div className="mt-3 pt-3 border-t border-[#8CC0EB]/20">
+            <div className="mt-3 pt-3 border-t border-[var(--lum-primary)]/20">
               {user ? (
                 <Link
                   to="/dashboard"
                   onClick={() => setMobileMenu(false)}
-                  className="flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white"
+                  className="flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white"
                 >
                   Dashboard
                   <FiArrowRight size={16} />
@@ -132,7 +132,7 @@ const Navbar = () => {
                 <Link
                   to="/login"
                   onClick={() => setMobileMenu(false)}
-                  className="flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white"
+                  className="flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white"
                 >
                   Sign In
                   <FiArrowRight size={16} />

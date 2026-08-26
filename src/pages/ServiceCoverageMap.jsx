@@ -63,8 +63,8 @@ const ServiceCoverageMap = () => {
                     center={area.position}
                     radius={area.radius}
                     pathOptions={{
-                      color: "#5B9BD5",
-                      fillColor: "#8CC0EB",
+                      color: "var(--lum-accent)",
+                      fillColor: "var(--lum-primary)",
                       fillOpacity: 0.12,
                     }}
                   />

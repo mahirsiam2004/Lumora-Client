@@ -12,7 +12,7 @@ const About = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-sky/70 via-primarydeep to-[#5B9BD5] text-white overflow-hidden">
+      <section className="relative py-20 bg-gradient-to-br from-sky/70 via-primarydeep to-[var(--lum-accent)] text-white overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ const About = () => {
                 title: "Customer Focused",
                 description:
                   "Your satisfaction is our top priority, and we go above and beyond.",
-                color: "from-[#8CC0EB] to-[#5B9BD5]",
+                color: "from-[var(--lum-primary)] to-[var(--lum-accent)]",
               },
               {
                 title: "Innovation",

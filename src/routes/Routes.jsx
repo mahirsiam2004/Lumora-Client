@@ -28,6 +28,8 @@ import ManageServices from "../pages/dashboard/admin/ManageServices";
 import ManageBookings from "../pages/dashboard/admin/ManageBookings";
 import ManageDecorators from "../pages/dashboard/admin/ManageDecorators";
 import Analytics from "../pages/dashboard/admin/Analytics";
+import SiteSettings from "../pages/dashboard/admin/SiteSettings";
+import ManagePromotions from "../pages/dashboard/admin/ManagePromotions";
 
 import DecoratorDashboard from "../pages/dashboard/decorator/DecoratorDashboard";
 import MyProjects from "../pages/dashboard/decorator/MyProjects";
@@ -158,6 +160,22 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Analytics />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "admin/settings",
+        element: (
+          <AdminRoute>
+            <SiteSettings />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "admin/promotions",
+        element: (
+          <AdminRoute>
+            <ManagePromotions />
           </AdminRoute>
         ),
       },
