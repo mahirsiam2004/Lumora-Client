@@ -180,11 +180,15 @@ const Home = () => {
     </section>
   );
 
-  /* ── Stats (pill counter cards — Pinterest idea) ──────── */
+  /* ── Stats (editorial band with dividers) ────────────── */
   const StatsBar = () => (
-    <section className="relative -mt-10 z-20">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <section className="relative py-16 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="soft-blob bg-[#BFDDF0] w-96 h-96 -top-24 -right-20 opacity-25" />
+        <div className="soft-blob bg-[#FFEBCC] w-96 h-96 -bottom-24 -left-20 opacity-30" />
+      </div>
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 bg-white/55 backdrop-blur-xl border border-[#8CC0EB]/20 rounded-[2rem] shadow-[0_20px_50px_rgba(140,192,235,0.14)] divide-y md:divide-y-0 md:divide-x divide-[#8CC0EB]/15">
           {[
             { num: "250+", label: "Events Styled" },
             { num: "12+", label: "Years of Craft" },
@@ -197,12 +201,14 @@ const Home = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="bg-white/90 backdrop-blur rounded-3xl px-6 py-7 text-center shadow-[0_18px_44px_rgba(140,192,235,0.18)] border border-[#8CC0EB]/15"
+              className="px-6 py-9 text-center"
             >
-              <div className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+              <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
                 {s.num}
               </div>
-              <div className="mt-1 text-sm font-medium text-[#14202C]/60">{s.label}</div>
+              <div className="mt-2 text-[13px] font-medium uppercase tracking-wider text-[#14202C]/50">
+                {s.label}
+              </div>
             </motion.div>
           ))}
         </div>
@@ -210,10 +216,14 @@ const Home = () => {
     </section>
   );
 
-  /* ── Events We Cover (category cards — daisyUI style) ──── */
+  /* ── Events We Cover (glass chips) ───────────────────── */
   const EventsWeCover = () => (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="soft-blob bg-[#8CC0EB] w-[24rem] h-[24rem] top-0 right-0 opacity-20" />
+        <div className="soft-blob bg-[#FFF9D2] w-[20rem] h-[20rem] bottom-0 left-0 opacity-50" />
+      </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -234,7 +244,7 @@ const Home = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
             { icon: FiGift, label: "Weddings" },
             { icon: FiHome, label: "Home interiors" },
@@ -251,12 +261,12 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="group bg-gradient-to-b from-[#FFF9D2]/50 to-white rounded-3xl p-6 text-center border border-[#8CC0EB]/15 shadow-[0_10px_30px_rgba(140,192,235,0.10)] hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(140,192,235,0.20)] transition-all duration-300"
+                className="group flex flex-col items-center gap-3 px-4 py-7 rounded-3xl bg-white/55 backdrop-blur-xl border border-white/60 shadow-[0_12px_34px_rgba(140,192,235,0.12)] hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_18px_44px_rgba(140,192,235,0.20)] transition-all duration-300"
               >
-                <div className="mx-auto w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] flex items-center justify-center shadow-[0_8px_20px_rgba(94,155,213,0.35)] group-hover:scale-105 transition-transform">
+                <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] flex items-center justify-center shadow-[0_8px_20px_rgba(94,155,213,0.35)] group-hover:scale-105 transition-transform">
                   <Icon size={24} className="text-white" />
-                </div>
-                <h3 className="mt-4 text-[15px] font-semibold text-[#14202C]">{e.label}</h3>
+                </span>
+                <span className="text-[14px] font-semibold text-[#14202C]">{e.label}</span>
               </motion.div>
             );
           })}
@@ -265,10 +275,14 @@ const Home = () => {
     </section>
   );
 
-  /* ── Why Lumora (feature grid) ────────────────────────── */
+  /* ── Why Lumora (glass feature grid) ─────────────────── */
   const WhyLumora = () => (
-    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/25 via-white to-[#FFF9D2]/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="soft-blob bg-[#BFDDF0] w-[26rem] h-[26rem] -top-20 -left-16 opacity-25" />
+        <div className="soft-blob bg-[#FFEBCC] w-[22rem] h-[22rem] -bottom-20 -right-16 opacity-35" />
+      </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -286,7 +300,7 @@ const Home = () => {
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-5">
           {[
             { icon: FiSearch, title: "Curated packages", text: "Handpicked decoration styles for every budget — browse, compare, decide in minutes." },
             { icon: FiUsers, title: "Vetted decorators", text: "Work with experienced professionals, each rated by real clients after every event." },
@@ -303,9 +317,9 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="bg-white/80 backdrop-blur rounded-3xl p-7 border border-[#8CC0EB]/20 shadow-[0_12px_36px_rgba(140,192,235,0.12)] hover:-translate-y-1 transition-all duration-300"
+                className="group p-7 rounded-3xl bg-white/55 backdrop-blur-xl border border-white/60 shadow-[0_14px_38px_rgba(140,192,235,0.12)] hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_20px_48px_rgba(140,192,235,0.20)] transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFEBCC] to-[#8CC0EB] flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFEBCC] to-[#8CC0EB] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
                   <Icon size={22} className="text-[#14202C]" />
                 </div>
                 <h3 className="text-lg font-bold text-[#14202C]">{f.title}</h3>
