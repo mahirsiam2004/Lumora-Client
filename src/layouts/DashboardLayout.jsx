@@ -20,6 +20,8 @@ import {
   FiClock,
   FiDollarSign,
   FiSettings,
+  FiGift,
+  FiLogOut,
 } from "react-icons/fi";
 import { useState } from "react";
 

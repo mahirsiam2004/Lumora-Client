@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { FiDollarSign, FiUsers, FiPackage, FiCalendar } from "react-icons/fi";
+import { FiDollarSign, FiUsers, FiPackage, FiCalendar, FiBarChart2 } from "react-icons/fi";
 import {
   BarChart,
   Bar,
