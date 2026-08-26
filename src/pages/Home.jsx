@@ -5,16 +5,15 @@ import { gsap } from "gsap";
 import axios from "../utilits/axiosInstance";
 import {
   FiStar,
-  FiMapPin,
   FiArrowRight,
   FiCheck,
-  FiUsers,
-  FiAward,
-  FiClock,
-  FiTrendingUp,
   FiShield,
   FiZap,
-  FiMail,
+  FiAward,
+  FiHeart,
+  FiMapPin,
+  FiClock,
+  FiMessageSquare,
 } from "react-icons/fi";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Skeleton from "react-loading-skeleton";
@@ -24,8 +23,6 @@ const Home = () => {
   const [services, setServices] = useState([]);
   const [decorators, setDecorators] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Create refs array for GSAP animations in ServicesSection
   const cardRefs = useRef([]);
 
   useEffect(() => {
@@ -38,9 +35,8 @@ const Home = () => {
         axios.get(`${import.meta.env.VITE_API_URL}/api/services?limit=8`),
         axios.get(`${import.meta.env.VITE_API_URL}/api/decorators`),
       ]);
-
       setServices(servicesRes.data.services || []);
-      setDecorators(decoratorsRes.data.slice(0, 4) || []);
+      setDecorators(decoratorsRes.data.slice(0, 8) || []);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -48,361 +44,206 @@ const Home = () => {
     }
   };
 
-  // Hero Section
+  /* ── Hero (centered editorial, no image banner) ───────────── */
   const Hero = () => (
-    <section className="relative min-h-[88vh] flex items-center overflow-hidden bg-gradient-to-br from-[#FFF9D2]/70 via-white to-[#BFDDF0]/40">
-      {/* Soft floating pastel blobs */}
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#FFF9D2]/60 via-white to-[#BFDDF0]/30">
+      {/* soft blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{ scale: [1, 1.15, 1], x: [0, 30, 0], y: [0, -20, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-32 -right-24 w-[28rem] h-[28rem] bg-[#8CC0EB] rounded-full blur-3xl opacity-25"
-        />
-        <motion.div
-          animate={{ scale: [1.1, 1, 1.1], x: [0, -20, 0], y: [0, 25, 0] }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-32 -left-24 w-[26rem] h-[26rem] bg-[#FFEBCC] rounded-full blur-3xl opacity-40"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], rotate: [0, 20, 0] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/3 left-1/2 w-72 h-72 bg-[#BFDDF0] rounded-full blur-3xl opacity-20"
-        />
+        <div className="soft-blob bg-[#8CC0EB] w-[28rem] h-[28rem] -top-32 -right-24 opacity-25" />
+        <div className="soft-blob bg-[#FFEBCC] w-[26rem] h-[26rem] -bottom-40 -left-24 opacity-50" />
+        <div className="soft-blob bg-[#BFDDF0] w-80 h-80 top-1/3 left-1/3 opacity-25" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 border border-[#8CC0EB]/40 text-[#5B9BD5] text-sm font-medium shadow-[0_2px_10px_rgba(140,192,235,0.15)] mb-6">
-              <FiStar size={14} />
-              Trusted by 500+ happy clients
-            </span>
-
-            <motion.h1
-              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-[1.1] text-[#14202C]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-            >
-              Transform Your
-              <span className="block bg-gradient-to-r from-[#8CC0EB] via-[#5B9BD5] to-[#3E7CB1] bg-clip-text text-transparent">
-                Spaces Into Magic
-              </span>
-            </motion.h1>
-
-            <motion.p
-              className="text-lg text-[#14202C]/60 mb-9 max-w-lg leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-            >
-              Professional decoration services for homes, weddings, and special
-              events. Create unforgettable memories with Lumora.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-wrap gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Link
-                to="/services"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_8px_24px_rgba(140,192,235,0.45)] hover:shadow-[0_12px_32px_rgba(140,192,235,0.55)] hover:-translate-y-0.5 transition-all duration-300"
-              >
-                Book Decoration Service
-                <FiArrowRight size={18} />
-              </Link>
-              <Link
-                to="/coverage-map"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl text-sm font-semibold border border-[#8CC0EB]/60 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all duration-300"
-              >
-                View Coverage
-              </Link>
-            </motion.div>
-
-            <motion.div
-              className="mt-14 grid grid-cols-3 gap-6 max-w-md"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              {[
-                { number: "500+", label: "Happy Clients" },
-                { number: "50+", label: "Expert Decorators" },
-                { number: "1000+", label: "Projects Done" },
-              ].map((stat, index) => (
-                <div key={index} className="text-left">
-                  <div className="text-3xl font-bold bg-gradient-to-r from-[#5B9BD5] to-[#3E7CB1] bg-clip-text text-transparent">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-[#14202C]/55 mt-1">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="relative">
-              <motion.img
-                src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800"
-                alt="Decoration"
-                className="rounded-[2rem] shadow-[0_30px_60px_rgba(94,155,213,0.25)] w-full object-cover"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.4 }}
-              />
-              <motion.div
-                className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur px-6 py-5 rounded-2xl shadow-[0_16px_40px_rgba(94,155,213,0.25)] border border-[#8CC0EB]/30"
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.9 }}
-              >
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] rounded-full flex items-center justify-center">
-                    <FiCheck className="text-white" size={24} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-[#14202C]">
-                      100% Satisfaction
-                    </div>
-                    <div className="text-sm text-[#14202C]/55">
-                      Guaranteed Quality
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-
-  // Stats Section
-  const StatsSection = () => (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { icon: FiUsers, number: "500+", label: "Happy Clients" },
-            { icon: FiAward, number: "50+", label: "Awards Won" },
-            { icon: FiClock, number: "1000+", label: "Projects Completed" },
-            { icon: FiTrendingUp, number: "98%", label: "Success Rate" },
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center p-8 rounded-3xl bg-gradient-to-br from-[#FFF9D2]/50 to-[#BFDDF0]/30 border border-white shadow-[0_10px_30px_rgba(140,192,235,0.12)] hover:shadow-[0_18px_40px_rgba(140,192,235,0.2)] hover:-translate-y-1 transition-all duration-300"
-            >
-              <stat.icon
-                className="mx-auto text-[#5B9BD5] mb-4"
-                size={44}
-                strokeWidth={1.6}
-              />
-              <div className="text-4xl font-bold text-[#14202C] mb-2">
-                {stat.number}
-              </div>
-              <div className="text-[#14202C]/55">{stat.label}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-
-  // Features Section
-  const FeaturesSection = () => (
-    <section className="py-24 bg-gradient-to-br from-[#FFF9D2]/40 via-white to-[#BFDDF0]/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-28 pb-24">
+        <motion.span
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 border border-[#8CC0EB]/40 text-[#5B9BD5] text-sm font-medium shadow-[0_2px_10px_rgba(140,192,235,0.15)] mb-8"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
-            Why Choose{" "}
-            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              Lumora
-            </span>
-          </h2>
-          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
-            We provide exceptional decoration services with attention to every
-            detail
-          </p>
+          <FiZap size={14} />
+          Trusted by 500+ happy clients
+        </motion.span>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.08] text-[#14202C]"
+        >
+          Beautiful spaces,
+          <br />
+          <span className="bg-gradient-to-r from-[#8CC0EB] via-[#5B9BD5] to-[#3E7CB1] bg-clip-text text-transparent">
+            effortlessly designed
+          </span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-7 text-lg text-[#14202C]/60 max-w-xl mx-auto leading-relaxed"
+        >
+          Lumora brings professional home, wedding and event decoration to
+          Dhaka — curated by expert decorators, delivered with care.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_10px_28px_rgba(140,192,235,0.45)] hover:shadow-[0_14px_36px_rgba(140,192,235,0.55)] hover:-translate-y-0.5 transition-all duration-300"
+          >
+            Explore Services
+            <FiArrowRight size={18} />
+          </Link>
+          <Link
+            to="/coverage-map"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold border border-[#8CC0EB]/50 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all duration-300"
+          >
+            <FiMapPin size={18} />
+            Check Coverage
+          </Link>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* value strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.45 }}
+          className="mt-16 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm text-[#14202C]/55"
+        >
           {[
-            {
-              icon: FiShield,
-              title: "Quality Guaranteed",
-              description:
-                "We ensure the highest quality in every project we undertake",
-            },
-            {
-              icon: FiZap,
-              title: "Fast Delivery",
-              description:
-                "Quick turnaround time without compromising on quality",
-            },
-            {
-              icon: FiAward,
-              title: "Expert Team",
-              description:
-                "Professional decorators with years of experience",
-            },
-          ].map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white/80 backdrop-blur p-8 rounded-3xl shadow-[0_12px_36px_rgba(140,192,235,0.14)] border border-[#8CC0EB]/20 hover:-translate-y-1.5 hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] transition-all duration-300"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#BFDDF0] to-[#8CC0EB] flex items-center justify-center mb-6">
-                <feature.icon className="text-white" size={26} strokeWidth={1.8} />
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-[#14202C]">
-                {feature.title}
-              </h3>
-              <p className="text-[#14202C]/60 leading-relaxed">
-                {feature.description}
-              </p>
-            </motion.div>
+            { Icon: FiShield, label: "Quality Guaranteed" },
+            { Icon: FiZap, label: "Fast Delivery" },
+            { Icon: FiAward, label: "Expert Team" },
+            { Icon: FiHeart, label: "Made With Love" },
+          ].map((v, i) => (
+            <span key={i} className="inline-flex items-center gap-2">
+              <v.Icon className="text-[#5B9BD5]" size={18} />
+              {v.label}
+            </span>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 
-  // Services Section
+  /* ── Services (bento, no card grid) ───────────────────────── */
   const ServicesSection = () => (
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
-            Our{" "}
-            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              Services
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+              What we do
             </span>
-          </h2>
-          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
-            Explore our wide range of decoration packages tailored to your needs
-          </p>
-        </motion.div>
+            <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+              Services crafted for{" "}
+              <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+                every occasion
+              </span>
+            </h2>
+          </motion.div>
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold border border-[#8CC0EB]/50 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all shrink-0"
+          >
+            View All
+            <FiArrowRight size={16} />
+          </Link>
+        </div>
 
         {loading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-4 gap-5">
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-3xl shadow-[0_10px_30px_rgba(140,192,235,0.12)] overflow-hidden"
+                className="rounded-3xl overflow-hidden bg-[#F2F8FD]"
               >
-                <Skeleton height={200} />
-                <div className="p-5">
-                  <Skeleton count={3} />
-                </div>
+                <Skeleton height={i % 3 === 0 ? 320 : 200} borderRadius={24} />
               </div>
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-4 auto-rows-[200px] gap-5">
             {services.map((service, index) => {
-              const handleMouseEnter = () => {
-                if (cardRefs.current[index]) {
+              const feature = index % 5 === 0;
+              const handleEnter = () => {
+                if (cardRefs.current[index])
                   gsap.to(cardRefs.current[index], {
-                    y: -12,
-                    scale: 1.02,
+                    y: -8,
                     boxShadow: "0 30px 60px rgba(94,155,213,0.3)",
                     duration: 0.5,
                     ease: "power3.out",
                   });
-                }
               };
-
-              const handleMouseLeave = () => {
-                if (cardRefs.current[index]) {
+              const handleLeave = () => {
+                if (cardRefs.current[index])
                   gsap.to(cardRefs.current[index], {
                     y: 0,
-                    scale: 1,
                     boxShadow: "0 10px 30px rgba(140,192,235,0.12)",
                     duration: 0.5,
                     ease: "power3.out",
                   });
-                }
               };
 
               return (
                 <motion.div
                   key={service._id}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.08 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={feature ? "md:col-span-2 md:row-span-2" : ""}
                 >
-                  <Link to={`/services/${service._id}`}>
+                  <Link to={`/services/${service._id}`} className="block h-full">
                     <div
                       ref={(el) => (cardRefs.current[index] = el)}
-                      onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}
-                      className="bg-white p-4 rounded-3xl shadow-[0_10px_30px_rgba(140,192,235,0.12)] group overflow-hidden h-full border border-[#8CC0EB]/15"
+                      onMouseEnter={handleEnter}
+                      onMouseLeave={handleLeave}
+                      className="group relative h-full min-h-[200px] rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(140,192,235,0.12)] border border-[#8CC0EB]/15"
                       style={{ boxShadow: "0 10px 30px rgba(140,192,235,0.12)" }}
                     >
-                      <figure className="relative h-48 overflow-hidden rounded-2xl">
-                        <img
-                          src={
-                            service.image ||
-                            "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"
-                          }
-                          alt={service.service_name}
-                          className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-500"
-                        />
-                        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full">
-                          <span className="text-sm font-semibold text-[#5B9BD5]">
-                            {service.service_category}
-                          </span>
-                        </div>
-                      </figure>
-                      <div className="p-4">
-                        <h3 className="text-xl font-bold text-[#14202C]">
+                      <img
+                        src={
+                          service.image ||
+                          "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800"
+                        }
+                        alt={service.service_name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#14202C]/80 via-[#14202C]/20 to-transparent" />
+                      <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                        <span className="self-start px-3 py-1 rounded-full bg-white/90 text-[#5B9BD5] text-xs font-semibold mb-3">
+                          {service.service_category}
+                        </span>
+                        <h3
+                          className={`font-bold text-white ${
+                            feature ? "text-3xl" : "text-xl"
+                          }`}
+                        >
                           {service.service_name}
                         </h3>
-                        <p className="text-[#14202C]/55 text-sm line-clamp-2 mt-2">
-                          {service.description}
-                        </p>
-                        <div className="flex justify-between items-center mt-5">
-                          <div>
-                            <span className="text-2xl font-bold text-[#5B9BD5]">
-                              BDT {service.cost}
-                            </span>
-                            <span className="text-sm text-[#14202C]/45">
-                              /{service.unit}
-                            </span>
-                          </div>
-                          <button className="px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_6px_16px_rgba(140,192,235,0.4)] hover:shadow-[0_10px_24px_rgba(140,192,235,0.5)] transition-all">
-                            View Details
-                          </button>
+                        {feature && (
+                          <p className="text-white/75 text-sm mt-2 line-clamp-2 max-w-md">
+                            {service.description}
+                          </p>
+                        )}
+                        <div className="flex items-center gap-2 mt-3 text-white">
+                          <span className="font-bold text-lg">
+                            BDT {service.cost}
+                          </span>
+                          <span className="text-white/70 text-sm">
+                            /{service.unit}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -412,211 +253,52 @@ const Home = () => {
             })}
           </div>
         )}
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-14"
-        >
-          <Link
-            to="/services"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-semibold border border-[#8CC0EB]/60 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all duration-300"
-          >
-            View All Services
-            <FiArrowRight size={18} />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );
 
-  // How It Works Section
+  /* ── How it works (horizontal steps) ──────────────────────── */
   const HowItWorksSection = () => (
     <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/30 via-white to-[#FFF9D2]/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
-            How It{" "}
+          <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+            Simple process
+          </span>
+          <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+            How it{" "}
             <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              Works
+              works
             </span>
           </h2>
-          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
-            Simple steps to get your dream decoration
-          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-4 gap-6">
           {[
-            { step: "01", title: "Choose Service", description: "Browse and select your desired decoration package" },
-            { step: "02", title: "Book Appointment", description: "Schedule a convenient time for our team" },
-            { step: "03", title: "Customize", description: "Work with our experts to personalize your design" },
-            { step: "04", title: "Enjoy", description: "Sit back and watch your vision come to life" },
-          ].map((item, index) => (
+            { step: "01", title: "Choose", text: "Pick the decoration package that fits your moment." },
+            { step: "02", title: "Book", text: "Schedule a time that works for you in a few taps." },
+            { step: "03", title: "Customize", text: "Shape the look with our expert decorators." },
+            { step: "04", title: "Enjoy", text: "Relax while we bring the vision to life." },
+          ].map((s, i) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 24 }}
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center"
+              transition={{ delay: i * 0.08 }}
+              className="relative bg-white/80 backdrop-blur rounded-3xl p-7 border border-[#8CC0EB]/20 shadow-[0_12px_36px_rgba(140,192,235,0.12)]"
             >
-              <div className="w-20 h-20 mx-auto mb-5 bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-[0_12px_30px_rgba(140,192,235,0.4)]">
-                {item.step}
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-[#14202C]">
-                {item.title}
-              </h3>
-              <p className="text-[#14202C]/55">{item.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-
-  // Decorators Section
-  const DecoratorsSection = () => (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
-            Our Top{" "}
-            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              Decorators
-            </span>
-          </h2>
-          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
-            Meet our talented team of professional decorators
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {decorators.map((decorator, index) => (
-            <motion.div
-              key={decorator._id}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white shadow-[0_12px_36px_rgba(140,192,235,0.14)] hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] hover:-translate-y-1.5 transition-all duration-300 h-full rounded-3xl border border-[#8CC0EB]/15"
-            >
-              <figure className="px-6 pt-8">
-                <img
-                  src={
-                    decorator.photoURL || "https://i.ibb.co/3YRjQxv/user.png"
-                  }
-                  alt={decorator.displayName}
-                  className="rounded-full w-32 h-32 object-cover ring-4 ring-[#8CC0EB]/30 shadow-md mx-auto"
-                />
-              </figure>
-              <div className="p-6 items-center text-center">
-                <h3 className="text-xl font-bold text-[#14202C]">
-                  {decorator.displayName}
-                </h3>
-                <p className="text-sm text-[#14202C]/55 font-medium mt-1">
-                  {decorator.specialty || "Professional Decorator"}
-                </p>
-                <div className="flex items-center justify-center space-x-1 mt-3">
-                  {[...Array(5)].map((_, i) => (
-                    <FiStar
-                      key={i}
-                      className="text-[#8CC0EB] fill-[#8CC0EB]"
-                      size={16}
-                    />
-                  ))}
-                  <span className="text-sm text-[#14202C]/55 ml-2">(4.9)</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-
-  // Testimonials Section
-  const TestimonialsSection = () => (
-    <section className="py-24 bg-gradient-to-br from-[#FFF9D2]/40 via-white to-[#BFDDF0]/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
-            Client{" "}
-            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              Testimonials
-            </span>
-          </h2>
-          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
-            What our happy clients say about us
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "Sarah Ahmed",
-              role: "Wedding Client",
-              image: "https://i.pravatar.cc/150?img=1",
-              text: "Lumora made our wedding day absolutely magical! The attention to detail was incredible.",
-              rating: 5,
-            },
-            {
-              name: "Karim Rahman",
-              role: "Corporate Event",
-              image: "https://i.pravatar.cc/150?img=2",
-              text: "Professional service and stunning results. Our office event was a huge success!",
-              rating: 5,
-            },
-            {
-              name: "Nadia Khan",
-              role: "Home Decoration",
-              image: "https://i.pravatar.cc/150?img=3",
-              text: "They transformed my home beautifully. Highly recommend their services!",
-              rating: 5,
-            },
-          ].map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white/80 backdrop-blur p-7 rounded-3xl shadow-[0_12px_36px_rgba(140,192,235,0.14)] border border-[#8CC0EB]/20 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] transition-all duration-300"
-            >
-              <div className="flex items-center mb-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-14 h-14 rounded-full mr-4 object-cover"
-                />
-                <div>
-                  <h4 className="font-bold text-[#14202C]">{testimonial.name}</h4>
-                  <p className="text-sm text-[#14202C]/55">{testimonial.role}</p>
-                </div>
-              </div>
-              <div className="flex mb-3">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <FiStar key={i} className="text-[#8CC0EB] fill-[#8CC0EB]" size={16} />
-                ))}
-              </div>
-              <p className="text-[#14202C]/65 leading-relaxed">
-                {testimonial.text}
+              <span className="text-5xl font-bold bg-gradient-to-diagonal from-[#8CC0EB]/30 to-[#BFDDF0]/30 bg-clip-text text-transparent">
+                {s.step}
+              </span>
+              <h3 className="text-xl font-bold text-[#14202C] mt-3">{s.title}</h3>
+              <p className="text-[#14202C]/55 text-sm mt-2 leading-relaxed">
+                {s.text}
               </p>
             </motion.div>
           ))}
@@ -625,130 +307,63 @@ const Home = () => {
     </section>
   );
 
-  // Coverage Map Section
-  const CoverageMapSection = () => (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
-            Service{" "}
-            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              Coverage
-            </span>
-          </h2>
-          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
-            We provide decoration services across Dhaka and surrounding areas
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="h-[500px] rounded-3xl overflow-hidden shadow-[0_24px_60px_rgba(94,155,213,0.25)] border border-[#8CC0EB]/20"
-        >
-          <MapContainer
-            center={[23.8103, 90.4125]}
-            zoom={12}
-            style={{ height: "100%", width: "100%" }}
+  /* ── Decorators (horizontal scroll) ───────────────────────── */
+  const DecoratorsSection = () => (
+    <section className="py-24 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            />
-            <Marker position={[23.8103, 90.4125]}>
-              <Popup>
-                <div className="text-center">
-                  <strong>Lumora HQ</strong>
-                  <br />
-                  Dhaka, Bangladesh
-                </div>
-              </Popup>
-            </Marker>
-          </MapContainer>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-10"
-        >
+            <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+              The people
+            </span>
+            <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+              Meet our{" "}
+              <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+                decorators
+              </span>
+            </h2>
+          </motion.div>
           <Link
-            to="/coverage-map"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-semibold border border-[#8CC0EB]/60 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all duration-300"
+            to="/decorators"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold border border-[#8CC0EB]/50 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all shrink-0"
           >
-            View Full Coverage Map
-            <FiArrowRight size={18} />
+            All Decorators
+            <FiArrowRight size={16} />
           </Link>
-        </motion.div>
+        </div>
       </div>
-    </section>
-  );
 
-  // FAQ Section
-  const FaqSection = () => (
-    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/30 via-white to-[#FFF9D2]/40">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#14202C]">
-            Frequently Asked{" "}
-            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              Questions
-            </span>
-          </h2>
-          <p className="text-[#14202C]/60 max-w-2xl mx-auto">
-            Find answers to common questions about our services
-          </p>
-        </motion.div>
-
-        <div className="space-y-4">
-          {[
-            {
-              question: "How far in advance should I book?",
-              answer:
-                "We recommend booking at least 2-4 weeks in advance for regular events and 2-3 months for weddings.",
-            },
-            {
-              question: "Do you provide customization options?",
-              answer:
-                "Yes! We work closely with you to customize every aspect of your decoration to match your vision.",
-            },
-            {
-              question: "What areas do you serve?",
-              answer:
-                "We currently serve Dhaka and surrounding areas. Check our coverage map for specific locations.",
-            },
-            {
-              question: "What is your cancellation policy?",
-              answer:
-                "Cancellations made 7 days before the event receive a full refund. Within 7 days, a 50% fee applies.",
-            },
-          ].map((faq, index) => (
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar snap-x">
+          {decorators.map((d, i) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              key={d._id}
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className="collapse collapse-plus bg-white shadow-[0_10px_30px_rgba(140,192,235,0.12)] rounded-2xl border border-[#8CC0EB]/15"
+              transition={{ delay: i * 0.05 }}
+              className="snap-start shrink-0 w-64 bg-white rounded-3xl p-6 text-center shadow-[0_12px_36px_rgba(140,192,235,0.14)] border border-[#8CC0EB]/15 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] transition-all duration-300"
             >
-              <input type="radio" name="faq-accordion" />
-              <div className="collapse-title text-lg font-semibold text-[#14202C]">
-                {faq.question}
-              </div>
-              <div className="collapse-content">
-                <p className="text-[#14202C]/60">{faq.answer}</p>
+              <img
+                src={d.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
+                alt={d.displayName}
+                className="w-24 h-24 rounded-full object-cover mx-auto ring-4 ring-[#8CC0EB]/30"
+              />
+              <h3 className="text-lg font-bold text-[#14202C] mt-4">
+                {d.displayName}
+              </h3>
+              <p className="text-sm text-[#14202C]/55">
+                {d.specialty || "Professional Decorator"}
+              </p>
+              <div className="flex items-center justify-center gap-1 mt-3">
+                {[...Array(5)].map((_, k) => (
+                  <FiStar key={k} className="text-[#8CC0EB] fill-[#8CC0EB]" size={14} />
+                ))}
+                <span className="text-xs text-[#14202C]/55 ml-1">(4.9)</span>
               </div>
             </motion.div>
           ))}
@@ -757,34 +372,196 @@ const Home = () => {
     </section>
   );
 
-  // Newsletter Section
-  const NewsletterSection = () => (
-    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/50 via-[#8CC0EB]/30 to-[#FFF9D2]/50">
+  /* ── Testimonials (clean cards) ───────────────────────────── */
+  const TestimonialsSection = () => (
+    <section className="py-24 bg-gradient-to-br from-[#FFF9D2]/40 via-white to-[#BFDDF0]/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-14"
+        >
+          <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+            Loved by clients
+          </span>
+          <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+            What people{" "}
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+              say
+            </span>
+          </h2>
+        </motion.div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            { name: "Sarah Ahmed", role: "Wedding Client", img: "https://i.pravatar.cc/150?img=1", text: "Lumora made our wedding day absolutely magical! The attention to detail was incredible." },
+            { name: "Karim Rahman", role: "Corporate Event", img: "https://i.pravatar.cc/150?img=2", text: "Professional service and stunning results. Our office event was a huge success!" },
+            { name: "Nadia Khan", role: "Home Decoration", img: "https://i.pravatar.cc/150?img=3", text: "They transformed my home beautifully. Highly recommend their services!" },
+          ].map((t, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="bg-white/80 backdrop-blur rounded-3xl p-7 border border-[#8CC0EB]/20 shadow-[0_12px_36px_rgba(140,192,235,0.12)]"
+            >
+              <FiMessageSquare className="text-[#8CC0EB] mb-4" size={28} />
+              <p className="text-[#14202C]/70 leading-relaxed">{t.text}</p>
+              <div className="flex items-center gap-3 mt-6">
+                <img src={t.img} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
+                <div>
+                  <h4 className="font-bold text-[#14202C]">{t.name}</h4>
+                  <p className="text-sm text-[#14202C]/55">{t.role}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  /* ── Coverage map ─────────────────────────────────────────── */
+  const CoverageMapSection = () => (
+    <section className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+              Where we work
+            </span>
+            <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+              Service{" "}
+              <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+                coverage
+              </span>
+            </h2>
+            <p className="mt-4 text-[#14202C]/60 max-w-md leading-relaxed">
+              We provide decoration services across Dhaka and surrounding areas.
+              Explore the map to see where we operate.
+            </p>
+            <Link
+              to="/coverage-map"
+              className="inline-flex items-center gap-2 mt-7 px-7 py-3.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_10px_28px_rgba(140,192,235,0.45)] hover:-translate-y-0.5 transition-all"
+            >
+              View full map
+              <FiArrowRight size={16} />
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="h-[420px] rounded-3xl overflow-hidden shadow-[0_24px_60px_rgba(94,155,213,0.25)] border border-[#8CC0EB]/20"
+          >
+            <MapContainer
+              center={[23.8103, 90.4125]}
+              zoom={12}
+              style={{ height: "100%", width: "100%" }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              />
+              <Marker position={[23.8103, 90.4125]}>
+                <Popup>
+                  <div className="text-center">
+                    <strong>Lumora HQ</strong>
+                    <br />
+                    Dhaka, Bangladesh
+                  </div>
+                </Popup>
+              </Marker>
+            </MapContainer>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+
+  /* ── FAQ (clean accordion) ────────────────────────────────── */
+  const FaqSection = () => (
+    <section className="py-24 bg-gradient-to-br from-[#BFDDF0]/30 via-white to-[#FFF9D2]/40">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+            Good to know
+          </span>
+          <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+            Frequently asked{" "}
+            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+              questions
+            </span>
+          </h2>
+        </motion.div>
+
+        <div className="space-y-3">
+          {[
+            { q: "How far in advance should I book?", a: "We recommend booking at least 2–4 weeks in advance for regular events and 2–3 months for weddings." },
+            { q: "Do you provide customization options?", a: "Yes! We work closely with you to customize every aspect of your decoration to match your vision." },
+            { q: "What areas do you serve?", a: "We currently serve Dhaka and surrounding areas. Check our coverage map for specific locations." },
+            { q: "What is your cancellation policy?", a: "Cancellations made 7 days before the event receive a full refund. Within 7 days, a 50% fee applies." },
+          ].map((f, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.06 }}
+              className="collapse collapse-plus bg-white shadow-[0_10px_30px_rgba(140,192,235,0.1)] rounded-2xl border border-[#8CC0EB]/15"
+            >
+              <input type="radio" name="faq" />
+              <div className="collapse-title text-lg font-semibold text-[#14202C]">
+                {f.q}
+              </div>
+              <div className="collapse-content">
+                <p className="text-[#14202C]/60">{f.a}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  /* ── CTA banner ───────────────────────────────────────────── */
+  const CtaSection = () => (
+    <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center max-w-2xl mx-auto bg-white/70 backdrop-blur rounded-[2rem] shadow-[0_24px_60px_rgba(94,155,213,0.22)] border border-white p-10 sm:p-14"
+          className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#8CC0EB] via-[#5B9BD5] to-[#3E7CB1] px-8 py-16 sm:px-16 text-center shadow-[0_30px_70px_rgba(94,155,213,0.4)]"
         >
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8CC0EB] to-[#5B9BD5] flex items-center justify-center mx-auto mb-6">
-            <FiMail className="text-white" size={26} strokeWidth={1.8} />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-[#14202C]">
-            Stay Updated
-          </h2>
-          <p className="text-[#14202C]/60 mb-8 text-lg">
-            Subscribe to our newsletter for exclusive offers and decoration tips
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              className="flex-1 h-12 px-5 rounded-xl text-sm font-medium bg-white border border-[#8CC0EB]/40 text-[#14202C] placeholder-[#14202C]/40 focus:outline-none focus:border-[#5B9BD5] focus:ring-2 focus:ring-[#8CC0EB]/30 transition-all"
-            />
-            <button className="h-12 px-7 rounded-xl bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white font-semibold text-sm hover:shadow-[0_10px_24px_rgba(140,192,235,0.5)] hover:-translate-y-0.5 transition-all whitespace-nowrap">
-              Subscribe
-            </button>
+          <div className="absolute -top-20 -right-16 w-72 h-72 bg-white/15 rounded-full blur-2xl" />
+          <div className="absolute -bottom-24 -left-16 w-80 h-80 bg-white/10 rounded-full blur-2xl" />
+          <div className="relative z-10 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
+              Ready to transform your space?
+            </h2>
+            <p className="mt-4 text-white/85 text-lg">
+              Book a decorator today and let us create something unforgettable.
+            </p>
+            <Link
+              to="/services"
+              className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full text-sm font-semibold bg-white text-[#3E7CB1] shadow-lg hover:-translate-y-0.5 hover:shadow-xl transition-all"
+            >
+              Get Started
+              <FiArrowRight size={18} />
+            </Link>
           </div>
         </motion.div>
       </div>
@@ -794,15 +571,13 @@ const Home = () => {
   return (
     <div>
       <Hero />
-      <StatsSection />
-      <FeaturesSection />
       <ServicesSection />
       <HowItWorksSection />
       <DecoratorsSection />
       <TestimonialsSection />
       <CoverageMapSection />
       <FaqSection />
-      <NewsletterSection />
+      <CtaSection />
     </div>
   );
 };

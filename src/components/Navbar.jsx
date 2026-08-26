@@ -1,274 +1,117 @@
+import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  FiMenu,
-  FiX,
-  FiLogOut,
-  FiUser,
-  FiGrid,
-  FiMoon,
-  FiSun,
-  FiChevronDown,
-} from "react-icons/fi";
-import { useState, useEffect, useRef } from "react";
-import toast from "react-hot-toast";
+import { FiMenu, FiX, FiArrowRight } from "react-icons/fi";
+import { auth } from "../utilits/firebase.config";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { motion } from "framer-motion";
 import { Logo } from "./Logo";
 
+const navLinks = [
+  { to: "/", label: "Home" },
+  { to: "/services", label: "Services" },
+  { to: "/decorators", label: "Decorators" },
+  { to: "/coverage-map", label: "Coverage" },
+  { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
+];
+
 const Navbar = () => {
-  const { user, userRole, logoutUser } = useAuth();
-  const navigate = useNavigate();
+  const [user] = useAuthState(auth);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
-  const dropdownRef = useRef(null);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setDropdownOpen(false);
-      }
-    };
-    if (dropdownOpen) document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [dropdownOpen]);
-
-  // Close mobile menu on resize
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) setMobileMenu(false);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
-
-  const handleLogout = async () => {
-    try {
-      setDropdownOpen(false);
-      setMobileMenu(false);
-      await logoutUser();
-      toast.success("Logged out successfully");
-      navigate("/");
-    } catch {
-      toast.error("Failed to logout");
-    }
-  };
-
-  const navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/services", label: "Services" },
-    { to: "/coverage-map", label: "Coverage" },
-    { to: "/about", label: "About" },
-    { to: "/contact", label: "Contact" },
-  ];
+    setMobileMenu(false);
+  }, [location?.pathname]);
 
   return (
-    <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-base-100/95 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.08)]"
-          : "bg-base-100 shadow-sm"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[70px]">
-
+    <header className="sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <nav
+          className={`flex items-center justify-between gap-4 rounded-full px-4 py-2.5 transition-all duration-300 ${
+            scrolled
+              ? "bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgba(94,155,213,0.18)] border border-[#8CC0EB]/25"
+              : "bg-white/50 backdrop-blur-md border border-transparent"
+          }`}
+        >
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2 shrink-0">
             <Logo />
+            <span className="text-xl font-bold bg-gradient-to-r from-[#5B9BD5] to-[#3E7CB1] bg-clip-text text-transparent">
+              Lumora
+            </span>
           </Link>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-1">
+          {/* Center pill links (desktop) */}
+          <div className="hidden lg:flex items-center gap-1 bg-[#F2F8FD] rounded-full p-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.to}
                 to={link.to}
                 end={link.to === "/"}
                 className={({ isActive }) =>
-                  `relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  `px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
                     isActive
-                      ? "text-[#5B9BD5]"
-                      : "text-base-content/70 hover:text-base-content hover:bg-base-200"
+                      ? "bg-white text-[#5B9BD5] shadow-sm"
+                      : "text-[#14202C]/55 hover:text-[#14202C]"
                   }`
                 }
               >
-                {({ isActive }) => (
-                  <>
-                    {link.label}
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-indicator"
-                        className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#8CC0EB] rounded-full"
-                      />
-                    )}
-                  </>
-                )}
+                {link.label}
               </NavLink>
             ))}
           </div>
 
-          {/* Right Section */}
-          <div className="hidden lg:flex items-center gap-3">
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-base-content/60 hover:text-[#5B9BD5] hover:bg-base-200 transition-all duration-200"
-              title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-            >
-              {theme === "light" ? <FiMoon size={18} /> : <FiSun size={18} />}
-            </button>
-
+          {/* Right CTA */}
+          <div className="flex items-center gap-2 shrink-0">
             {user ? (
-              <div className="flex items-center gap-3">
-                {/* Dashboard Link */}
-                {userRole === "admin" && (
-                  <Link
-                    to="/dashboard/admin"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border-1.5 border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all duration-200"
-                  >
-                    <FiGrid size={15} />
-                    Dashboard
-                  </Link>
-                )}
-                {userRole === "decorator" && (
-                  <Link
-                    to="/dashboard/decorator"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all duration-200"
-                  >
-                    <FiGrid size={15} />
-                    Dashboard
-                  </Link>
-                )}
-                {userRole === "user" && (
-                  <Link
-                    to="/dashboard"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold border border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all duration-200"
-                  >
-                    <FiUser size={15} />
-                    My Account
-                  </Link>
-                )}
-
-                {/* Avatar Dropdown */}
-                <div className="relative" ref={dropdownRef}>
-                  <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-xl hover:bg-base-200 transition-all duration-200"
-                  >
-                    <img
-                      referrerPolicy="no-referrer"
-                      src={user.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
-                      alt={user.displayName}
-                      className="w-8 h-8 rounded-full object-cover ring-2 ring-[#8CC0EB]/50"
-                    />
-                    <FiChevronDown
-                      size={14}
-                      className={`text-base-content/50 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-
-                  <AnimatePresence>
-                    {dropdownOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute right-0 mt-2 w-56 bg-base-100 rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-base-200 overflow-hidden z-[100]"
-                      >
-                        <div className="px-4 py-3 border-b border-base-200">
-                          <p className="font-semibold text-sm truncate">{user.displayName}</p>
-                          <p className="text-xs text-base-content/50 capitalize mt-0.5">
-                            {userRole === "user" ? "Customer" : userRole}
-                          </p>
-                        </div>
-                        <div className="p-1.5">
-                          <Link
-                            to="/dashboard/my-profile"
-                            onClick={() => setDropdownOpen(false)}
-                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-base-content hover:bg-base-200 transition-colors"
-                          >
-                            <FiUser size={15} className="text-base-content/50" />
-                            Profile
-                          </Link>
-                          <button
-                            onClick={handleLogout}
-                            className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-error hover:bg-error/10 transition-colors"
-                          >
-                            <FiLogOut size={15} />
-                            Sign Out
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
+              <Link
+                to="/dashboard"
+                className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
+              >
+                Dashboard
+                <FiArrowRight size={16} />
+              </Link>
             ) : (
-              <div className="flex items-center gap-2">
-                <Link
-                  to="/login"
-                  className="px-4 py-2 rounded-lg text-sm font-semibold text-base-content/70 hover:text-base-content hover:bg-base-200 transition-all duration-200"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/register"
-                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-[#14202C] shadow-[0_2px_10px_rgba(140,192,235,0.4)] hover:shadow-[0_6px_18px_rgba(140,192,235,0.5)] hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  Get Started
-                </Link>
-              </div>
+              <Link
+                to="/login"
+                className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
+              >
+                Sign In
+                <FiArrowRight size={16} />
+              </Link>
             )}
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center gap-2">
             <button
-              onClick={toggleTheme}
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-base-content/60 hover:bg-base-200 transition-colors"
+              onClick={() => setMobileMenu((v) => !v)}
+              className="lg:hidden w-10 h-10 grid place-items-center rounded-full bg-[#F2F8FD] text-[#14202C]"
+              aria-label="Toggle menu"
             >
-              {theme === "light" ? <FiMoon size={18} /> : <FiSun size={18} />}
-            </button>
-            <button
-              onClick={() => setMobileMenu(!mobileMenu)}
-              className="w-9 h-9 flex items-center justify-center rounded-lg text-base-content/70 hover:bg-base-200 transition-colors"
-            >
-              {mobileMenu ? <FiX size={20} /> : <FiMenu size={20} />}
+              {mobileMenu ? (
+                <FiX size={20} />
+              ) : (
+                <FiMenu size={20} />
+              )}
             </button>
           </div>
-        </div>
-      </div>
+        </nav>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
+        {/* Mobile menu */}
         {mobileMenu && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden border-t border-base-200 bg-base-100 overflow-hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="lg:hidden mt-2 bg-white/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_50px_rgba(94,155,213,0.2)] border border-[#8CC0EB]/25 p-4"
           >
-            <div className="max-w-7xl mx-auto px-4 py-4 space-y-1">
+            <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
@@ -276,74 +119,42 @@ const Navbar = () => {
                   end={link.to === "/"}
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
-                    `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                    isActive
-                      ? "bg-[#8CC0EB]/15 text-[#5B9BD5]"
-                      : "text-base-content/70 hover:bg-base-200 hover:text-base-content"
+                    `px-4 py-3 rounded-2xl text-sm font-medium transition-all ${
+                      isActive
+                        ? "bg-[#8CC0EB]/15 text-[#5B9BD5]"
+                        : "text-[#14202C]/70 hover:bg-[#F2F8FD]"
                     }`
                   }
                 >
                   {link.label}
                 </NavLink>
               ))}
-
-              <div className="pt-3 border-t border-base-200 space-y-2">
-                {user ? (
-                  <>
-                    <div className="flex items-center gap-3 px-4 py-3 bg-base-200 rounded-xl">
-                      <img
-                        referrerPolicy="no-referrer"
-                        src={user.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
-                          alt={user.displayName}
-                          className="w-9 h-9 rounded-full object-cover ring-2 ring-[#8CC0EB]/50"
-                      />
-                      <div>
-                        <p className="text-sm font-semibold">{user.displayName}</p>
-                        <p className="text-xs text-base-content/50 capitalize">
-                          {userRole === "user" ? "Customer" : userRole}
-                        </p>
-                      </div>
-                    </div>
-                    <Link
-                      to={userRole === "user" ? "/dashboard" : `/dashboard/${userRole}`}
-                      onClick={() => setMobileMenu(false)}
-                      className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-sm font-semibold border border-[#8CC0EB] text-[#5B9BD5] hover:bg-[#8CC0EB] hover:text-[#14202C] transition-all"
-                    >
-                      <FiGrid size={16} />
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-sm font-semibold text-error hover:bg-error/10 transition-all"
-                    >
-                      <FiLogOut size={16} />
-                      Sign Out
-                    </button>
-                  </>
-                ) : (
-                  <div className="flex flex-col gap-2">
-                    <Link
-                      to="/login"
-                      onClick={() => setMobileMenu(false)}
-                      className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold border border-base-300 text-base-content hover:bg-base-200 transition-all"
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      to="/register"
-                      onClick={() => setMobileMenu(false)}
-                      className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-[#14202C] transition-all"
-                    >
-                      Get Started
-                    </Link>
-                  </div>
-                )}
-              </div>
+            </div>
+            <div className="mt-3 pt-3 border-t border-[#8CC0EB]/20">
+              {user ? (
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileMenu(false)}
+                  className="flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white"
+                >
+                  Dashboard
+                  <FiArrowRight size={16} />
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenu(false)}
+                  className="flex items-center justify-center gap-1.5 px-5 py-3 rounded-2xl text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white"
+                >
+                  Sign In
+                  <FiArrowRight size={16} />
+                </Link>
+              )}
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
-    </motion.nav>
+      </div>
+    </header>
   );
 };
 
