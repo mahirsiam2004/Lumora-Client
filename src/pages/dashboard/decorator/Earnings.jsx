@@ -1,116 +1,268 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { FiDollarSign, FiTrendingUp, FiClock, FiCheckCircle, FiPieChart } from "react-icons/fi";
-import { L, fmtCurrency, TOTAL_SHARE, DECORATOR_SHARE, Card, Stat, Grid, Empty, Loader } from "../dashTheme.jsx";
-
-const API = import.meta.env.VITE_API_URL || "https://lumora-server.vercel.app";
-
-const DonutTooltip = ({ active, payload }) => {
-  if (!active || !payload?.length) return null;
-  const d = payload[0];
-  return (
-    <div className="rounded-xl bg-[#14202C] px-3 py-2 text-xs text-white shadow-lg">
-      <p className="font-medium">{d.name}</p>
-      <p className="text-white/70">{fmtCurrency(d.value)}</p>
-    </div>
-  );
-};
+import { useAuth } from "../../../contexts/AuthContext";
+import { FiDollarSign, FiCheckCircle, FiCalendar, FiInbox } from "react-icons/fi";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
 const Earnings = () => {
+  const { user } = useAuth();
+  const [earnings, setEarnings] = useState({
+    total: 0,
+    payments: [],
+  });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [stats, setStats] = useState({ total: 0, paid: 0, pending: 0, completed: 0 });
-  const [split, setSplit] = useState([
-    { name: "Your earnings", value: 0 },
-    { name: "Platform fee", value: 0 },
-  ]);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const token = await localStorage.getItem("authToken");
-        const { data } = await axios.get(`${API}/api/bookings/decorator/earnings`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const total = data.totalEarnings || 0;
-        setStats({
-          total,
-          paid: data.paidEarnings || 0,
-          pending: data.pendingEarnings || 0,
-          completed: data.completedCount || 0,
-        });
-        setSplit([
-          { name: "Your earnings", value: Math.round(total * DECORATOR_SHARE) },
-          { name: "Platform fee", value: Math.round(total * TOTAL_SHARE - total * DECORATOR_SHARE) },
-        ]);
-      } catch (err) {
-        setError("Could not load earnings.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
+    fetchEarnings();
   }, []);
 
-  if (loading) return <Loader />;
-  if (error) return <Empty icon={FiClock} title="Earnings unavailable" note={error} />;
+  const fetchEarnings = async () => {
+    try {
+      const token = localStorage.getItem("lumora-token");
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/payments/decorator/${user.email}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-  const statsArr = [
-    { icon: FiDollarSign, label: "Total Earnings", value: fmtCurrency(stats.total), accent: L.primary },
-    { icon: FiCheckCircle, label: "Paid Out", value: fmtCurrency(stats.paid), accent: L.teal },
-    { icon: FiClock, label: "Pending", value: fmtCurrency(stats.pending), accent: L.amber },
-    { icon: FiTrendingUp, label: "Completed Bookings", value: stats.completed, accent: L.indigo },
-  ];
+      setEarnings({
+        total: data.totalEarnings,
+        payments: data.payments,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Group earnings by month for chart with proper sorting
+  const monthlyData = earnings.payments
+    .reduce((acc, payment) => {
+      const date = new Date(payment.createdAt);
+      const monthYear = date.toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric",
+      });
+      const existing = acc.find((item) => item.month === monthYear);
+
+      if (existing) {
+        existing.earnings += payment.amount;
+      } else {
+        acc.push({
+          month: monthYear,
+          earnings: payment.amount,
+          sortKey: date.getTime(),
+        });
+      }
+
+      return acc;
+    }, [])
+    .sort((a, b) => a.sortKey - b.sortKey);
+
+  // Custom Tooltip for the chart
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-base-100 p-4 rounded-lg shadow-xl border border-base-300">
+          <p className="font-semibold text-gray-800">
+            {payload[0].payload.month}
+          </p>
+          <p className="text-purple-600 font-bold text-lg">
+            ৳{payload[0].value.toLocaleString()}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
-    <div className="mx-auto max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[var(--lum-text)]">Earnings</h1>
-        <p className="mt-1 text-sm text-[var(--lum-text)]/55">Your payouts and revenue split at a glance.</p>
-      </div>
+    <div>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+      >
+        <h1 className="text-4xl font-bold mb-2">
+          My{" "}
+          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            Earnings
+          </span>
+        </h1>
+        <p className="text-gray-600">Track your income and payment history</p>
+      </motion.div>
 
-      <Grid cols={4}>
-        {statsArr.map((s, i) => (
-          <Stat key={s.label} {...s} index={i} />
-        ))}
-      </Grid>
-
-      <Card className="mt-6">
-        <div className="mb-4 flex items-center gap-2">
-          <FiPieChart className="text-[var(--lum-accent)]" />
-          <h3 className="text-lg font-semibold text-[var(--lum-text)]">Revenue Split</h3>
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <span className="loading loading-spinner loading-lg text-purple-600"></span>
         </div>
-        <div className="h-80 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={split}
-                dataKey="value"
-                nameKey="name"
-                innerRadius={70}
-                outerRadius={110}
-                paddingAngle={3}
-                stroke="none"
-              >
-                {split.map((entry, i) => (
-                  <Cell key={i} fill={i === 0 ? L.primary : L.sky} />
+      ) : (
+        <>
+          {/* Total Earnings Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-gradient-to-br from-[#e8a803] via-[#f59e0b] to-[#fbbf24] rounded-3xl p-8 text-white mb-8 shadow-2xl"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-lg opacity-90 mb-2">Total Earnings</p>
+                <p className="text-5xl font-bold">
+                  ৳{earnings.total.toLocaleString()}
+                </p>
+                <p className="text-sm opacity-75 mt-2">
+                  {earnings.payments.length} completed projects
+                </p>
+              </div>
+              <FiDollarSign size={100} className="opacity-20" />
+            </div>
+          </motion.div>
+
+          {/* Earnings Chart */}
+          {monthlyData.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-base-100 rounded-2xl shadow-xl p-6 mb-8"
+            >
+              <h2 className="text-2xl font-bold mb-6 text-gray-800">
+                Monthly Earnings Trend
+              </h2>
+              <ResponsiveContainer width="100%" height={350}>
+                <LineChart
+                  data={monthlyData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis
+                    dataKey="month"
+                    tick={{ fill: "#6b7280", fontSize: 12 }}
+                  />
+                  <YAxis
+                    tick={{ fill: "#6b7280" }}
+                    tickFormatter={(value) => `৳${value.toLocaleString()}`}
+                  />
+                  <Tooltip content={<CustomTooltip />} />
+                  <Legend
+                    wrapperStyle={{ paddingTop: "20px" }}
+                    formatter={() => "Monthly Earnings (৳)"}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="earnings"
+                    stroke="url(#lineGradient)"
+                    strokeWidth={4}
+                    dot={{
+                      fill: "#9333ea",
+                      r: 6,
+                      strokeWidth: 2,
+                      stroke: "#fff",
+                    }}
+                    activeDot={{
+                      r: 8,
+                      fill: "#ec4899",
+                      strokeWidth: 2,
+                      stroke: "#fff",
+                    }}
+                  />
+                  <defs>
+                    <linearGradient
+                      id="lineGradient"
+                      x1="0"
+                      y1="0"
+                      x2="1"
+                      y2="0"
+                    >
+                      <stop offset="0%" stopColor="#9333ea" />
+                      <stop offset="100%" stopColor="#ec4899" />
+                    </linearGradient>
+                  </defs>
+                </LineChart>
+              </ResponsiveContainer>
+            </motion.div>
+          )}
+
+          {/* Payment History */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-base-100 rounded-2xl shadow-xl p-6"
+          >
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">
+              Payment History
+            </h2>
+
+            {earnings.payments.length === 0 ? (
+              <div className="text-center py-20">
+                <div className="w-16 h-16 rounded-full bg-base-200 flex items-center justify-center mx-auto mb-4">
+                  <FiInbox size={28} className="text-base-content/30" />
+                </div>
+                <p className="text-xl text-gray-600 mb-2">No payments yet</p>
+                <p className="text-sm text-gray-500">
+                  Complete projects to start earning
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {earnings.payments.map((payment, index) => (
+                  <motion.div
+                    key={payment._id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-purple-50 rounded-xl hover:shadow-md transition-all border border-gray-100"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                        <FiCheckCircle className="text-white" size={24} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-800">
+                          {payment.serviceName}
+                        </h3>
+                        <div className="flex items-center space-x-2 text-sm text-gray-600 mt-1">
+                          <FiCalendar size={14} />
+                          <span>
+                            {new Date(payment.createdAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Transaction: {payment.transactionId}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                        ৳{payment.amount.toLocaleString()}
+                      </p>
+                      <span className="badge badge-success badge-sm mt-1">
+                        Received
+                      </span>
+                    </div>
+                  </motion.div>
                 ))}
-              </Pie>
-              <Tooltip content={<DonutTooltip />} />
-              <Legend
-                verticalAlign="bottom"
-                iconType="circle"
-                wrapperStyle={{ fontSize: 12, color: "var(--lum-text)" }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        <p className="mt-2 text-center text-xs text-[var(--lum-text)]/50">
-          You keep {Math.round(DECORATOR_SHARE * 100)}% of every booking · platform fee {Math.round((TOTAL_SHARE - DECORATOR_SHARE) * 100)}%
-        </p>
-      </Card>
+              </div>
+            )}
+          </motion.div>
+        </>
+      )}
     </div>
   );
 };
