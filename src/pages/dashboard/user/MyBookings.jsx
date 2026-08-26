@@ -99,7 +99,7 @@ const MyBookings = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           My{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
             Bookings
           </span>
         </h1>
@@ -110,7 +110,7 @@ const MyBookings = () => {
 
       {loading ? (
         <div className="flex justify-center py-20">
-          <span className="loading loading-spinner loading-lg text-purple-600"></span>
+          <span className="loading loading-spinner loading-lg text-[var(--lum-accent)]"></span>
         </div>
       ) : bookings.length === 0 ? (
         <div className="text-center py-20">
@@ -120,7 +120,7 @@ const MyBookings = () => {
           <p className="text-2xl text-gray-600 mb-4">No bookings yet</p>
           <a
             href="/services"
-            className="btn bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
+            className="btn bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white border-none"
           >
             Browse Services
           </a>
@@ -152,7 +152,7 @@ const MyBookings = () => {
                       </span>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-purple-600">
+                      <p className="text-2xl font-bold text-[var(--lum-accent)]">
                         ৳{booking.serviceCost.toLocaleString()}
                       </p>
                       <p className="text-sm text-gray-600">
@@ -193,7 +193,7 @@ const MyBookings = () => {
                       <button
                         onClick={() => handlePayment(booking)}
                         disabled={paymentLoading === booking._id}
-                        className="btn btn-sm bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none hover:scale-105 transition-transform"
+                        className="btn btn-sm bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white border-none hover:scale-105 transition-transform"
                       >
                         {paymentLoading === booking._id ? (
                           <>

@@ -61,28 +61,28 @@ const DecoratorDashboard = () => {
       icon: FiBriefcase,
       label: "Active Projects",
       value: stats.activeProjects,
-      color: "from-amber-500 to-yellow-500",
+      color: "from-[var(--lum-skysoft)] to-[var(--lum-primary)]",
       link: "/dashboard/decorator/projects",
     },
     {
       icon: FiCheckCircle,
       label: "Completed",
       value: stats.completedProjects,
-      color: "from-green-500 to-emerald-500",
+      color: "from-[var(--lum-accent)] to-[#5B9BD5]",
       link: "/dashboard/decorator/projects",
     },
     {
       icon: FiClock,
       label: "Today's Schedule",
       value: stats.todaySchedule,
-      color: "from-orange-500 to-yellow-500",
+      color: "from-[var(--lum-primary)] to-[var(--lum-accent)]",
       link: "/dashboard/decorator/schedule",
     },
     {
       icon: FiDollarSign,
       label: "Total Earnings",
       value: `৳${stats.totalEarnings}`,
-      color: "from-[#e8a803] to-[#f59e0b]",
+      color: "from-[var(--lum-primary)] to-[var(--lum-accent)]",
       link: "/dashboard/decorator/earnings",
     },
   ];
@@ -96,7 +96,7 @@ const DecoratorDashboard = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           Welcome,{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
             {user?.displayName?.split(" ")[0]}
           </span>
         </h1>
@@ -145,7 +145,7 @@ const DecoratorDashboard = () => {
           </Link>
           <Link
             to="/dashboard/decorator/schedule"
-            className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
+            className="btn btn-lg bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white border-none"
           >
             Today's Schedule
           </Link>

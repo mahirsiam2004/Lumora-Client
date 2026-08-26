@@ -68,7 +68,7 @@ const MyProjects = () => {
       >
         <h1 className="text-4xl font-bold mb-4">
           My{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
             Projects
           </span>
         </h1>
@@ -164,7 +164,7 @@ const MyProjects = () => {
                   </div>
 
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-purple-600">
+                    <p className="text-2xl font-bold text-[var(--lum-accent)]">
                       ৳{project.serviceCost}
                     </p>
                     <span

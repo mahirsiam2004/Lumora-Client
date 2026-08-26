@@ -44,7 +44,7 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <span className="loading loading-spinner loading-lg text-purple-600"></span>
+        <span className="loading loading-spinner loading-lg text-[var(--lum-accent)]"></span>
       </div>
     );
   }
@@ -54,25 +54,25 @@ const AdminDashboard = () => {
       icon: FiDollarSign,
       label: "Total Revenue",
       value: `৳${(analytics?.totalRevenue || 0).toLocaleString()}`,
-      color: "from-green-500 to-emerald-500",
+      color: "from-[var(--lum-primary)] to-[var(--lum-accent)]",
     },
     {
       icon: FiCalendar,
       label: "Total Bookings",
       value: analytics?.totalBookings || 0,
-      color: "from-amber-500 to-yellow-500",
+      color: "from-[var(--lum-skysoft)] to-[var(--lum-primary)]",
     },
     {
       icon: FiUsers,
       label: "Total Users",
       value: analytics?.totalUsers || 0,
-      color: "from-[#e8a803] to-[#f59e0b]",
+      color: "from-[var(--lum-accent)] to-[#5B9BD5]",
     },
     {
       icon: FiPackage,
       label: "Total Decorators",
       value: analytics?.totalDecorators || 0,
-      color: "from-orange-500 to-red-500",
+      color: "from-[#BFDDF0] to-[var(--lum-primary)]",
     },
   ];
 
@@ -91,11 +91,11 @@ const AdminDashboard = () => {
 
   // Colors for bars
   const COLORS = [
-    "#9333ea",
-    "#ec4899",
+    "var(--lum-accent)",
+    "var(--lum-primary)",
     "#3b82f6",
-    "#10b981",
-    "#f59e0b",
+    "var(--lum-accent)",
+    "var(--lum-accent)",
     "#ef4444",
     "#8b5cf6",
     "#06b6d4",
@@ -109,7 +109,7 @@ const AdminDashboard = () => {
           <p className="font-semibold text-gray-800">
             {payload[0].payload.name}
           </p>
-          <p className="text-purple-600 font-bold text-lg">
+          <p className="text-[var(--lum-accent)] font-bold text-lg">
             {payload[0].value} bookings
           </p>
         </div>
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
         className="text-4xl font-bold mb-8"
       >
         Admin{" "}
-        <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
           Dashboard
         </span>
       </motion.h1>
@@ -183,7 +183,7 @@ const AdminDashboard = () => {
                 radius={[8, 8, 0, 0]}
                 label={{
                   position: "top",
-                  fill: "#9333ea",
+                  fill: "var(--lum-accent)",
                   fontSize: 12,
                   fontWeight: "bold",
                 }}

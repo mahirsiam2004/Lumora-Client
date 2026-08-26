@@ -32,7 +32,7 @@ const Analytics = () => {
       return (
         <div className="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
           <p className="font-semibold text-gray-800">{label}</p>
-          <p className="text-purple-600 font-bold">
+          <p className="text-[var(--lum-accent)] font-bold">
             {payload[0].name}: {payload[0].value}
           </p>
         </div>
@@ -44,7 +44,7 @@ const Analytics = () => {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <span className="loading loading-spinner loading-lg text-purple-600"></span>
+        <span className="loading loading-spinner loading-lg text-[var(--lum-accent)]"></span>
       </div>
     );
   }
@@ -69,7 +69,7 @@ const Analytics = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-4xl font-bold mb-8"
       >
-        <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">Analytics</span>
+        <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">Analytics</span>
       </motion.h1>
 
       <div className="space-y-8">
@@ -89,20 +89,20 @@ const Analytics = () => {
                   angle={-45}
                   textAnchor="end"
                   height={100}
-                  tick={{ fill: '#6b7280', fontSize: 12 }}
+                  tick={{ fill: "var(--lum-text)", fontSize: 12 }}
                 />
-                <YAxis tick={{ fill: '#6b7280' }} />
+                <YAxis tick={{ fill: 'var(--lum-text)' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar
                   dataKey="bookings"
                   fill="url(#colorGradient)"
                   radius={[8, 8, 0, 0]}
-                  label={{ position: 'top', fill: '#9333ea', fontSize: 12, fontWeight: 'bold' }}
+                  label={{ position: 'top', fill: 'var(--lum-accent)', fontSize: 12, fontWeight: 'bold' }}
                 />
                 <defs>
                   <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#9333ea" stopOpacity={1} />
-                    <stop offset="100%" stopColor="#ec4899" stopOpacity={0.8} />
+                    <stop offset="0%" stopColor="var(--lum-accent)" stopOpacity={1} />
+                    <stop offset="100%" stopColor="var(--lum-primary)" stopOpacity={0.8} />
                   </linearGradient>
                 </defs>
               </BarChart>
@@ -129,10 +129,10 @@ const Analytics = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                 <XAxis
                   dataKey="month"
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'var(--lum-text)' }}
                 />
                 <YAxis
-                  tick={{ fill: '#6b7280' }}
+                  tick={{ fill: 'var(--lum-text)' }}
                   tickFormatter={(value) => `৳${value.toLocaleString()}`}
                 />
                 <Tooltip
@@ -141,7 +141,7 @@ const Analytics = () => {
                       return (
                         <div className="bg-base-100 p-4 rounded-lg shadow-xl border border-base-300">
                           <p className="font-semibold text-gray-800">{payload[0].payload.month}</p>
-                          <p className="text-pink-600 font-bold text-lg">
+                          <p className="text-[var(--lum-accent)] font-bold text-lg">
                             ৳{payload[0].value.toLocaleString()}
                           </p>
                         </div>
@@ -153,11 +153,11 @@ const Analytics = () => {
                 <Legend />
                 <Line
                   type="monotone"
-                  dataKey="revenue"
-                  stroke="#ec4899"
+                  dataKey="bookings"
+                  stroke="var(--lum-accent)"
                   strokeWidth={3}
-                  dot={{ fill: '#ec4899', r: 6 }}
-                  activeDot={{ r: 8, fill: '#9333ea' }}
+                  dot={{ fill: 'var(--lum-accent)', r: 6 }}
+                  activeDot={{ r: 8, fill: 'var(--lum-primary)' }}
                   name="Revenue (৳)"
                 />
               </LineChart>
@@ -177,15 +177,15 @@ const Analytics = () => {
           transition={{ delay: 0.4 }}
           className="grid md:grid-cols-3 gap-6"
         >
-          <div className="bg-gradient-to-br from-amber-500 to-yellow-500 rounded-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-[var(--lum-skysoft)] to-[var(--lum-primary)] rounded-2xl p-6 text-white">
             <p className="text-sm opacity-90 mb-2">Total Bookings</p>
             <p className="text-4xl font-bold">{analytics?.totalBookings || 0}</p>
           </div>
-          <div className="bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-[var(--lum-accent)] to-[#5B9BD5] rounded-2xl p-6 text-white">
             <p className="text-sm opacity-90 mb-2">Paid Bookings</p>
             <p className="text-4xl font-bold">{analytics?.paidBookings || 0}</p>
           </div>
-          <div className="bg-gradient-to-br from-[#e8a803] to-[#f59e0b] rounded-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-[var(--lum-primary)] to-[var(--lum-accent)] rounded-2xl p-6 text-white">
             <p className="text-sm opacity-90 mb-2">Total Revenue</p>
             <p className="text-4xl font-bold">৳{(analytics?.totalRevenue || 0).toLocaleString()}</p>
           </div>

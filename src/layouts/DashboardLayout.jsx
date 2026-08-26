@@ -4,7 +4,7 @@ import ScrollToTop from "../components/ScrollToTop";
 import { useAuth } from "../contexts/AuthContext";
 import { useSiteSettings } from "../contexts/SiteSettingsContext";
 import { motion } from "framer-motion";
-import { FiLogOut } from "react-icons/fi";
+import { Logo } from "../components/Logo";
 import {
   FiHome,
   FiUser,
@@ -20,12 +20,11 @@ import {
   FiClock,
   FiDollarSign,
   FiSettings,
-  FiGift,
 } from "react-icons/fi";
 import { useState } from "react";
 
 const DashboardLayout = () => {
-  const { user, userRole, logout } = useAuth();
+  const { user, userRole, logoutUser } = useAuth();
   const { settings } = useSiteSettings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -123,23 +122,9 @@ const DashboardLayout = () => {
           `}
         >
           <div className="p-6 overflow-y-auto h-full flex flex-col">
-            {/* Brand — Lumora logo (no text) */}
+            {/* Brand — Lumora logo (same as navbar) */}
             <div className="flex items-center justify-center mb-8 px-1">
-              <img
-                src={settings?.logoUrl || "/lumora.png"}
-                alt="Lumora"
-                className="h-10 w-auto object-contain"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none";
-                  e.currentTarget.nextSibling.style.display = "flex";
-                }}
-              />
-              <div
-                className="hidden items-center justify-center w-10 h-10 rounded-xl text-white font-bold"
-                style={{ background: "linear-gradient(135deg, var(--lum-primary), var(--lum-accent))" }}
-              >
-                L
-              </div>
+              <Logo />
             </div>
 
             {/* User Info */}
@@ -204,7 +189,10 @@ const DashboardLayout = () => {
             {/* Logout (bottom) */}
             <div className="mt-auto pt-6 border-t border-base-200">
               <button
-                onClick={logout}
+                onClick={() => {
+                logoutUser();
+                window.location.href = "/";
+              }}
                 className="flex w-full items-center space-x-3 px-4 py-3 rounded-xl text-base-content hover:bg-base-200 transition-all"
               >
                 <FiLogOut size={20} />
