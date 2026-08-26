@@ -6,6 +6,7 @@ import { FiMail, FiLock, FiUser, FiEye, FiEyeOff, FiUpload } from "react-icons/f
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
 import axios from "../utilits/axiosInstance";
+import { Logo } from "../components/Logo";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -67,7 +68,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50/60 via-white to-yellow-50/40 py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cream/60 via-white to-skysoft/40 py-12 px-4">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,9 +76,12 @@ const Register = () => {
         className="w-full max-w-[440px]"
       >
         <div className="bg-base-100 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.10)] border border-base-200 p-8">
+          <div className="flex justify-center mb-6">
+            <Logo />
+          </div>
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#e8a803] to-[#f59e0b] shadow-[0_4px_14px_rgba(232,168,3,0.4)] mb-4">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-sky to-primarydeep shadow-[0_4px_14px_rgba(140,192,235,0.4)] mb-4">
               <FiUser size={24} className="text-white" />
             </div>
             <h1 className="text-2xl font-bold text-base-content mb-1">Create your account</h1>
@@ -157,14 +161,14 @@ const Register = () => {
               </label>
               <div className="flex items-center gap-3">
                 {photoPreview ? (
-                  <img src={photoPreview} alt="Preview" className="w-10 h-10 rounded-full object-cover ring-2 ring-[#e8a803]/40 flex-shrink-0" />
+                  <img src={photoPreview} alt="Preview" className="w-10 h-10 rounded-full object-cover ring-2 ring-sky/40 flex-shrink-0" />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-base-200 flex items-center justify-center flex-shrink-0">
                     <FiUser size={18} className="text-base-content/30" />
                   </div>
                 )}
-                <label className="flex-1 flex items-center gap-2 px-4 py-2.5 rounded-xl border-1.5 border-dashed border-base-300 hover:border-[#e8a803] cursor-pointer transition-colors group">
-                  <FiUpload size={15} className="text-base-content/40 group-hover:text-[#e8a803] transition-colors" />
+                <label className="flex-1 flex items-center gap-2 px-4 py-2.5 rounded-xl border-1.5 border-dashed border-base-300 hover:border-sky cursor-pointer transition-colors group">
+                  <FiUpload size={15} className="text-base-content/40 group-hover:text-sky transition-colors" />
                   <span className="text-sm text-base-content/50 group-hover:text-base-content/70 transition-colors">
                     {formData.photoFile ? formData.photoFile.name : "Choose a photo"}
                   </span>
@@ -204,7 +208,7 @@ const Register = () => {
 
           <p className="text-center text-sm text-base-content/50 mt-6">
             Already have an account?{" "}
-            <Link to="/login" className="text-[#e8a803] font-semibold hover:underline">
+            <Link to="/login" className="text-primarydeep font-semibold hover:underline">
               Sign in
             </Link>
           </p>

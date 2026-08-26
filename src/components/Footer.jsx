@@ -8,6 +8,7 @@ import {
   FiMapPin,
   FiClock,
 } from "react-icons/fi";
+import { Logo } from "./Logo";
 
 const Footer = () => {
   const services = [
@@ -31,7 +32,8 @@ const Footer = () => {
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
           {/* Brand */}
           <div className="max-w-sm">
-            <p className="text-[#14202C]/60 leading-relaxed">
+            <Logo />
+            <p className="text-[#14202C]/60 leading-relaxed mt-4">
               Transform your spaces into extraordinary experiences with our
               professional decoration services across Dhaka.
             </p>

@@ -337,8 +337,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex gap-5 overflow-x-auto pb-4 no-scrollbar snap-x">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 justify-items-center">
           {decorators.map((d, i) => (
             <motion.div
               key={d._id}
@@ -346,7 +346,7 @@ const Home = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="snap-start shrink-0 w-64 bg-white rounded-3xl p-6 text-center shadow-[0_12px_36px_rgba(140,192,235,0.14)] border border-[#8CC0EB]/15 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] transition-all duration-300"
+              className="w-full max-w-[240px] bg-white rounded-3xl p-6 text-center shadow-[0_12px_36px_rgba(140,192,235,0.14)] border border-[#8CC0EB]/15 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(140,192,235,0.22)] transition-all duration-300"
             >
               <img
                 src={d.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
