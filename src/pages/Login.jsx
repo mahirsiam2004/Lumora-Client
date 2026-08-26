@@ -60,7 +60,6 @@ const Login = () => {
               <FiLock size={24} className="text-white" />
             </div>
             <h1 className="text-2xl font-bold text-base-content mb-1">Sign in to Lumora</h1>
-            <p className="text-sm text-base-content/50">Welcome back — let&apos;s craft something beautiful</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">

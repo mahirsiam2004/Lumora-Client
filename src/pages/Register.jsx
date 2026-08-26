@@ -85,7 +85,6 @@ const Register = () => {
               <FiUser size={24} className="text-white" />
             </div>
             <h1 className="text-2xl font-bold text-base-content mb-1">Create your account</h1>
-            <p className="text-sm text-base-content/50">Join Lumora and transform your spaces</p>
           </div>
 
           <form onSubmit={handleRegister} className="space-y-4">
