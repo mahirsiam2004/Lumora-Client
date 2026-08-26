@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../utilits/axiosInstance";
-import { useSiteSettings } from "../../../contexts/SiteSettingsContext";
+import { useSiteSettings, PALETTES } from "../../../contexts/SiteSettingsContext";
 import toast from "react-hot-toast";
-import { FiSave, FiRotateCcw, FiImage } from "react-icons/fi";
+import { FiSave, FiRotateCcw, FiImage, FiCheck } from "react-icons/fi";
 
 const COLORS = [
   { key: "primary", label: "Primary Color" },
@@ -30,15 +30,29 @@ const SiteSettings = () => {
   const { settings, updateSettings } = useSiteSettings();
   const [form, setForm] = useState({ ...DEFAULTS });
   const [saving, setSaving] = useState(false);
+  const [selectedPalette, setSelectedPalette] = useState(null);
 
   useEffect(() => {
     setForm({ ...DEFAULTS, ...settings });
+    // detect which preset (if any) currently matches
+    const match = PALETTES.find((p) => p.values.primary === settings.primary && p.values.text === settings.text);
+    setSelectedPalette(match ? match.id : null);
   }, [settings]);
 
   const handleColor = (key, value) => {
     setForm((f) => ({ ...f, [key]: value }));
+    setSelectedPalette(null);
     // live preview as the admin tweaks
     updateSettings({ [key]: value });
+  };
+
+  // One-click: apply a whole ready-made palette group
+  const applyPalette = (palette) => {
+    setSelectedPalette(palette.id);
+    setForm((f) => ({ ...f, ...palette.values }));
+    // live preview of the entire set, instantly
+    updateSettings(palette.values);
+    toast(`Applied "${palette.name}" — customize or save to persist`);
   };
 
   const handleSave = async () => {
@@ -107,6 +121,45 @@ const SiteSettings = () => {
             className="mt-3 h-12 rounded-lg border border-[var(--lum-skysoft)] object-contain"
           />
         )}
+      </div>
+
+      {/* Ready-made palette groups — one click applies the whole set */}
+      <div className="mt-6 rounded-2xl border border-[var(--lum-skysoft)] bg-white p-6 shadow-sm">
+        <h3 className="mb-1 font-semibold text-[var(--lum-text)]">
+          Ready-made Palettes
+        </h3>
+        <p className="mb-4 text-sm text-[var(--lum-text)]/60">
+          Click a group to apply the entire color set instantly. You can still
+          fine-tune each color afterwards.
+        </p>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {PALETTES.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => applyPalette(p)}
+              className={`group relative flex flex-col gap-2 rounded-xl border p-3 text-left transition ${
+                selectedPalette === p.id
+                  ? "border-[var(--lum-accent)] ring-2 ring-[var(--lum-accent)]/40"
+                  : "border-[var(--lum-skysoft)] hover:border-[var(--lum-accent)]"
+              }`}
+            >
+              {selectedPalette === p.id && (
+                <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-[var(--lum-accent)] text-white">
+                  <FiCheck className="text-xs" />
+                </span>
+              )}
+              <div className="flex h-7 overflow-hidden rounded-lg">
+                {p.swatches.map((s, i) => (
+                  <span key={i} className="flex-1" style={{ background: s }} />
+                ))}
+              </div>
+              <span className="text-sm font-medium text-[var(--lum-text)]">
+                {p.name}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Colors */}
