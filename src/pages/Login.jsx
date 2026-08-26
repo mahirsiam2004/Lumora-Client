@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import toast from "react-hot-toast";
+import { Logo } from "../components/Logo";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +42,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50/60 via-white to-yellow-50/40 py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cream/60 via-white to-skysoft/40 py-12 px-4">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
@@ -50,13 +51,12 @@ const Login = () => {
       >
         {/* Card */}
         <div className="bg-base-100 rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.10)] border border-base-200 p-8">
+          <div className="flex justify-center mb-6">
+            <Logo />
+          </div>
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-[#e8a803] to-[#f59e0b] shadow-[0_4px_14px_rgba(232,168,3,0.4)] mb-4">
-              <FiLock size={24} className="text-white" />
-            </div>
-            <h1 className="text-2xl font-bold text-base-content mb-1">Welcome back</h1>
-            <p className="text-sm text-base-content/50">Sign in to your Lumora account</p>
+            <h1 className="text-2xl font-bold text-base-content mb-1">Sign in to Lumora</h1>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
@@ -149,7 +149,7 @@ const Login = () => {
           {/* Footer */}
           <p className="text-center text-sm text-base-content/50 mt-6">
             Don&apos;t have an account?{" "}
-            <Link to="/register" className="text-[#e8a803] font-semibold hover:underline">
+            <Link to="/register" className="text-primarydeep font-semibold hover:underline">
               Create one
             </Link>
           </p>

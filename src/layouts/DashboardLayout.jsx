@@ -17,6 +17,8 @@ import {
   FiBriefcase,
   FiClock,
   FiDollarSign,
+  FiSettings,
+  FiGift,
 } from "react-icons/fi";
 import { useState } from "react";
 
@@ -60,6 +62,8 @@ const DashboardLayout = () => {
       icon: FiUsers,
     },
     { to: "/dashboard/admin/analytics", label: "Analytics", icon: FiBarChart2 },
+    { to: "/dashboard/admin/settings", label: "Site Appearance", icon: FiSettings },
+    { to: "/dashboard/admin/promotions", label: "Offers & Events", icon: FiGift },
   ];
 
   // Decorator Navigation Links

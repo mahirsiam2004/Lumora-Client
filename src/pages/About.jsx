@@ -12,7 +12,7 @@ const About = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-[#e8a803] via-[#f59e0b] to-[#fbbf24] text-white overflow-hidden">
+      <section className="relative py-20 bg-gradient-to-br from-sky/70 via-primarydeep to-[var(--lum-accent)] text-white overflow-hidden">
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -57,10 +57,10 @@ const About = () => {
                   transition={{ delay: index * 0.1 }}
                   className="text-center"
                 >
-                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-[#e8a803] to-[#f59e0b] rounded-full flex items-center justify-center">
+                  <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-sky to-primarydeep rounded-full flex items-center justify-center">
                     <Icon size={32} className="text-white" />
                   </div>
-                  <div className="text-4xl font-bold text-[#e8a803] mb-2">
+                  <div className="text-4xl font-bold text-primarydeep mb-2">
                     {stat.value}
                   </div>
                   <div className="text-gray-600">{stat.label}</div>
@@ -72,7 +72,7 @@ const About = () => {
       </section>
 
       {/* Story Section */}
-      <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50">
+      <section className="py-20 bg-gradient-to-br from-cream to-peach">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -136,19 +136,19 @@ const About = () => {
                 title: "Quality First",
                 description:
                   "We never compromise on the quality of our decorations and services.",
-                color: "from-amber-500 to-orange-500",
+                color: "from-sky to-primarydeep",
               },
               {
                 title: "Customer Focused",
                 description:
                   "Your satisfaction is our top priority, and we go above and beyond.",
-                color: "from-[#e8a803] to-[#f59e0b]",
+                color: "from-[var(--lum-primary)] to-[var(--lum-accent)]",
               },
               {
                 title: "Innovation",
                 description:
                   "We constantly explore new design trends and techniques.",
-                color: "from-yellow-500 to-amber-600",
+                color: "from-primarydeep to-sky",
               },
             ].map((value, index) => (
               <motion.div

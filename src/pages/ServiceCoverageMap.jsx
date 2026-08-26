@@ -13,7 +13,7 @@ const ServiceCoverageMap = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#e8a80310] via-[#fbbf2420] to-[#fcd34d10] py-20">
+    <div className="min-h-screen bg-gradient-to-br from-cream/50 via-skysoft/20 to-peach/40 py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -22,7 +22,7 @@ const ServiceCoverageMap = () => {
         >
           <h1 className="text-5xl font-bold mb-4">
             Service{" "}
-            <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-sky to-primarydeep bg-clip-text text-transparent">
               Coverage
             </span>
           </h1>
@@ -53,7 +53,7 @@ const ServiceCoverageMap = () => {
                   <Marker position={area.position}>
                     <Popup>
                       <div className="text-center">
-                        <strong className="text-[#e8a803]">{area.name}</strong>
+                        <strong className="text-primarydeep">{area.name}</strong>
                         <br />
                         <span className="text-sm">Service Available</span>
                       </div>
@@ -63,9 +63,9 @@ const ServiceCoverageMap = () => {
                     center={area.position}
                     radius={area.radius}
                     pathOptions={{
-                      color: "#9333ea",
-                      fillColor: "#9333ea",
-                      fillOpacity: 0.1,
+                      color: "var(--lum-accent)",
+                      fillColor: "var(--lum-primary)",
+                      fillOpacity: 0.12,
                     }}
                   />
                 </div>
@@ -85,7 +85,7 @@ const ServiceCoverageMap = () => {
               className="bg-base-100 rounded-2xl shadow-xl p-6"
             >
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#e8a803] to-[#f59e0b] rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-sky to-primarydeep rounded-full flex items-center justify-center">
                   <FiMapPin className="text-white" size={20} />
                 </div>
                 <div>

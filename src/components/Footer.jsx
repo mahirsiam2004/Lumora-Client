@@ -3,116 +3,142 @@ import {
   FiFacebook,
   FiInstagram,
   FiTwitter,
-  FiMail,
   FiPhone,
+  FiMail,
   FiMapPin,
+  FiClock,
 } from "react-icons/fi";
-import { LogoDark } from "./LogoDark";
+import { Logo } from "./Logo";
 
 const Footer = () => {
-  const year = new Date().getFullYear();
+  const services = [
+    { to: "/services", label: "Home Decoration" },
+    { to: "/services", label: "Wedding" },
+    { to: "/services", label: "Birthday" },
+    { to: "/services", label: "Corporate" },
+  ];
+
+  const company = [
+    { to: "/about", label: "About Us" },
+    { to: "/contact", label: "Contact" },
+    { to: "/decorators", label: "Decorators" },
+    { to: "/coverage-map", label: "Coverage Map" },
+  ];
 
   return (
-    <footer className="bg-[#0f172a] text-slate-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-
+    <footer className="bg-gradient-to-br from-[var(--lum-cream)]/50 via-white to-[var(--lum-skysoft)]/40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {/* Top: brand + links + contact */}
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
           {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="mb-4">
-              <LogoDark />
-            </div>
-            <p className="text-slate-400 text-sm leading-relaxed mb-5">
+          <div className="max-w-sm">
+            <Logo />
+            <p className="text-[var(--lum-text)]/60 leading-relaxed mt-4">
               Transform your spaces into extraordinary experiences with our
               professional decoration services across Dhaka.
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 mt-6">
               {[
-                { icon: FiFacebook, href: "#" },
-                { icon: FiInstagram, href: "#" },
-                { icon: FiTwitter, href: "#" },
-              ].map(({ icon: Icon, href }, i) => (
+                { Icon: FiFacebook, label: "Facebook" },
+                { Icon: FiInstagram, label: "Instagram" },
+                { Icon: FiTwitter, label: "Twitter" },
+              ].map(({ Icon, label }, i) => (
                 <a
                   key={i}
-                  href={href}
-                  className="w-9 h-9 rounded-lg bg-white/5 hover:bg-[#e8a803] flex items-center justify-center text-slate-400 hover:text-white transition-all duration-200"
+                  href="#"
+                  aria-label={label}
+                  className="w-10 h-10 grid place-items-center rounded-full bg-white shadow-[0_4px_12px_rgba(140,192,235,0.18)] text-[var(--lum-accent)] hover:bg-[var(--lum-primary)] hover:text-white transition-all"
                 >
-                  <Icon size={16} />
+                  <Icon size={18} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Quick Links</h4>
-            <ul className="space-y-3">
-              {[
-                { to: "/services", label: "Services" },
-                { to: "/coverage-map", label: "Coverage Map" },
-                { to: "/about", label: "About Us" },
-                { to: "/contact", label: "Contact" },
-              ].map(({ to, label }) => (
-                <li key={to}>
-                  <Link
-                    to={to}
-                    className="text-slate-400 hover:text-[#e8a803] text-sm transition-colors duration-200"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* Links */}
+          <div className="grid grid-cols-2 gap-12">
+            <div>
+              <h4 className="text-sm font-semibold text-[var(--lum-text)] uppercase tracking-wider mb-4">
+                Services
+              </h4>
+              <ul className="space-y-3">
+                {services.map((s, i) => (
+                  <li key={i}>
+                    <Link
+                      to={s.to}
+                      className="text-[var(--lum-text)]/60 hover:text-[var(--lum-accent)] transition-colors"
+                    >
+                      {s.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-sm font-semibold text-[var(--lum-text)] uppercase tracking-wider mb-4">
+                Company
+              </h4>
+              <ul className="space-y-3">
+                {company.map((c, i) => (
+                  <li key={i}>
+                    <Link
+                      to={c.to}
+                      className="text-[var(--lum-text)]/60 hover:text-[var(--lum-accent)] transition-colors"
+                    >
+                      {c.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Contact */}
-          <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Contact</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3 text-sm">
-                <FiPhone size={15} className="text-[#e8a803] flex-shrink-0" />
-                <span className="text-slate-400">+880 1234-567890</span>
+          {/* Contact card */}
+          <div className="bg-white/80 backdrop-blur rounded-3xl p-6 shadow-[0_14px_40px_rgba(140,192,235,0.16)] border border-[var(--lum-primary)]/20 w-full max-w-xs">
+            <h4 className="text-sm font-semibold text-[var(--lum-text)] uppercase tracking-wider mb-4">
+              Get In Touch
+            </h4>
+            <ul className="space-y-3 text-sm text-[var(--lum-text)]/65">
+              <li className="flex items-center gap-3">
+                <FiPhone className="text-[var(--lum-accent)]" size={16} />
+                +880 1234-567890
               </li>
-              <li className="flex items-center gap-3 text-sm">
-                <FiMail size={15} className="text-[#e8a803] flex-shrink-0" />
-                <span className="text-slate-400">info@lumora.com</span>
+              <li className="flex items-center gap-3">
+                <FiMail className="text-[var(--lum-accent)]" size={16} />
+                info@lumora.com
               </li>
-              <li className="flex items-start gap-3 text-sm">
-                <FiMapPin size={15} className="text-[#e8a803] flex-shrink-0 mt-0.5" />
-                <span className="text-slate-400">Dhaka, Bangladesh</span>
+              <li className="flex items-center gap-3">
+                <FiMapPin className="text-[var(--lum-accent)]" size={16} />
+                Dhaka, Bangladesh
               </li>
-            </ul>
-          </div>
-
-          {/* Hours */}
-          <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-5">Working Hours</h4>
-            <ul className="space-y-3 text-sm">
-              <li className="flex justify-between gap-4">
-                <span className="text-slate-400">Mon – Fri</span>
-                <span className="text-slate-300 font-medium">9am – 8pm</span>
-              </li>
-              <li className="flex justify-between gap-4">
-                <span className="text-slate-400">Saturday</span>
-                <span className="text-slate-300 font-medium">10am – 6pm</span>
-              </li>
-              <li className="flex justify-between gap-4">
-                <span className="text-slate-400">Sunday</span>
-                <span className="text-slate-500">Closed</span>
+              <li className="flex items-center gap-3">
+                <FiClock className="text-[var(--lum-accent)]" size={16} />
+                Mon–Fri, 9am–8pm
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-slate-500 text-sm">
-            &copy; {year} Lumora. All rights reserved.
-          </p>
-          <div className="flex items-center gap-5 text-sm">
-            <a href="#" className="text-slate-500 hover:text-slate-300 transition-colors">Privacy Policy</a>
-            <a href="#" className="text-slate-500 hover:text-slate-300 transition-colors">Terms of Service</a>
+        {/* Bottom bar */}
+        <div className="mt-14 pt-6 border-t border-[var(--lum-primary)]/20">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-[var(--lum-text)]/50">
+            <p>© 2026 Lumora. All rights reserved.</p>
+            <div className="flex items-center gap-6">
+              <Link to="/" className="hover:text-[var(--lum-accent)] transition-colors">
+                Privacy Policy
+              </Link>
+              <Link to="/" className="hover:text-[var(--lum-accent)] transition-colors">
+                Terms of Service
+              </Link>
+            </div>
           </div>
+          <p className="mt-4 text-xs text-[var(--lum-text)]/40 leading-relaxed">
+            Lumora is a proprietary decoration-booking platform. All brand names,
+            service marks, and imagery shown are the property of their respective
+            owners and are used for demonstration purposes only. This site and its
+            contents are provided "as is" without warranty of any kind. Unauthorized
+            copying, redistribution, or commercial use is strictly prohibited.
+          </p>
         </div>
       </div>
     </footer>
