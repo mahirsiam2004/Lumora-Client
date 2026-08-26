@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FiMenu, FiX, FiArrowRight } from "react-icons/fi";
 import { auth } from "../utilits/firebase.config";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -7,9 +7,7 @@ import { motion } from "framer-motion";
 import { Logo } from "./Logo";
 
 const navLinks = [
-  { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
-  { to: "/decorators", label: "Decorators" },
   { to: "/coverage-map", label: "Coverage" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
@@ -18,7 +16,6 @@ const navLinks = [
 const Navbar = () => {
   const [user] = useAuthState(auth);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -30,13 +27,13 @@ const Navbar = () => {
 
   useEffect(() => {
     setMobileMenu(false);
-  }, [location?.pathname]);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <nav
-          className={`flex items-center justify-between gap-4 rounded-full px-4 py-2.5 transition-all duration-300 ${
+          className={`flex items-center justify-between gap-4 rounded-full px-3.5 py-1.5 transition-all duration-300 ${
             scrolled
               ? "bg-white/80 backdrop-blur-xl shadow-[0_8px_30px_rgba(94,155,213,0.18)] border border-[#8CC0EB]/25"
               : "bg-white/50 backdrop-blur-md border border-transparent"
@@ -45,9 +42,6 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0">
             <Logo />
-            <span className="text-xl font-bold bg-gradient-to-r from-[#5B9BD5] to-[#3E7CB1] bg-clip-text text-transparent">
-              Lumora
-            </span>
           </Link>
 
           {/* Center pill links (desktop) */}
@@ -56,9 +50,8 @@ const Navbar = () => {
               <NavLink
                 key={link.to}
                 to={link.to}
-                end={link.to === "/"}
                 className={({ isActive }) =>
-                  `px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  `px-4 py-1 rounded-full text-sm font-medium transition-all ${
                     isActive
                       ? "bg-white text-[#5B9BD5] shadow-sm"
                       : "text-[#14202C]/55 hover:text-[#14202C]"
@@ -75,31 +68,27 @@ const Navbar = () => {
             {user ? (
               <Link
                 to="/dashboard"
-                className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
               >
                 Dashboard
-                <FiArrowRight size={16} />
+                <FiArrowRight size={15} />
               </Link>
             ) : (
               <Link
                 to="/login"
-                className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
+                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white shadow-[0_4px_14px_rgba(140,192,235,0.45)] hover:shadow-[0_8px_22px_rgba(140,192,235,0.55)] transition-all"
               >
                 Sign In
-                <FiArrowRight size={16} />
+                <FiArrowRight size={15} />
               </Link>
             )}
 
             <button
               onClick={() => setMobileMenu((v) => !v)}
-              className="lg:hidden w-10 h-10 grid place-items-center rounded-full bg-[#F2F8FD] text-[#14202C]"
+              className="lg:hidden w-9 h-9 grid place-items-center rounded-full bg-[#F2F8FD] text-[#14202C]"
               aria-label="Toggle menu"
             >
-              {mobileMenu ? (
-                <FiX size={20} />
-              ) : (
-                <FiMenu size={20} />
-              )}
+              {mobileMenu ? <FiX size={18} /> : <FiMenu size={18} />}
             </button>
           </div>
         </nav>
@@ -116,7 +105,6 @@ const Navbar = () => {
                 <NavLink
                   key={link.to}
                   to={link.to}
-                  end={link.to === "/"}
                   onClick={() => setMobileMenu(false)}
                   className={({ isActive }) =>
                     `px-4 py-3 rounded-2xl text-sm font-medium transition-all ${

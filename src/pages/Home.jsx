@@ -311,7 +311,7 @@ const Home = () => {
   const DecoratorsSection = () => (
     <section className="py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div className="flex flex-col items-center text-center gap-6 mb-10">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -329,7 +329,7 @@ const Home = () => {
           </motion.div>
           <Link
             to="/decorators"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold border border-[#8CC0EB]/50 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all shrink-0"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold border border-[#8CC0EB]/50 text-[#5B9BD5] hover:bg-[#8CC0EB]/10 transition-all"
           >
             All Decorators
             <FiArrowRight size={16} />
