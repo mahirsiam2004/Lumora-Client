@@ -27,6 +27,8 @@ import {
   FiSmile,
   FiUsers,
   FiSun,
+  FiBookmark,
+  FiX,
 } from "react-icons/fi";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Skeleton from "react-loading-skeleton";
@@ -275,62 +277,178 @@ const Home = () => {
     </section>
   );
 
-  /* ── Why Lumora (glass feature grid) ─────────────────── */
-  const WhyLumora = () => (
-    <section className="relative py-24 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="soft-blob bg-[#BFDDF0] w-[26rem] h-[26rem] -top-20 -left-16 opacity-25" />
-        <div className="soft-blob bg-[#FFEBCC] w-[22rem] h-[22rem] -bottom-20 -right-16 opacity-35" />
-      </div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-14"
-        >
-          <span className="text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
-            Why Lumora
-          </span>
-          <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
-            A calmer way to{" "}
-            <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
-              decorate
-            </span>
-          </h2>
-        </motion.div>
+  /* ── Upcoming Live Events (booking — no payment) ──────── */
+  const LIVE_EVENTS = [
+    { id: 1, title: "Grand Wedding Expo 2026", venue: "Pan Pacific Sonargaon", city: "Dhaka", date: "Sep 12, 2026", time: "11:00 AM", seats: 24, tag: "Wedding" },
+    { id: 2, title: "Festive Home Styling Live", venue: "Lumora Studio, Gulshan", city: "Dhaka", date: "Sep 20, 2026", time: "04:00 PM", seats: 18, tag: "Home" },
+    { id: 3, title: "Birthday Theme Showcase", venue: "Conrad Ballroom", city: "Dhaka", date: "Oct 03, 2026", time: "02:30 PM", seats: 31, tag: "Birthday" },
+    { id: 4, title: "Corporate Launch Preview", venue: "Le Méridien", city: "Dhaka", date: "Oct 15, 2026", time: "06:00 PM", seats: 12, tag: "Corporate" },
+  ];
 
-        <div className="grid md:grid-cols-3 gap-5">
-          {[
-            { icon: FiSearch, title: "Curated packages", text: "Handpicked decoration styles for every budget — browse, compare, decide in minutes." },
-            { icon: FiUsers, title: "Vetted decorators", text: "Work with experienced professionals, each rated by real clients after every event." },
-            { icon: FiEdit3, title: "Fully customizable", text: "Colors, themes, flowers — shape every detail with your decorator before the day." },
-            { icon: FiCalendar, title: "Flexible scheduling", text: "Book the exact date and time you need, with clear status from start to finish." },
-            { icon: FiDollarSign, title: "Transparent pricing", text: "No hidden fees. See the full cost upfront and pay securely when you're ready." },
-            { icon: FiShield, title: "Peace of mind", text: "Insured setups, on-time delivery, and a support team that picks up the phone." },
-          ].map((f, i) => {
-            const Icon = f.icon;
-            return (
+  const UpcomingLiveEvents = () => {
+    const [open, setOpen] = useState(false);
+    const [selected, setSelected] = useState(null);
+    const [seat, setSeat] = useState("");
+    const [done, setDone] = useState(false);
+
+    const openBooking = (ev) => {
+      setSelected(ev);
+      setSeat("");
+      setDone(false);
+      setOpen(true);
+    };
+
+    const confirmSeat = (e) => {
+      e.preventDefault();
+      if (!seat) return;
+      setDone(true);
+    };
+
+    return (
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="soft-blob bg-[#BFDDF0] w-[26rem] h-[26rem] -top-20 -left-16 opacity-25" />
+          <div className="soft-blob bg-[#FFEBCC] w-[22rem] h-[22rem] -bottom-20 -right-16 opacity-35" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12"
+          >
+            <div>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#5B9BD5] uppercase tracking-wider">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5B9BD5] opacity-60" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#5B9BD5]" />
+                </span>
+                Live &amp; Upcoming
+              </span>
+              <h2 className="mt-2 text-4xl md:text-5xl font-bold text-[#14202C]">
+                Upcoming{" "}
+                <span className="bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] bg-clip-text text-transparent">
+                  live events
+                </span>
+              </h2>
+              <p className="mt-3 text-[#14202C]/55 max-w-xl">
+                Join a Lumora showcase near you. Reserve a seat — no payment needed, just book your spot.
+              </p>
+            </div>
+            <Link
+              to="/events"
+              className="inline-flex items-center gap-2 self-start md:self-auto rounded-full bg-[#14202C] text-white px-5 py-2.5 text-sm font-semibold hover:bg-[#14202C]/85 transition"
+            >
+              View all events <FiArrowRight size={16} />
+            </Link>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {LIVE_EVENTS.map((ev, i) => (
               <motion.div
-                key={i}
+                key={ev.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="group p-7 rounded-3xl bg-white/55 backdrop-blur-xl border border-white/60 shadow-[0_14px_38px_rgba(140,192,235,0.12)] hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_20px_48px_rgba(140,192,235,0.20)] transition-all duration-300"
+                className="group flex flex-col p-6 rounded-3xl bg-white/55 backdrop-blur-xl border border-white/60 shadow-[0_14px_38px_rgba(140,192,235,0.12)] hover:-translate-y-1 hover:bg-white/75 hover:shadow-[0_20px_48px_rgba(140,192,235,0.20)] transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFEBCC] to-[#8CC0EB] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                  <Icon size={22} className="text-[#14202C]" />
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[11px] font-semibold uppercase tracking-wide text-[#5B9BD5] bg-[#8CC0EB]/15 px-2.5 py-1 rounded-full">
+                    {ev.tag}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-xs text-[#14202C]/45">
+                    <FiUsers size={14} /> {ev.seats} seats
+                  </span>
                 </div>
-                <h3 className="text-lg font-bold text-[#14202C]">{f.title}</h3>
-                <p className="text-[#14202C]/55 text-sm mt-2 leading-relaxed">{f.text}</p>
+                <h3 className="text-lg font-bold text-[#14202C] leading-snug">{ev.title}</h3>
+                <div className="mt-3 space-y-1.5 text-sm text-[#14202C]/55">
+                  <p className="flex items-center gap-2"><FiMapPin size={15} className="text-[#5B9BD5]" /> {ev.venue}, {ev.city}</p>
+                  <p className="flex items-center gap-2"><FiCalendar size={15} className="text-[#5B9BD5]" /> {ev.date}</p>
+                  <p className="flex items-center gap-2"><FiClock size={15} className="text-[#5B9BD5]" /> {ev.time}</p>
+                </div>
+                <button
+                  onClick={() => openBooking(ev)}
+                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white px-4 py-2.5 text-sm font-semibold shadow-[0_8px_20px_rgba(94,155,213,0.35)] hover:shadow-[0_12px_28px_rgba(94,155,213,0.45)] transition"
+                >
+                  <FiBookmark size={15} /> Book your seat
+                </button>
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  );
+
+        {open && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-[#14202C]/40 backdrop-blur-sm" onClick={() => setOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              className="relative w-full max-w-md rounded-3xl bg-white p-7 shadow-2xl border border-[#8CC0EB]/20"
+            >
+              <button
+                onClick={() => setOpen(false)}
+                className="absolute top-4 right-4 text-[#14202C]/40 hover:text-[#14202C] transition"
+                aria-label="Close"
+              >
+                <FiX size={20} />
+              </button>
+              {done ? (
+                <div className="text-center py-6">
+                  <div className="mx-auto w-14 h-14 rounded-full bg-[#8CC0EB]/20 flex items-center justify-center mb-4">
+                    <FiCheck size={26} className="text-[#5B9BD5]" />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#14202C]">Seat reserved!</h3>
+                  <p className="mt-2 text-sm text-[#14202C]/55">
+                    Your spot for <span className="font-semibold">{selected.title}</span> is held. We'll confirm details by email shortly.
+                  </p>
+                  <button
+                    onClick={() => setOpen(false)}
+                    className="mt-6 inline-flex items-center justify-center rounded-full bg-[#14202C] text-white px-5 py-2.5 text-sm font-semibold hover:bg-[#14202C]/85 transition"
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <span className="text-xs font-semibold uppercase tracking-wide text-[#5B9BD5]">
+                    Book your seat
+                  </span>
+                  <h3 className="mt-1 text-2xl font-bold text-[#14202C]">{selected.title}</h3>
+                  <p className="mt-2 text-sm text-[#14202C]/55 flex items-center gap-2">
+                    <FiMapPin size={15} className="text-[#5B9BD5]" /> {selected.venue}, {selected.city}
+                  </p>
+                  <p className="text-sm text-[#14202C]/55 flex items-center gap-2">
+                    <FiCalendar size={15} className="text-[#5B9BD5]" /> {selected.date} · {selected.time}
+                  </p>
+                  <form onSubmit={confirmSeat} className="mt-6 space-y-4">
+                    <div>
+                      <label className="text-sm font-medium text-[#14202C]">Your name</label>
+                      <input
+                        type="text"
+                        required
+                        value={seat}
+                        onChange={(e) => setSeat(e.target.value)}
+                        placeholder="e.g. Mahir Siam"
+                        className="mt-1.5 w-full rounded-2xl border border-[#8CC0EB]/30 bg-[#FFF9D2]/40 px-4 py-3 text-sm text-[#14202C] outline-none focus:border-[#5B9BD5] focus:ring-2 focus:ring-[#8CC0EB]/30"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#8CC0EB] to-[#5B9BD5] text-white px-4 py-3 text-sm font-semibold shadow-[0_8px_20px_rgba(94,155,213,0.35)] hover:shadow-[0_12px_28px_rgba(94,155,213,0.45)] transition"
+                    >
+                      <FiBookmark size={16} /> Confirm seat
+                    </button>
+                    <p className="text-center text-xs text-[#14202C]/40">No payment required — just reserve your spot.</p>
+                  </form>
+                </>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </section>
+    );
+  };
 
   /* ── Services (bento, no card grid) ───────────────────────── */
   const ServicesSection = () => (
@@ -782,7 +900,7 @@ const Home = () => {
       <ServicesSection />
       <EventsWeCover />
       <HowItWorksSection />
-      <WhyLumora />
+      <UpcomingLiveEvents />
       <DecoratorsSection />
       <TestimonialsSection />
       <CoverageMapSection />
