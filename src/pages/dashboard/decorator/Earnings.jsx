@@ -77,7 +77,7 @@ const Earnings = () => {
           <p className="font-semibold text-gray-800">
             {payload[0].payload.month}
           </p>
-          <p className="text-purple-600 font-bold text-lg">
+          <p className="text-[var(--lum-accent)] font-bold text-lg">
             ৳{payload[0].value.toLocaleString()}
           </p>
         </div>
@@ -95,7 +95,7 @@ const Earnings = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           My{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
             Earnings
           </span>
         </h1>
@@ -104,7 +104,7 @@ const Earnings = () => {
 
       {loading ? (
         <div className="flex justify-center py-20">
-          <span className="loading loading-spinner loading-lg text-purple-600"></span>
+          <span className="loading loading-spinner loading-lg text-[var(--lum-accent)]"></span>
         </div>
       ) : (
         <>
@@ -112,7 +112,7 @@ const Earnings = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-[#e8a803] via-[#f59e0b] to-[#fbbf24] rounded-3xl p-8 text-white mb-8 shadow-2xl"
+            className="bg-gradient-to-br from-[var(--lum-primary)] via-[var(--lum-accent)] to-[#5B9BD5] rounded-3xl p-8 text-white mb-8 shadow-2xl"
           >
             <div className="flex items-center justify-between">
               <div>
@@ -146,10 +146,10 @@ const Earnings = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis
                     dataKey="month"
-                    tick={{ fill: "#6b7280", fontSize: 12 }}
+                    tick={{ fill: "var(--lum-text)", fontSize: 12 }}
                   />
                   <YAxis
-                    tick={{ fill: "#6b7280" }}
+                    tick={{ fill: "var(--lum-text)" }}
                     tickFormatter={(value) => `৳${value.toLocaleString()}`}
                   />
                   <Tooltip content={<CustomTooltip />} />
@@ -163,14 +163,14 @@ const Earnings = () => {
                     stroke="url(#lineGradient)"
                     strokeWidth={4}
                     dot={{
-                      fill: "#9333ea",
+                      fill: "var(--lum-accent)",
                       r: 6,
                       strokeWidth: 2,
                       stroke: "#fff",
                     }}
                     activeDot={{
                       r: 8,
-                      fill: "#ec4899",
+                      fill: "var(--lum-primary)",
                       strokeWidth: 2,
                       stroke: "#fff",
                     }}
@@ -183,8 +183,8 @@ const Earnings = () => {
                       x2="1"
                       y2="0"
                     >
-                      <stop offset="0%" stopColor="#9333ea" />
-                      <stop offset="100%" stopColor="#ec4899" />
+                      <stop offset="0%" stopColor="var(--lum-accent)" />
+                      <stop offset="100%" stopColor="var(--lum-primary)" />
                     </linearGradient>
                   </defs>
                 </LineChart>
@@ -220,10 +220,10 @@ const Earnings = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-purple-50 rounded-xl hover:shadow-md transition-all border border-gray-100"
+                    className="flex items-center justify-between p-4 bg-gradient-to-r from-[var(--lum-cream)] to-[var(--lum-skysoft)] rounded-xl hover:shadow-md transition-all border border-base-200"
                   >
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                      <div className="w-12 h-12 bg-gradient-to-br from-[var(--lum-accent)] to-[var(--lum-primary)] rounded-full flex items-center justify-center shadow-lg">
                         <FiCheckCircle className="text-white" size={24} />
                       </div>
                       <div>
@@ -249,7 +249,7 @@ const Earnings = () => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                      <p className="text-3xl font-bold bg-gradient-to-r from-[var(--lum-accent)] to-[var(--lum-primary)] bg-clip-text text-transparent">
                         ৳{payment.amount.toLocaleString()}
                       </p>
                       <span className="badge badge-success badge-sm mt-1">

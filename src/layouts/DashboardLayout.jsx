@@ -2,7 +2,9 @@
 import { Outlet, Link, NavLink } from "react-router-dom";
 import ScrollToTop from "../components/ScrollToTop";
 import { useAuth } from "../contexts/AuthContext";
+import { useSiteSettings } from "../contexts/SiteSettingsContext";
 import { motion } from "framer-motion";
+import { Logo } from "../components/Logo";
 import {
   FiHome,
   FiUser,
@@ -19,11 +21,13 @@ import {
   FiDollarSign,
   FiSettings,
   FiGift,
+  FiLogOut,
 } from "react-icons/fi";
 import { useState } from "react";
 
 const DashboardLayout = () => {
-  const { user, userRole } = useAuth();
+  const { user, userRole, logoutUser } = useAuth();
+  const { settings } = useSiteSettings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // User Navigation Links
@@ -119,17 +123,28 @@ const DashboardLayout = () => {
             ${sidebarOpen ? "block" : "hidden lg:block"}
           `}
         >
-          <div className="p-6 overflow-y-auto h-full">
+          <div className="p-6 overflow-y-auto h-full flex flex-col">
+            {/* Brand — Lumora logo (same as navbar) */}
+            <div className="flex items-center justify-center mb-8 px-1">
+              <Logo />
+            </div>
+
             {/* User Info */}
-            <div className="flex items-center space-x-3 mb-8 p-3 rounded-xl bg-base-200">
+            <div
+              className="flex items-center space-x-3 mb-8 p-3 rounded-xl"
+              style={{ background: "var(--lum-skysoft)", border: "1px solid color-mix(in srgb, var(--lum-primary) 35%, transparent)" }}
+            >
               <img
                 src={user?.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
                 alt={user?.displayName}
-                className="w-11 h-11 rounded-full ring-2 ring-[#e8a803] ring-offset-2 ring-offset-base-200 object-cover flex-shrink-0"
+                className="w-11 h-11 rounded-full object-cover flex-shrink-0"
+                style={{ border: "2px solid var(--lum-primary)" }}
               />
               <div className="min-w-0">
                 <p className="font-semibold text-sm truncate">{user?.displayName}</p>
-                <p className="text-xs text-gray-500 capitalize">{userRole === "user" ? "Customer" : userRole}</p>
+                <p className="text-xs capitalize" style={{ color: "var(--lum-text)" }}>
+                  {userRole === "user" ? "Customer" : userRole}
+                </p>
               </div>
             </div>
 
@@ -145,9 +160,14 @@ const DashboardLayout = () => {
                     onClick={() => setSidebarOpen(false)}
                     className={({ isActive }) =>
                       `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${isActive
-                        ? "bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white"
+                        ? "text-white shadow-sm"
                         : "text-base-content hover:bg-base-200"
                       }`
+                    }
+                    style={({ isActive }) =>
+                      isActive
+                        ? { background: "linear-gradient(135deg, var(--lum-primary), var(--lum-accent))" }
+                        : undefined
                     }
                   >
                     <Icon size={20} />
@@ -158,7 +178,7 @@ const DashboardLayout = () => {
             </nav>
 
             {/* Back to Home Link */}
-            <div className="mt-8 pt-6 border-t">
+            <div className="mt-8 pt-6 border-t border-base-200">
               <Link
                 to="/"
                 className="flex items-center space-x-3 px-4 py-3 rounded-xl text-base-content hover:bg-base-200 transition-all"
@@ -166,6 +186,20 @@ const DashboardLayout = () => {
                 <FiHome size={20} />
                 <span className="font-medium">Back to Home</span>
               </Link>
+            </div>
+
+            {/* Logout (bottom) */}
+            <div className="mt-auto pt-6 border-t border-base-200">
+              <button
+                onClick={() => {
+                logoutUser();
+                window.location.href = "/";
+              }}
+                className="flex w-full items-center space-x-3 px-4 py-3 rounded-xl text-base-content hover:bg-base-200 transition-all"
+              >
+                <FiLogOut size={20} />
+                <span className="font-medium">Logout</span>
+              </button>
             </div>
           </div>
         </motion.aside>

@@ -62,23 +62,23 @@ const UserDashboard = () => {
       title: "Total Bookings",
       value: stats.totalBookings,
       icon: FiCalendar,
-      color: "from-amber-500 to-yellow-500",
+      color: "from-[var(--lum-skysoft)] to-[var(--lum-primary)]",
     },
     {
       title: "Pending Payment",
       value: stats.pendingBookings,
       icon: FiCreditCard,
-      color: "from-orange-500 to-yellow-500",
+      color: "from-[var(--lum-primary)] to-[var(--lum-accent)]",
     },
     {
       title: "Completed",
       value: stats.completedBookings,
       icon: FiPackage,
-      color: "from-green-500 to-emerald-500",
+      color: "from-[var(--lum-accent)] to-[#5B9BD5]",
     },
   ];
 
-  const COLORS = ["#f59e0b", "#10b981", "#ef4444"];
+  const COLORS = ["var(--lum-primary)", "var(--lum-accent)", "#ef4444"];
 
   return (
     <div>
@@ -89,7 +89,7 @@ const UserDashboard = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           Welcome back,{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
             {user?.displayName?.split(" ")[0]}
           </span>
         </h1>
@@ -138,7 +138,7 @@ const UserDashboard = () => {
                   cy="50%"
                   labelLine={false}
                   outerRadius={100}
-                  fill="#8884d8"
+                  fill="var(--lum-primary)"
                   dataKey="value"
                   label={({ name, percent }) =>
                     percent > 0 ? `${name} ${(percent * 100).toFixed(0)}%` : ""
@@ -164,8 +164,8 @@ const UserDashboard = () => {
           transition={{ delay: 0.4 }}
           className="bg-base-100 rounded-2xl shadow-xl p-6 flex flex-col justify-center items-center text-center"
         >
-          <div className="p-4 bg-amber-50 rounded-full mb-4">
-            <FiPackage className="text-purple-600 text-4xl" />
+          <div className="p-4 bg-[var(--lum-cream)] rounded-full mb-4">
+            <FiPackage className="text-[var(--lum-accent)] text-4xl" />
           </div>
           <h3 className="text-xl font-bold mb-2">Need Help?</h3>
           <p className="text-gray-600 mb-6">
@@ -189,7 +189,7 @@ const UserDashboard = () => {
         <div className="grid md:grid-cols-3 gap-4">
           <Link
             to="/services"
-            className="btn btn-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white border-none"
+            className="btn btn-lg bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white border-none"
           >
             Browse Services
           </Link>

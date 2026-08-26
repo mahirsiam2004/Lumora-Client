@@ -14,7 +14,7 @@ const MyProfile = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           My{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
             Profile
           </span>
         </h1>
@@ -30,7 +30,7 @@ const MyProfile = () => {
           <img
             src={user?.photoURL || "https://i.ibb.co/3YRjQxv/user.png"}
             alt={user?.displayName}
-            className="w-32 h-32 rounded-full ring-4 ring-purple-500 object-cover"
+            className="w-32 h-32 rounded-full ring-4 ring-[var(--lum-accent)] object-cover"
           />
 
           <div className="flex-1 space-y-6">
@@ -55,7 +55,7 @@ const MyProfile = () => {
                 <FiCalendar />
                 <span className="font-medium">Account Type</span>
               </div>
-              <span className="badge badge-lg bg-gradient-to-r from-[#e8a803] to-[#f59e0b] text-white capitalize">
+              <span className="badge badge-lg bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] text-white capitalize">
                 {userRole}
               </span>
             </div>

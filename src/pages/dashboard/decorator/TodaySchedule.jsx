@@ -43,7 +43,7 @@ const TodaySchedule = () => {
       >
         <h1 className="text-4xl font-bold mb-2">
           Today's{" "}
-          <span className="bg-gradient-to-r from-[#e8a803] to-[#f59e0b] bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-[var(--lum-primary)] to-[var(--lum-accent)] bg-clip-text text-transparent">
             Schedule
           </span>
         </h1>
@@ -65,10 +65,10 @@ const TodaySchedule = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-3xl p-12 text-center"
+          className="bg-gradient-to-br from-[var(--lum-cream)] to-[var(--lum-skysoft)] rounded-3xl p-12 text-center"
         >
-          <div className="w-20 h-20 rounded-full bg-[#e8a803]/10 flex items-center justify-center mx-auto mb-5">
-            <FiSun size={36} className="text-[#e8a803]" />
+          <div className="w-20 h-20 rounded-full bg-[var(--lum-accent)]/10 flex items-center justify-center mx-auto mb-5">
+            <FiSun size={36} className="text-[var(--lum-accent)]" />
           </div>
           <h2 className="text-3xl font-bold mb-2">No Projects Today!</h2>
           <p className="text-gray-600 text-lg">
@@ -93,7 +93,7 @@ const TodaySchedule = () => {
 
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-[var(--lum-skysoft)] rounded-full flex items-center justify-center">
                         <FiUser className="text-blue-600" />
                       </div>
                       <div>
@@ -105,8 +105,8 @@ const TodaySchedule = () => {
                     </div>
 
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
-                        <FiMapPin className="text-purple-600" />
+                      <div className="w-10 h-10 bg-[var(--lum-skysoft)] rounded-full flex items-center justify-center">
+                        <FiMapPin className="text-[var(--lum-accent)]" />
                       </div>
                       <p className="text-base-content">{project.location}</p>
                     </div>
@@ -132,7 +132,7 @@ const TodaySchedule = () => {
                 </div>
 
                 <div className="text-right ml-6">
-                  <div className="text-3xl font-bold text-purple-600 mb-2">
+                  <div className="text-3xl font-bold text-[var(--lum-accent)] mb-2">
                     ৳{project.serviceCost}
                   </div>
                   <span
