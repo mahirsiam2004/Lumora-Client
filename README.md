@@ -1,53 +1,73 @@
 # Lumora
 
-Lumora is a decoration-booking platform for events and living spaces in Dhaka. People come to browse decoration packages, book a slot that fits their date, and get matched with decorators who handle the actual setup. Think of it as a marketplace where the "product" is a finished room rather than a physical item you cart home.
+**A decoration booking platform for events and living spaces in Dhaka.**
 
-This repository is the **front end**. It talks to a separate backend API (bookings, payments, admin settings) that is deployed on its own.
+Lumora connects customers with decorators through a web experience for discovering services, managing bookings, and coordinating projects. This repository contains the frontend application; the backend API is maintained and deployed separately.
 
-## What you can do with it
+## Features
 
-- Browse decoration packages by category (home, wedding, birthday, corporate) with real photos, pricing, and a coverage map so you know if a decorator serves your area.
-- Book a package, pick a date, and track the booking as it moves from requested to confirmed to done.
-- Sign in with email/password or Google. Routes that need an account are protected.
-- Pay through Stripe at checkout.
-- Three dashboards, depending on who you are:
-  - **Client** — your bookings, upcoming events, spending, and profile.
-  - **Decorator** — assigned projects, earnings, and schedule.
-  - **Admin** — analytics across the whole platform, plus management of bookings, decorators, services, promotions, and site theme.
+- Browse decoration services and view service coverage.
+- Create and manage bookings, with Stripe-powered checkout.
+- Role-based dashboards for customers, decorators, and administrators.
+- Admin tools for managing services, bookings, decorators, promotions, and platform analytics.
+- Firebase Authentication and protected dashboard routes.
 
-The admin can also change the site's colors and logo from the dashboard, and those changes apply live without a redeploy.
+## Screenshots
 
-## Tech
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>Admin dashboard</strong><br>
+      <img src="./public/ui/AdminDashboard.png" alt="Lumora admin dashboard with booking metrics and management navigation" width="100%">
+    </td>
+    <td width="50%" valign="top">
+      <strong>Decorator dashboard</strong><br>
+      <img src="./public/ui/DecoratorDashboard.png" alt="Lumora decorator dashboard with project, schedule, and earnings summaries" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <strong>Customer bookings</strong><br>
+      <img src="./public/ui/CustomerDashboardBooking.png" alt="Lumora customer bookings page with booking and payment actions" width="100%">
+    </td>
+    <td width="50%" valign="top">
+      <strong>Stripe checkout</strong><br>
+      <img src="./public/ui/StripePaymentPage.png" alt="Stripe checkout page for a Lumora decoration service" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <strong>Payment confirmation</strong><br>
+      <img src="./public/ui/PaymentSucess.png" alt="Lumora payment confirmation page" width="80%">
+    </td>
+  </tr>
+</table>
 
-React 19, Vite 7, React Router 7, Tailwind CSS 4 with DaisyUI, Framer Motion, GSAP, Firebase Auth, React Leaflet, Axios, Stripe, and Recharts. The design leans on a soft sky-and-cream palette and icon-based navigation rather than emoji.
+## Tech stack
 
-## Run it locally
+React 19, Vite, React Router, Tailwind CSS, Firebase Authentication, Axios, Stripe, and Recharts.
+
+## Run locally
 
 ```bash
 npm install
-npm run dev      # opens on http://localhost:5173
-npm run build    # production build into dist/
-npm run preview  # serve the built files locally
+npm run dev
 ```
 
-You will need two things that are not in the repo: a Firebase project (auth settings live in `src/utilits/firebase.config.js`) and a backend API. API keys and the backend URL go in a `.env` file. The backend itself is a separate deployment, so front end and back end are versioned and hosted independently.
+Configure a `.env` file with `VITE_API_URL`, `VITE_IMAGEBB_API_KEY`, and the Firebase settings: `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, and `VITE_FIREBASE_APP_ID`. A working backend API and Firebase project are required for application features that use authentication and server data. Do not commit environment files or secret values.
 
-## Project layout
+Useful commands:
 
-```
-src/
-  components/        shared UI (Navbar, Footer, Logo, PromoModal)
-  contexts/         auth and site-settings providers
-  layouts/          DashboardLayout (the shell every dashboard shares)
-  pages/            route pages, grouped by public / auth / dashboard
-  routes/           router definition and route guards
-  utilits/          firebase config and small helpers
+```bash
+npm run build    # Create a production build
+npm run preview  # Preview the production build locally
+npm run lint     # Run ESLint
 ```
 
-## Notes on deployment
+## Creator
 
-The app is a single-page app. `vercel.json` rewrites unknown paths back to `index.html` so deep links like `/dashboard/admin` work on a hard refresh. Front end and backend deploy separately, so a change to one does not require redeploying the other.
+**Mahir Siam** · [mahirsiam2004@gmail.com](mailto:mahirsiam2004@gmail.com)
 
-## License
+---
 
-Lumora is proprietary. All rights reserved. You may not copy, modify, or redistribute this code without written permission. Brand assets and service names shown here belong to their owners and are included for demonstration.
+Proprietary. All rights reserved.
